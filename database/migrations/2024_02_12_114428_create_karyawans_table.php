@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('divisi', ['Staff','Staff HR', 'Atasan']);
             $table->string('tempat_lahir',25);
             $table->date('tanggal_lahir');
-            $table->longText('foto_ttd');
+            $table->longText('foto_ttd')->nullable();
             $table->timestamps();
         });
     }

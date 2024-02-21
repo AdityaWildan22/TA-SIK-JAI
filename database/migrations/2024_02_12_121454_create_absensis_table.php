@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('id_absen');
             $table->integer('id_staff_hr');
             $table->integer('id_atasan');
-            $table->integer('nip');
-            $table->string('nama',25);
+            $table->string('nip',50);
+            $table->string('nama',100);
             $table->string('sect',25);
             $table->enum('jns_absen', ['Sakit', 'Izin' , 'Izin Khusus' , 'Cuti' , 'Cuti Melahirkan' , 'Cuti Haid' , 'Izin Terlambat Datang' , 'Izin Cepat Pulang' , 'Izin Keluar Sementara' ,'Dinas Luar']);
             $table->date('tgl_absen');

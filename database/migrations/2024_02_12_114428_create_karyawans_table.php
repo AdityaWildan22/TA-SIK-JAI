@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('username',100);
             $table->string('password',100);
             // $table->integer('nik');
-            $table->string('nama',50);
+            $table->string('nama',100);
             $table->string('sect',25);
             $table->enum('divisi', ['Staff','Staff HR', 'Atasan']);
             $table->string('tempat_lahir',25);
             $table->date('tanggal_lahir');
-            $table->text('foto_ttd');
+            $table->longText('foto_ttd');
             $table->timestamps();
         });
     }

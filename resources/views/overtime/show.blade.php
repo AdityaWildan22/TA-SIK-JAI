@@ -56,12 +56,12 @@
                 <tr>
                     <td>Jam Awal</td>
                     <td>:</td>
-                    <td>{{ $overtime->jam_awal }}</td>
+                    <td>{{ Carbon\Carbon::parse($overtime->jam_awal)->format('H:i') }}</td>
                 </tr>
                 <tr>
                     <td>Jam Akhir</td>
                     <td>:</td>
-                    <td>{{ $overtime->jam_akhir }}</td>
+                    <td>{{ Carbon\Carbon::parse($overtime->jam_akhir)->format('H:i') }}</td>
                 </tr>
                 <tr>
                     <td>Keterangan</td>

@@ -41,8 +41,8 @@
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->sect }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tgl_ovt)->format('d-m-Y') }}</td>
-                                <td>{{ $item->jam_awal }}</td>
-                                <td>{{ $item->jam_akhir }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->jam_awal)->format('H:i') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->jam_akhir)->format('H:i') }}</td>
                                 <td>
                                     @if ($item->status_pengajuan == 'Diproses')
                                         <span class="badge bg-warning"
@@ -92,7 +92,7 @@
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Print"><i class="fas fa-print"></i></a>
                                     @endif
-                                    @if ($item->status_pengajuan == 'Pending')
+                                    @if ($item->status_pengajuan == 'Diproses')
                                         <form class="d-inline-block" action="{{ url($routes->index . $item->id_ovt) }}"
                                             method="POST">
                                             @csrf

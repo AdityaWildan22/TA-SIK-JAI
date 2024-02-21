@@ -26,12 +26,12 @@
                 <tr>
                     <td>Nama Atasan</td>
                     <td>:</td>
-                    <td>{{ $atasan[0]->nama }}</td>
+                    <td>{{ $atasan->nama }}</td>
                 </tr>
                 <tr>
                     <td>Nama Staff HR</td>
                     <td>:</td>
-                    <td>{{ $staff_hr[0]->nama }}</td>
+                    <td>{{ $staff_hr->nama }}</td>
                 </tr>
                 <tr>
                     <td>NIP</td>

@@ -10,8 +10,11 @@ class KaryawanSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
+    use App\Models\Karyawan;
+     
     public function run(): void
     {
-        //
+
     }
 }

@@ -1,0 +1,4 @@
+.card-with-image .card-body img {
+    max-width: 100%;
+    height: auto;
+}

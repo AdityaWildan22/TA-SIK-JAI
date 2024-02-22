@@ -67,14 +67,14 @@
         }
 
         .logo h3 {
-            max-width: 650px;
+            max-width: 700px;
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            max-width: 650px;
+            max-width: 700px;
             padding: 0;
             margin: 0;
             font-size: 18px;

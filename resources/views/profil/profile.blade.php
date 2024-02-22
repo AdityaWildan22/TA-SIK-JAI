@@ -33,6 +33,40 @@
                     </div>
                 </div>
             @endif
+            @if (Auth::user()->divisi == 'Staff')
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#4e73df;color:#fff">
+                            <h2 class="card-title mb-0" style="font-size: 20px">DATA PROFIL</h2>
+                        </div>
+                        <div class="card-body">
+                            <table>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>:</td>
+                                    <td>&nbsp;{{ Auth::user()->nama }} </td>
+                                </tr>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>:</td>
+                                    <td>&nbsp;{{ Auth::user()->username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tempat Lahir</td>
+                                    <td>:</td>
+                                    <td>&nbsp;{{ Auth::user()->tempat_lahir }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal</td>
+                                    <td>:</td>
+                                    <td>&nbsp;{{ Carbon\Carbon::parse(Auth::user()->tanggal_lahir)->format('d-m-Y') }} </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            <div class="col-md-1"></div>
             <div class="dt-update col-md-6">
                 <div class="card mb-3">
                     <div class="card-header" style="background-color:#4e73df;color:#fff">

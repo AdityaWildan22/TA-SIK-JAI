@@ -216,8 +216,9 @@ class AbsensiController extends Controller
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
-        $options->set('defaultPaperSize', 'A4'); // Set ukuran kertas menjadi A4
-        $options->set('defaultFont', 'Arial'); // Set font default jika diperlukan
+        $options->set('defaultPaperSize', 'F4');
+        $options->set('defaultFont', 'Arial');
+        $options->set('defaultPaperOrientation', 'landscape');
     
         // Buat instance dompdf
         $dompdf = new Dompdf($options);
@@ -230,5 +231,6 @@ class AbsensiController extends Controller
     
         // Tampilkan PDF di browser
         return $dompdf->stream('surat_absensi.pdf', ['Attachment' => false]);
+        //  return view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr'));
     }
 }

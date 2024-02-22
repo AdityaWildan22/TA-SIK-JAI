@@ -207,8 +207,9 @@ class OvertimeController extends Controller
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
-        $options->set('defaultPaperSize', 'A4'); // Set ukuran kertas menjadi A4
+        $options->set('defaultPaperSize', 'F4'); // Set ukuran kertas menjadi A4
         $options->set('defaultFont', 'Arial'); // Set font default jika diperlukan
+        $options->set('defaultPaperOrientation', 'landscape');
     
         // Buat instance dompdf
         $dompdf = new Dompdf($options);

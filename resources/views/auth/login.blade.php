@@ -10,7 +10,7 @@
 
         .login-page {
             overflow: hidden;
-            background-image: url('../img/bg-login.jpg');
+            background-image: url('{{ asset('img/bg-login.jpg') }}');
             width: 100%;
             height: 100%;
             background-repeat: no-repeat;

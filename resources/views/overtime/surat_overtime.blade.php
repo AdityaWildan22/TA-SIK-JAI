@@ -11,47 +11,50 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            /* border: 1px solid #ccc; */
-            /* border-radius: 10px; */
         }
 
         .header h2 {
             text-align: center;
-            padding: 5px 0;
+            padding: 5px;
             margin: 0;
         }
 
         .content {
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
             font-size: 20px;
         }
 
         .footer {
             text-align: center;
-            margin-top: 50px;
             font-size: 20px;
+            margin: 0;
+            padding: 0;
         }
 
-        .details {
-            margin-bottom: 20px;
-            font-size: 20px;
+        .dtlembur {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #000;
         }
 
-        .details p {
-            margin: 5px 0;
+        .dtlembur th,
+        .dtlembur td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: left;
         }
 
-        /* .kop-surat {
-            display: flex;
-            align-items: center;
-        } */
+        .dtlembur th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
 
         .kop-surat img {
             margin-top: 3px;
-            max-width: 180px;
+            max-width: 200px;
             margin-bottom: 5px;
             float: left;
             padding: 0;
@@ -64,16 +67,17 @@
         }
 
         .logo h3 {
-            max-width: 570px;
+            max-width: 650px;
             padding: 0;
             margin: 0;
+            font-size: 25px;
         }
 
         .logo p {
-            max-width: 570px;
+            max-width: 650px;
             padding: 0;
             margin: 0;
-            font-size: 15px;
+            font-size: 18px;
         }
 
         .garis-bawah {
@@ -97,48 +101,15 @@
             <div class="garis-bawah"></div>
         </div>
         <div class="header">
-            <h2>Surat Permohonan Lembur</h2>
+            <h2>Surat Perintah Kerja Lembur</h2>
         </div>
         <div class="content">
-            <p>Dengan hormat,
-                <br>
-                Yang mengajukan permohonan di bawah ini:
-            </p>
             <div class="details">
                 <table>
                     <tr>
-                        <td>Nama</td>
+                        <td>Tanggal</td>
                         <td>:</td>
-                        <td>{{ $overtime->nama }}</td>
-                    </tr>
-                    @if ($karyawan)
-                        <tr>
-                            <td>Jabatan</td>
-                            <td>:</td>
-                            <td>{{ $karyawan->divisi }}</td>
-                        </tr>
-                    @else
-                        <tr>
-                            <td>Jabatan</td>
-                            <td>:</td>
-                            <td></td>
-                        </tr>
-                    @endif
-                </table>
-            </div>
-            <p>Dengan ini saya bermaksud untuk mengajukan permohonan lembur dengan rincian sebagai
-                berikut:</p>
-            <div class="details">
-                <table>
-                    <tr>
-                        <td>NIP</td>
-                        <td>:</td>
-                        <td>{{ $overtime->nip }}</td>
-                    </tr>
-                    <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td>{{ $overtime->nama }}</td>
+                        <td>{{ Carbon\Carbon::parse($overtime->tgl_ovt)->format('d-m-Y') }} </td>
                     </tr>
                     <tr>
                         <td>Sektor</td>
@@ -146,33 +117,40 @@
                         <td>{{ $overtime->sect }}</td>
                     </tr>
                     <tr>
-                        <td>Tanggal Lembur</td>
-                        <td>:</td>
-                        <td>{{ Carbon\Carbon::parse($overtime->tgl_ovt)->format('d-m-Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Jam Mulai</td>
-                        <td>:</td>
-                        <td>{{ Carbon\Carbon::parse($overtime->jam_awal)->format('H:i') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Jam Selesai</td>
-                        <td>:</td>
-                        <td>{{ Carbon\Carbon::parse($overtime->jam_akhir)->format('H:i') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Keterangan</td>
+                        <td>Keterangan Lembur</td>
                         <td>:</td>
                         <td>{{ $overtime->ket }}</td>
                     </tr>
                 </table>
             </div>
-            <p>Demikian permohonan lembur ini saya ajukan. Atas perhatian dan persetujuan dari pihak
-                yang berwenang,
-                saya mengucapkan terima kasih.</p>
+            <p>Dengan surat ini menugaskan karyawan dibawah ini untuk melakukan pekerjaan lembur :</p>
+            <div class="details">
+                <table class="dtlembur" style="width: 100%; border:1px solid #000">
+                    <thead>
+                        <tr>
+                            <th>NIP</th>
+                            <th>Nama</th>
+                            <th>Sektor</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ $overtime->nip }}</td>
+                            <td>{{ $overtime->nama }}</td>
+                            <td>{{ $overtime->sect }}</td>
+                            <td>{{ Carbon\Carbon::parse($overtime->jam_awal)->format('H:i') }}</td>
+                            <td>{{ Carbon\Carbon::parse($overtime->jam_akhir)->format('H:i') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin: 0; padding:5px">Demikian Surat Perintah Kerja Lembur ini dibuat. Untuk dipergunakan
+                    sebagaimana mestinya.</p>
+            </div>
         </div>
-        <div class="footer">
-            <h5>Yang Menyetujui</h5>
+        <div class="footer mt-0">
+            <h5>Disetujui Oleh</h5>
             <table style="width: 100%; text-align: center;">
                 <tr>
                     <td style="width: 33%; text-align: center; padding-left: 20px;">

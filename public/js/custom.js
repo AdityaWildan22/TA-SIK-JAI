@@ -32,6 +32,17 @@ $(function () {
         "responsive": true,
     });
 
+    $('#datatable3').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+    });
+
      flatpickr("#tgl_absen", {
         enableTime: false,
         // time_24hr: true,

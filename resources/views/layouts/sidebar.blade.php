@@ -44,6 +44,32 @@
                    </div>
                </div>
            </li>
+
+           <li class="nav-item">
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
+                   aria-expanded="true" aria-controls="collapseTwo1">
+                   <i class="fas fa-building"></i>
+                   <span>Data Departemen</span>
+               </a>
+               <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                   <div class="bg-white py-2 collapse-inner rounded">
+                       <a class="collapse-item" href="{{ url('/departemen') }}">Data Departemen</a>
+                   </div>
+               </div>
+           </li>
+
+           <li class="nav-item">
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
+                   aria-expanded="true" aria-controls="collapseTwo2">
+                   <i class="fas fa-list"></i>
+                   <span>Data Jabatan</span>
+               </a>
+               <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                   <div class="bg-white py-2 collapse-inner rounded">
+                       <a class="collapse-item" href="{{ url('/jabatan') }}">Data Jabatan</a>
+                   </div>
+               </div>
+           </li>
        @endif
 
        <!-- Nav Item - Utilities Collapse Menu -->

@@ -6,6 +6,8 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\JabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,16 @@ Route::middleware(['auth'])->group(function () {
     // Route Karyawan
     Route::resource('karyawan', KaryawanController::class)->parameters([
         'karyawan' => 'id_karyawan',
+    ]);
+
+    // Route Departemen
+    Route::resource('departemen', DepartemenController::class)->parameters([
+        'departemen' => 'id_departemen',
+    ]);
+
+    // Route Jabatan
+    Route::resource('jabatan', JabatanController::class)->parameters([
+        'jabatan' => 'id_jabatan',
     ]);
     
     //Route Profil

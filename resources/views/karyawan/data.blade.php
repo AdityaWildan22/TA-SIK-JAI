@@ -24,11 +24,10 @@
                 <table id="datatable" class="table table-bordered show-data">
                     <thead>
                         <tr>
-                            {{-- <th>NIP</th> --}}
+                            <th>NIP</th>
                             <th>Nama Staff</th>
-                            <th>Sektor</th>
-                            <th>Divisi</th>
-                            {{-- <th>Username</th> --}}
+                            <th>Departemen</th>
+                            <th>Jabatan</th>
                             <th>Tempat Lahir</th>
                             <th>Tanggal Lahir</th>
                             <th width="20%">Action</th>
@@ -37,11 +36,10 @@
                     <tbody>
                         @foreach ($karyawan as $item)
                             <tr>
-                                {{-- <td>{{ $item->nip }}</td> --}}
+                                <td>{{ $item->nip }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->sect }}</td>
-                                <td>{{ $item->divisi }}</td>
-                                {{-- <td>{{ $item->username }}</td> --}}
+                                <td>{{ $item->nm_dept }}</td>
+                                <td>{{ $item->nm_jabatan }}</td>
                                 <td>{{ $item->tempat_lahir }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tanggal_lahir)->format('d-m-Y') }}</td>
                                 <td>

@@ -23,10 +23,11 @@ class JabatanController extends Controller
             'is_update'=>false,
         ];
 
-        $jabatan = DB::table('jabatans')
-        ->join('departemens','jabatans.id_dept','=','departemens.id_departemen')
-        ->select('departemens.nm_dept','jabatans.*')
-        ->get();
+        // $jabatan = DB::table('jabatans')
+        // ->join('departemens','jabatans.id_dept','=','departemens.id_departemen')
+        // ->select('departemens.nm_dept','jabatans.*')
+        // ->get();
+        $jabatan = Jabatan::All();
         $departemen = Departemen::All();
         // dd($jabatan->all());
         return view($this->view.'data',compact('routes','jabatan','departemen'));
@@ -63,10 +64,11 @@ class JabatanController extends Controller
     public function edit(Jabatan $jabatan, $id_jabatan)
     {
         $jab = Jabatan::where('id_jabatan', $id_jabatan)->first(); 
-        $jabatan = DB::table('jabatans')
-        ->join('departemens','jabatans.id_dept','=','departemens.id_departemen')
-        ->select('departemens.nm_dept','jabatans.*')
-        ->get();
+        // $jabatan = DB::table('jabatans')
+        // ->join('departemens','jabatans.id_dept','=','departemens.id_departemen')
+        // ->select('departemens.nm_dept','jabatans.*')
+        // ->get();
+        $jabatan = Jabatan::All();
         $departemen = Departemen::All();
         $routes = (object)[
             'index' => $this->route,

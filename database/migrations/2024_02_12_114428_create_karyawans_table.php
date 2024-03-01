@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('password',100);
             // $table->integer('nik');
             $table->string('nama',100);
-            $table->string('sect',25);
-            $table->enum('divisi', ['Staff','Staff HR', 'Atasan']);
+            $table->integer('id_departemen');
+            $table->integer('id_jabatan');
             $table->string('tempat_lahir',25);
             $table->date('tanggal_lahir');
+            $table->enum('jenis_kelamin',['Laki-laki','Perempuan']);
             $table->longText('foto_ttd')->nullable();
             $table->timestamps();
         });

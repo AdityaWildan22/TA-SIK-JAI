@@ -35,7 +35,8 @@ $(function () {
     $('#datatable3').DataTable({
         "paging": true,
         "lengthChange": true,
-        "iDisplayLength": 10,
+        "pageLength" : 5,
+        "lengthMenu" : [[5, 10, 20, -1], [5, 10, 50, 100]],
         "searching": true,
         "ordering": false,
         "info": true,

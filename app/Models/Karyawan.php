@@ -44,12 +44,12 @@ class Karyawan extends Authenticatable
         'username',
         'password',
         'nama',
-        'sect',
-        'divisi',
+        'id_departemen',
+        'id_jabatan',
         'tempat_lahir',
         'tanggal_lahir',
         'foto_ttd',
-        'foto',
+        'jenis_kelamin',
     ];
 
     protected $hidden = [
@@ -77,5 +77,10 @@ class Karyawan extends Authenticatable
     public function getAuthPassword()
     {
         return $this->password;
+    }
+
+        public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'id_jabatan');
     }
 }

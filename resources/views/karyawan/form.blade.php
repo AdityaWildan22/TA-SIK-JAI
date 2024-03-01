@@ -74,35 +74,58 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="sect">Sektor</label>
-                            <input type="text" class="form-control @error('sect') is-invalid  @enderror" id="sect"
-                                name="sect" placeholder="Masukkan Sektor"
-                                value="{{ old('sect') ? old('sect') : @$karyawan->sect }}">
-                            @if ($errors->has('sect'))
+                            <label for="id_departemen">Departemen</label>
+                            <select class="custom-select rounded-0  @error('id_departemen') is-invalid  @enderror"
+                                id="id_departemen" name="id_departemen">
+                                <option value="" selected="true" disabled>- Pilih Departemen -</option>
+                                @foreach ($departemen as $item)
+                                    <option value="{{ $item->id_departemen }}"
+                                        {{ (old('id_departemen') ? old('id_departemen') : @$karyawan->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
+                                        {{ $item->nm_dept }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('id_departemen'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('sect') }}
+                                    {{ $errors->first('id_departemen') }}
                                 </div>
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="divisi">Jabatan</label>
-                            <select class="custom-select rounded-0  @error('divisi') is-invalid  @enderror" id="divisi"
-                                name="divisi">
+                            <label for="id_jabatan">Jabatan</label>
+                            <select class="custom-select rounded-0  @error('id_jabatan') is-invalid  @enderror"
+                                id="id_jabatan" name="id_jabatan">
                                 <option value="" selected="true" disabled>- Pilih Jabatan -</option>
-                                <option {{ old('divisi', @$karyawan->divisi) == 'Staff' ? 'selected' : '' }}
-                                    value="Staff">Staff
+                                @foreach ($jabatan as $item)
+                                    <option value="{{ $item->id_jabatan }}"
+                                        {{ (old('id_jabatan') ? old('id_jabatan') : @$karyawan->id_jabatan) == $item->id_jabatan ? 'selected' : '' }}>
+                                        {{ $item->nm_jabatan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('id_jabatan'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('id_jabatan') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis_kelamin">Jenis Kelamin</label>
+                            <select class="custom-select rounded-0  @error('jenis_kelamin') is-invalid  @enderror"
+                                id="jenis_kelamin" name="jenis_kelamin">
+                                <option value="" selected="true" disabled>- Pilih Jenis Kelamin -</option>
+                                <option
+                                    {{ old('jenis_kelamin', @$karyawan->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}
+                                    value="Laki-laki">Laki-laki
                                 </option>
-                                <option {{ old('divisi', @$karyawan->divisi) == 'Staff HR' ? 'selected' : '' }}
-                                    value="Staff HR">Staff
-                                    HR
-                                </option>
-                                <option {{ old('divisi', @$karyawan->divisi) == 'Atasan' ? 'selected' : '' }}
-                                    value="Atasan">Atasan
+                                <option
+                                    {{ old('jenis_kelamin', @$karyawan->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}
+                                    value="Perempuan">Perempuan
                                 </option>
                             </select>
-                            @if ($errors->has('divisi'))
+                            @if ($errors->has('jenis_kelamin'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('divisi') }}
+                                    {{ $errors->first('jenis_kelamin') }}
                                 </div>
                             @endif
                         </div>

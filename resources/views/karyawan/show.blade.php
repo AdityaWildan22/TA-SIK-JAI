@@ -44,14 +44,14 @@
                     <td>{{ $karyawan->password }}</td>
                 </tr>
                 <tr>
-                    <td>Sektor</td>
+                    <td>Departemen</td>
                     <td>:</td>
-                    <td>{{ $karyawan->sect }}</td>
+                    <td>{{ $karyawan->nm_dept }}</td>
                 </tr>
                 <tr>
-                    <td>Divisi</td>
+                    <td>Jabatan</td>
                     <td>:</td>
-                    <td>{{ $karyawan->divisi }}</td>
+                    <td>{{ $karyawan->nm_jabatan }}</td>
                 </tr>
                 <tr>
                     <td>Tempat Lahir</td>
@@ -62,6 +62,11 @@
                     <td>Tanggal Lahir</td>
                     <td>:</td>
                     <td>{{ Carbon\Carbon::parse($karyawan->tanggal_lahir)->format('d-m-Y') }}</td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td>:</td>
+                    <td>{{ $karyawan->jenis_kelamin }}</td>
                 </tr>
             </table>
         </div>

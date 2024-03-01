@@ -30,48 +30,53 @@
        </div>
 
        <!-- Nav Item - Pages Collapse Menu -->
-       @if (Auth::user()->divisi == 'Staff HR' || Auth::user()->divisi == 'Atasan')
-           <li class="nav-item">
-               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                   <i class="fas fa-users"></i>
-                   <span>Data Karyawan</span>
-               </a>
-               <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                   <div class="bg-white py-2 collapse-inner rounded">
-                       <a class="collapse-item" href="{{ url('/karyawan') }}">Data Karyawan</a>
-                       <a class="collapse-item" href="{{ url('/karyawan/create    ') }}">Form Karyawan</a>
-                   </div>
-               </div>
-           </li>
+       @if (Auth::check())
+           @php
+               $nama_jabatan = Auth::user()->jabatan->nm_jabatan;
+           @endphp
 
-           <li class="nav-item">
-               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
-                   aria-expanded="true" aria-controls="collapseTwo1">
-                   <i class="fas fa-building"></i>
-                   <span>Data Departemen</span>
-               </a>
-               <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                   <div class="bg-white py-2 collapse-inner rounded">
-                       <a class="collapse-item" href="{{ url('/departemen') }}">Data Departemen</a>
+           @if ($nama_jabatan == 'HR' || $nama_jabatan == 'SPV')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                       aria-expanded="true" aria-controls="collapseTwo">
+                       <i class="fas fa-users"></i>
+                       <span>Data Karyawan</span>
+                   </a>
+                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                       <div class="bg-white py-2 collapse-inner rounded">
+                           <a class="collapse-item" href="{{ url('/karyawan') }}">Data Karyawan</a>
+                           <a class="collapse-item" href="{{ url('/karyawan/create    ') }}">Form Karyawan</a>
+                       </div>
                    </div>
-               </div>
-           </li>
+               </li>
 
-           <li class="nav-item">
-               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
-                   aria-expanded="true" aria-controls="collapseTwo2">
-                   <i class="fas fa-list"></i>
-                   <span>Data Jabatan</span>
-               </a>
-               <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                   <div class="bg-white py-2 collapse-inner rounded">
-                       <a class="collapse-item" href="{{ url('/jabatan') }}">Data Jabatan</a>
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
+                       aria-expanded="true" aria-controls="collapseTwo1">
+                       <i class="fas fa-building"></i>
+                       <span>Data Departemen</span>
+                   </a>
+                   <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                       <div class="bg-white py-2 collapse-inner rounded">
+                           <a class="collapse-item" href="{{ url('/departemen') }}">Data Departemen</a>
+                       </div>
                    </div>
-               </div>
-           </li>
+               </li>
+
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
+                       aria-expanded="true" aria-controls="collapseTwo2">
+                       <i class="fas fa-list"></i>
+                       <span>Data Jabatan</span>
+                   </a>
+                   <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                       <div class="bg-white py-2 collapse-inner rounded">
+                           <a class="collapse-item" href="{{ url('/jabatan') }}">Data Jabatan</a>
+                       </div>
+                   </div>
+               </li>
+           @endif
        @endif
-
        <!-- Nav Item - Utilities Collapse Menu -->
        <li class="nav-item">
            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"

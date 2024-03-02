@@ -24,12 +24,12 @@
         <div class="card-body">
             <table>
                 <tr>
-                    <td>Nama Atasan</td>
+                    <td>Nama Manager</td>
                     <td>:</td>
                     <td>{{ $atasan->nama }}</td>
                 </tr>
                 <tr>
-                    <td>Nama Staff HR</td>
+                    <td>Nama SPV</td>
                     <td>:</td>
                     <td>{{ $staff_hr->nama }}</td>
                 </tr>
@@ -44,9 +44,9 @@
                     <td>{{ $absensi->nama }}</td>
                 </tr>
                 <tr>
-                    <td>Sektor</td>
+                    <td>Departemen</td>
                     <td>:</td>
-                    <td>{{ $absensi->sect }}</td>
+                    <td>{{ $absensi->nm_dept }}</td>
                 </tr>
                 <tr>
                     <td>Jenis Absen</td>

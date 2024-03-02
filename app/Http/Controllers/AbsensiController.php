@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use App\Models\Karyawan;
+use App\Models\Departemen;
 use App\Controller\KaryawanController;
 use App\Http\Requests\StoreAbsensiRequest;
 use App\Http\Requests\UpdateAbsensiRequest;
@@ -25,10 +26,12 @@ class AbsensiController extends Controller
     {
         if (auth()->check()) {
             $user = auth()->user();
-            $absensi = Absensi::query();
+            $absensi = DB::table('absensis')
+            ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
+            ->select('absensis.*','departemens.nm_dept');
         
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
-            if ($user->divisi === 'Staff') {
+            if ($user->role === 'Staff') {
                 $absensi->where('nip', $user->nip);
             }
         
@@ -43,7 +46,10 @@ class AbsensiController extends Controller
         } else {
             // Jika pengguna tidak terotentikasi, redirect mereka ke halaman login
             // return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
-            $absensi = $absensi->get();
+            $absensi = DB::table('absensis')
+            ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
+            ->select('absensis.*','departemens.nm_dept')
+            ->get();
         }
     }
     
@@ -59,10 +65,11 @@ class AbsensiController extends Controller
             'is_update'=>false,
         ];
 
-        $staff_hr = Karyawan::where('divisi','Staff HR')->get();
-        $atasan = Karyawan::where('divisi','Atasan')->get();
+        $spv = Karyawan::where('role','SPV')->get();
+        $manager = Karyawan::where('role','manager')->get();
+        $departemen = Departemen::All();
 
-        return view($this->view.'form',compact('routes','staff_hr','atasan'));
+        return view($this->view.'form',compact('routes','spv','manager','departemen'));
     }
 
     /**
@@ -81,7 +88,10 @@ class AbsensiController extends Controller
      */
     public function show(Absensi $absensi, $id_absen)
     {
-        $absensi = Absensi::find($id_absen);
+        $absensi = Absensi::find($id_absen)
+        ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+        ->select('absensis.*', 'departemens.nm_dept')
+        ->first();
 
         $atasan = DB::table("absensis")
         ->join("karyawans","absensis.id_atasan","=","karyawans.nip")
@@ -111,10 +121,11 @@ class AbsensiController extends Controller
             'is_update' => true,
         ];
 
-        $staff_hr = Karyawan::where('divisi','Staff HR')->get();
-        $atasan = Karyawan::where('divisi','Atasan')->get();
+        $spv = Karyawan::where('role','SPV')->get();
+        $manager = Karyawan::where('role','manager')->get();
+        $departemen = Departemen::All();
 
-        return view($this->view . 'form', compact('routes','absensi','staff_hr', 'atasan'));
+        return view($this->view . 'form', compact('routes','absensi','spv', 'manager','departemen'));
     }
 
     /**

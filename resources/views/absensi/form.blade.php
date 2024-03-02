@@ -15,11 +15,11 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="id_atasan">Nama Atasan</label>
+                                <label for="id_atasan">Nama Manager</label>
                                 <select name="id_atasan" id="id_atasan"
                                     class="form-control @error('id_atasan') is-invalid  @enderror">
-                                    <option value="" selected disabled="true">Pilih Nama Atasan</option>
-                                    @foreach ($atasan as $item)
+                                    <option value="" selected disabled="true">Pilih Nama Manager</option>
+                                    @foreach ($manager as $item)
                                         <option value="{{ $item->nip }}"
                                             {{ (old('id_atasan') ? old('id_atasan') : @$absensi->id_atasan) == $item->nip ? 'selected' : '' }}>
                                             {{ $item->nama }}</option>
@@ -32,11 +32,11 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="id_staff_hr">Nama Staff HR</label>
+                                <label for="id_staff_hr">Nama SPV</label>
                                 <select name="id_staff_hr" id="id_staff_hr"
                                     class="form-control @error('id_staff_hr') is-invalid  @enderror">
-                                    <option value="" selected disabled="true">Pilih Nama Staff HR</option>
-                                    @foreach ($staff_hr as $item)
+                                    <option value="" selected disabled="true">Pilih Nama SPV</option>
+                                    @foreach ($spv as $item)
                                         <option value="{{ $item->nip }}"
                                             {{ (old('id_staff_hr') ? old('id_staff_hr') : @$absensi->id_staff_hr) == $item->nip ? 'selected' : '' }}>
                                             {{ $item->nama }}</option>
@@ -71,13 +71,21 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="sect">Sektor</label>
-                                <input type="text" class="form-control @error('sect') is-invalid  @enderror"
-                                    id="sect" name="sect" placeholder="Masukkan Sektor"
-                                    value="{{ old('sect') ? old('sect') : @$absensi->sect }}">
-                                @if ($errors->has('sect'))
+                                {{-- {{ dd($karyawan->id_departemen) }} --}}
+                                <label for="id_departemen">Departemen</label>
+                                <select class="custom-select rounded-0  @error('id_departemen') is-invalid  @enderror"
+                                    id="id_departemen" name="id_departemen">
+                                    <option value="" selected="true" disabled>- Pilih Departemen -</option>
+                                    @foreach ($departemen as $item)
+                                        <option value="{{ $item->id_departemen }}"
+                                            {{ (old('id_departemen') ? old('id_departemen') : @$absensi->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
+                                            {{ $item->nm_dept }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('id_departemen'))
                                     <div class="invalid-feedback">
-                                        {{ $errors->first('sect') }}
+                                        {{ $errors->first('id_departemen') }}
                                     </div>
                                 @endif
                             </div>

@@ -15,7 +15,7 @@ class Absensi extends Model
         'id_atasan',
         'nip',
         'nama',
-        'sect',
+        'id_departemen',
         'jns_absen',
         'tgl_absen',
         'ket',
@@ -23,4 +23,9 @@ class Absensi extends Model
         'tgl_persetujuan_atasan',
         'status_pengajuan',
     ];
+
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'id_departemen');
+    }
 }

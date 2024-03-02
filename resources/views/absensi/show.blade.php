@@ -26,12 +26,12 @@
                 <tr>
                     <td>Nama Manager</td>
                     <td>:</td>
-                    <td>{{ $atasan->nama }}</td>
+                    <td>{{ $manager->nama }}</td>
                 </tr>
                 <tr>
                     <td>Nama SPV</td>
                     <td>:</td>
-                    <td>{{ $staff_hr->nama }}</td>
+                    <td>{{ $spv->nama }}</td>
                 </tr>
                 <tr>
                     <td>NIP</td>

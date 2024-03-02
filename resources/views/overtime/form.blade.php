@@ -20,7 +20,7 @@
                                     class="form-control
                                     @error('id_atasan') is-invalid  @enderror">
                                     <option value="" selected disabled="true">Pilih Nama Atasan</option>
-                                    @foreach ($atasan as $item)
+                                    @foreach ($manager as $item)
                                         <option value="{{ $item->nip }}"
                                             {{ (old('id_atasan') ? old('id_atasan') : @$overtime->id_atasan) == $item->nip ? 'selected' : '' }}>
                                             {{ $item->nama }}</option>
@@ -37,7 +37,7 @@
                                 <select name="id_staff_hr" id="id_staff_hr"
                                     class="form-control @error('id_staff_hr') is-invalid  @enderror">
                                     <option value="" selected disabled="true">Pilih Nama HR</option>
-                                    @foreach ($staff_hr as $item)
+                                    @foreach ($spv as $item)
                                         <option value="{{ $item->nip }}"
                                             {{ (old('id_staff_hr') ? old('id_staff_hr') : @$overtime->id_staff_hr) == $item->nip ? 'selected' : '' }}>
                                             {{ $item->nama }}</option>
@@ -72,13 +72,21 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="sect">Sektor</label>
-                                <input type="text" class="form-control @error('sect') is-invalid  @enderror"
-                                    id="sect" name="sect" placeholder="Masukkan Sektor"
-                                    value="{{ old('sect') ? old('sect') : @$overtime->sect }}">
-                                @if ($errors->has('sect'))
+                                {{-- {{ dd($karyawan->id_departemen) }} --}}
+                                <label for="id_departemen">Departemen</label>
+                                <select class="custom-select rounded-0  @error('id_departemen') is-invalid  @enderror"
+                                    id="id_departemen" name="id_departemen">
+                                    <option value="" selected="true" disabled>- Pilih Departemen -</option>
+                                    @foreach ($departemen as $item)
+                                        <option value="{{ $item->id_departemen }}"
+                                            {{ (old('id_departemen') ? old('id_departemen') : @$overtime->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
+                                            {{ $item->nm_dept }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('id_departemen'))
                                     <div class="invalid-feedback">
-                                        {{ $errors->first('sect') }}
+                                        {{ $errors->first('id_departemen') }}
                                     </div>
                                 @endif
                             </div>

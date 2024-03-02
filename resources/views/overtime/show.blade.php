@@ -24,14 +24,14 @@
         <div class="card-body">
             <table>
                 <tr>
-                    <td>Nama Atasan</td>
+                    <td>Nama Manager</td>
                     <td>:</td>
-                    <td>{{ $atasan->nama }}</td>
+                    <td>{{ $manager->nama }}</td>
                 </tr>
                 <tr>
-                    <td>Nama Staff HR</td>
+                    <td>Nama SPV</td>
                     <td>:</td>
-                    <td>{{ $staff_hr->nama }}</td>
+                    <td>{{ $spv->nama }}</td>
                 </tr>
                 <tr>
                     <td>NIP</td>
@@ -44,9 +44,9 @@
                     <td>{{ $overtime->nama }}</td>
                 </tr>
                 <tr>
-                    <td>Sektor</td>
+                    <td>Departemen</td>
                     <td>:</td>
-                    <td>{{ $overtime->sect }}</td>
+                    <td>{{ $overtime->nm_dept }}</td>
                 </tr>
                 <tr>
                     <td>Tanggal Overtime</td>

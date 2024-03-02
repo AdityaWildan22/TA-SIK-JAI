@@ -16,7 +16,7 @@ class Overtime extends Model
         'id_atasan',
         'nip',
         'nama',
-        'sect',
+        'id_departemen',
         'tgl_ovt',
         'jam_awal',
         'jam_akhir',

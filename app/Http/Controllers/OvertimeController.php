@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Overtime;
 use App\Models\Karyawan;
+use App\Models\Departemen;
 use App\Http\Requests\StoreOvertimeRequest;
 use App\Http\Requests\UpdateOvertimeRequest;
 use Carbon\Carbon;
@@ -21,10 +22,12 @@ class OvertimeController extends Controller
     public function index()
     {if (auth()->check()) {
         $user = auth()->user();
-        $overtime = Overtime::query();
+        $overtime = DB::table('overtimes')
+        ->join('departemens','overtimes.id_departemen','=','departemens.id_departemen')
+        ->select('overtimes.*','departemens.nm_dept');
     
         // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
-        if ($user->divisi === 'Staff') {
+        if ($user->role === 'Staff') {
             $overtime->where('nip', $user->nip);
         }
     
@@ -39,7 +42,10 @@ class OvertimeController extends Controller
     } else {
         // Jika pengguna tidak terotentikasi, redirect mereka ke halaman login
         // return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
-        $overtime = $overtime->get();
+        $overtime = DB::table('overtimes')
+        ->join('departemens','overtimes.id_departemen','=','departemens.id_departemen')
+        ->select('overtimes.*','departemens.nm_dept')
+        ->get();
     }
     }
 
@@ -54,10 +60,12 @@ class OvertimeController extends Controller
             'is_update'=>false,
         ];
 
-        $staff_hr = Karyawan::where('divisi','Staff HR')->get();
-        $atasan = Karyawan::where('divisi','Atasan')->get();
+        $manager = Karyawan::where('role','Manager')->get();
+        $spv = Karyawan::where('role','SPV')->get();
+        $departemen = Departemen::All();
 
-        return view($this->view.'form',compact('routes','staff_hr','atasan'));
+
+        return view($this->view.'form',compact('routes','manager','spv','departemen'));
     }
 
     /**
@@ -76,22 +84,25 @@ class OvertimeController extends Controller
      */
     public function show(Overtime $overtime, $id_ovt)
     {
-        $overtime = Overtime::find($id_ovt);
+        $overtime = Overtime::find($id_ovt)
+        ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+        ->select('overtimes.*', 'departemens.nm_dept')
+        ->first();
 
-        $atasan = DB::table("overtimes")
+        $manager = DB::table("overtimes")
         ->join("karyawans","overtimes.id_atasan","=","karyawans.nip")
         ->select("karyawans.nama")
         ->where("karyawans.nip",$overtime->id_atasan)
         ->first();
 
-        $staff_hr = DB::table("overtimes")
+        $spv = DB::table("overtimes")
         ->join("karyawans","overtimes.id_staff_hr","=","karyawans.nip")
         ->select("karyawans.nama")
         ->where("karyawans.nip",$overtime->id_staff_hr)
         ->first();
 
         // dd($atasan);
-        return view($this->view . 'show', compact('overtime','atasan','staff_hr'));
+        return view($this->view . 'show', compact('overtime','manager','spv'));
     }
 
     /**
@@ -106,10 +117,11 @@ class OvertimeController extends Controller
             'is_update' => true,
         ];
 
-        $staff_hr = Karyawan::where('divisi','Staff HR')->get();
-        $atasan = Karyawan::where('divisi','Atasan')->get();
+        $manager = Karyawan::where('role','Manager')->get();
+        $spv = Karyawan::where('role','SPV')->get();
+        $departemen = Departemen::All();
 
-        return view($this->view . 'form', compact('routes','overtime','staff_hr', 'atasan'));
+        return view($this->view . 'form', compact('routes','overtime','spv', 'manager','departemen'));
     }
 
     /**

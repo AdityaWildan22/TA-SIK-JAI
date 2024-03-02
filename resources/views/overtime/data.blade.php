@@ -26,7 +26,7 @@
                         <tr>
                             <th>NIP</th>
                             <th>Nama Staff</th>
-                            <th>Sektor</th>
+                            <th>Departemen</th>
                             <th>Tanggal Overtime</th>
                             <th>Jam Awal</th>
                             <th>Jam Akhir</th>
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>{{ $item->nip }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->sect }}</td>
+                                <td>{{ $item->nm_dept }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tgl_ovt)->format('d-m-Y') }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->jam_awal)->format('H:i') }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->jam_akhir)->format('H:i') }}</td>

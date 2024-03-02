@@ -66,7 +66,7 @@ class AbsensiController extends Controller
         ];
 
         $spv = Karyawan::where('role','SPV')->get();
-        $manager = Karyawan::where('role','manager')->get();
+        $manager = Karyawan::where('role','Manager')->get();
         $departemen = Departemen::All();
 
         return view($this->view.'form',compact('routes','spv','manager','departemen'));
@@ -93,20 +93,20 @@ class AbsensiController extends Controller
         ->select('absensis.*', 'departemens.nm_dept')
         ->first();
 
-        $atasan = DB::table("absensis")
+        $manager = DB::table("absensis")
         ->join("karyawans","absensis.id_atasan","=","karyawans.nip")
         ->select("karyawans.nama")
         ->where("karyawans.nip",$absensi->id_atasan)
         ->first();
 
-        $staff_hr = DB::table("absensis")
+        $spv = DB::table("absensis")
         ->join("karyawans","absensis.id_staff_hr","=","karyawans.nip")
         ->select("karyawans.nama")
         ->where("karyawans.nip",$absensi->id_staff_hr)
         ->first();
 
         // dd($atasan);
-        return view($this->view . 'show', compact('absensi','atasan','staff_hr'));
+        return view($this->view . 'show', compact('absensi','manager','spv'));
     }
 
     /**

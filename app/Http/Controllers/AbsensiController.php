@@ -33,8 +33,10 @@ class AbsensiController extends Controller
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
             if ($user->role === 'Staff') {
                 $absensi->where('nip', $user->nip);
+            }else if($user->role === 'SPV' || $user->role === 'Manager'){
+                $absensi->where('absensis.id_departemen',$user->id_departemen);
             }
-        
+                    
             $absensi = $absensi->get();
         
             $routes = (object) [
@@ -91,6 +93,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::find($id_absen)
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
         ->select('absensis.*', 'departemens.nm_dept')
+        ->where('absensis.id_absen',$id_absen)
         ->first();
 
         $manager = DB::table("absensis")
@@ -157,7 +160,7 @@ class AbsensiController extends Controller
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
         $absensi->tgl_persetujuan_staff_hr = $now;
-        $absensi->status_pengajuan = 'Pending';
+        $absensi->status_pengajuan = 'Diterima';
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');

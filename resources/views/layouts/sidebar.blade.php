@@ -31,11 +31,7 @@
 
        <!-- Nav Item - Pages Collapse Menu -->
        @if (Auth::check())
-           @php
-               $nama_jabatan = Auth::user()->jabatan->nm_jabatan;
-           @endphp
-
-           @if ($nama_jabatan == 'HR' || $nama_jabatan == 'SPV')
+           @if (Auth::user()->role == 'SuperAdmin')
                <li class="nav-item">
                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                        aria-expanded="true" aria-controls="collapseTwo">

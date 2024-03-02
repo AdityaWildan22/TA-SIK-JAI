@@ -29,6 +29,8 @@ class OvertimeController extends Controller
         // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
         if ($user->role === 'Staff') {
             $overtime->where('nip', $user->nip);
+        }else if($user->role === 'SPV' || $user->role === 'Manager'){
+            $overtime->where('overtimes.id_departemen',$user->id_departemen);
         }
     
         $overtime = $overtime->get();

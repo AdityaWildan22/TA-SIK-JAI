@@ -64,22 +64,22 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if (Auth::user()->divisi == 'Staff HR' && $item->status_pengajuan != 'Pending')
+                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Pending')
                                         <a href="{{ url('/absensi/persetujuan_hr/' . $item->id_absen) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->divisi == 'Staff HR' && $item->status_pengajuan != 'Ditolak')
+                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Ditolak')
                                         <a href="{{ url('/absensi/penolakan_hr/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->divisi == 'Atasan' && $item->status_pengajuan != 'Diterima')
+                                    @if (Auth::user()->role == 'Manager' && $item->status_pengajuan != 'Diterima')
                                         <a href="{{ url('/absensi/persetujuan_atasan/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->divisi == 'Atasan' && $item->status_pengajuan != 'Ditolak')
+                                    @if (Auth::user()->role == 'Manager' && $item->status_pengajuan != 'Ditolak')
                                         <a href="{{ url('/absensi/penolakan_atasan/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>

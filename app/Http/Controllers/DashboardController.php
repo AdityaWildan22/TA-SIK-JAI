@@ -21,7 +21,7 @@ class DashboardController extends Controller
             $user = Auth::user();
         
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi dan overtime yang terkait dengan 'nip' mereka
-            if ($user->divisi === 'Staff') {
+            if ($user->role === 'Staff') {
                 $absensi = Absensi::orderBy('tgl_absen','DESC')->where('nip', $user->nip)->get();
                 $overtime = Overtime::orderBy('tgl_ovt','DESC')->where('nip', $user->nip)->get();
             }
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         }
         
         // Jika pengguna bukan "Staff", hitung total karyawan, absensi, dan overtime secara keseluruhan
-        if ($user->divisi !== 'Staff') {
+        if ($user->role !== 'Staff') {
             $total_karyawan = Karyawan::count();
             $total_absensi = Absensi::count();
             $total_overtime = Overtime::count();

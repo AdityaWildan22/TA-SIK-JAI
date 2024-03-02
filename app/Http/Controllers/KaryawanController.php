@@ -63,6 +63,7 @@ class KaryawanController extends Controller
         $karyawan->nama = $request->nama;
         $karyawan->id_departemen = $request->id_departemen;
         $karyawan->id_jabatan = $request->id_jabatan;
+        $karyawan->role = $request->role;
         $karyawan->tempat_lahir = $request->tempat_lahir;
         $karyawan->tanggal_lahir = $request->tanggal_lahir;
         $karyawan->jenis_kelamin = $request->jenis_kelamin;
@@ -119,6 +120,7 @@ class KaryawanController extends Controller
         $karyawan->nama = $request->nama;
         $karyawan->id_departemen = $request->id_departemen;
         $karyawan->id_jabatan = $request->id_jabatan;
+        $karyawan->role = $request->role;
         $karyawan->tempat_lahir = $request->tempat_lahir;
         $karyawan->tanggal_lahir = $request->tanggal_lahir;
         $karyawan->jenis_kelamin = $request->jenis_kelamin;

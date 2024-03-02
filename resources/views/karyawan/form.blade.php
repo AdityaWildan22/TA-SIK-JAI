@@ -110,6 +110,32 @@
                             @endif
                         </div>
                         <div class="form-group">
+                            <label for="role">Role</label>
+                            <select class="custom-select rounded-0  @error('role') is-invalid  @enderror" id="role"
+                                name="role">
+                                <option value="" selected="true" disabled>- Pilih Role -</option>
+                                <option {{ old('role', @$karyawan->role) == 'SuperAdmin' ? 'selected' : '' }}
+                                    value="SuperAdmin">SuperAdmin
+                                </option>
+                                <option {{ old('role', @$karyawan->role) == 'Admin' ? 'selected' : '' }} value="Admin">
+                                    Admin
+                                </option>
+                                <option {{ old('role', @$karyawan->role) == 'Manager' ? 'selected' : '' }}
+                                    value="Manager">Manager
+                                </option>
+                                <option {{ old('role', @$karyawan->role) == 'SPV' ? 'selected' : '' }} value="SPV">SPV
+                                </option>
+                                <option {{ old('role', @$karyawan->role) == 'Staff' ? 'selected' : '' }} value="Staff">
+                                    Staff
+                                </option>
+                            </select>
+                            @if ($errors->has('role'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('role') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
                             <select class="custom-select rounded-0  @error('jenis_kelamin') is-invalid  @enderror"
                                 id="jenis_kelamin" name="jenis_kelamin">

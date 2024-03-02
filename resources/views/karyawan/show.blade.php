@@ -54,6 +54,11 @@
                     <td>{{ $karyawan->nm_jabatan }}</td>
                 </tr>
                 <tr>
+                    <td>Role</td>
+                    <td>:</td>
+                    <td>{{ $karyawan->role }}</td>
+                </tr>
+                <tr>
                     <td>Tempat Lahir</td>
                     <td>:</td>
                     <td>{{ $karyawan->tempat_lahir }}</td>

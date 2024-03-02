@@ -46,6 +46,7 @@ class Karyawan extends Authenticatable
         'nama',
         'id_departemen',
         'id_jabatan',
+        'role',
         'tempat_lahir',
         'tanggal_lahir',
         'foto_ttd',

@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\ReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +71,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/overtime/persetujuan_atasan/{id_ovt}', [OvertimeController::class, 'persetujuan_atasan']);
     Route::get('/overtime/penolakan_atasan/{id_ovt}', [OvertimeController::class, 'penolakan_atasan']);
 
+    // Route Report
+    Route::get('/report', [ReportController::class, 'index']);
+    Route::post('/report/absensi/tanggal', [ReportController::class, 'rpt_absensi_tanggal']);
+    Route::post('/report/overtime/tanggal', [ReportController::class, 'rpt_overtime_tanggal']);
+    Route::get('/report/absensi', [ReportController::class, 'rpt_absensi']);
+    Route::get('/report/overtime', [ReportController::class, 'rpt_overtime']);
     // Route untuk Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

@@ -28,7 +28,8 @@ class AbsensiController extends Controller
             $user = auth()->user();
             $absensi = DB::table('absensis')
             ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
-            ->select('absensis.*','departemens.nm_dept');
+            ->join('karyawans','absensis.nip','=','karyawans.nip')
+            ->select('absensis.*','karyawans.*','departemens.nm_dept');
         
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
             if ($user->role === 'Staff') {

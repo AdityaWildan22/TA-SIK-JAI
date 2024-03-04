@@ -153,7 +153,7 @@ class OvertimeController extends Controller
         $now = Carbon::now();
         $overtime = Overtime::find($id_ovt); 
         $overtime->tgl_persetujuan_staff_hr = $now;
-        $overtime->status_pengajuan = 'Pending';
+        $overtime->status_pengajuan = 'Diterima';
         $overtime->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');

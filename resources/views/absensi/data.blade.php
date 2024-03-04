@@ -69,7 +69,7 @@
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Ditolak')
+                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Ditolak' && $item->status_pengajuan != 'Diproses')
                                         <a href="{{ url('/absensi/penolakan_hr/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>

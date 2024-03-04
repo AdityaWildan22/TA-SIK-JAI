@@ -64,7 +64,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Pending')
+                                    @if (Auth::user()->role == 'SPV' && $item->status_pengajuan != 'Diterima')
                                         <a href="{{ url('/absensi/persetujuan_hr/' . $item->id_absen) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>

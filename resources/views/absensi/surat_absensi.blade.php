@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIK | SCMP</title>
+    <title>SIK | CMP</title>
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -85,6 +86,7 @@
             border: 1px solid #000;
             padding: 5px;
             text-align: left;
+            font-size: 12px;
         }
 
         .dtabsen th {
@@ -92,14 +94,39 @@
             text-align: center;
         }
 
+        .cuti {
+            border-collapse: collapse;
+            border: 1px solid #000;
+            margin-top: 20px;
+        }
+
+        .cuti th,
+        .cuti td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .cuti th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
         table th,
         td {
-            font-size: 18px;
+            font-size: 15px;
         }
     </style>
 </head>
 
 <body>
+    {{-- <script>
+        // Ketika dokumen sudah dimuat, arahkan ke pop-up print
+        window.onload = function() {
+            window.print();
+        };
+    </script> --}}
     <div class="container">
         <div class="kop-surat">
             <div class="logo">
@@ -114,64 +141,146 @@
             <div class="garis-bawah"></div>
         </div>
         <div class="header">
-            <h2>Surat Catatan Meninggalkan Pekerjaan</h2>
+            <h4 style="text-align: center; margin:10px 0 0 0">CATATAN MENINGGALKAN PEKERJAAN (CMP)</h4>
+            <h4 style="text-align: center;margin:0 0 10px 0">TAHUN : <?php echo date('Y'); ?></h4>
         </div>
         <div class="details">
-            <table>
+            <table style="width:100%;">
                 <tr>
-                    <td>Tanggal</td>
-                    <td>:</td>
-                    <td>{{ Carbon\Carbon::parse($absensi->tgl_absen)->format('d-m-Y') }} </td>
-                </tr>
-                <tr>
-                    <td>Sektor</td>
-                    <td>:</td>
-                    <td>{{ $absensi->sect }}</td>
-                </tr>
-                <tr>
-                    <td>Keterangan Izin</td>
-                    <td>:</td>
-                    <td>{{ $absensi->ket }}</td>
+                    <td style="width:33.33%; text-align:right;"> <!-- Kolom kanan -->
+                        <table>
+                            <tr>
+                                <td><strong>NIP</strong></td>
+                                <td>:</td>
+                                <td>{{ $absensi->nip }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:33.33%;"> <!-- Kolom tengah -->
+                        <table>
+                            <tr>
+                                <td><strong>NAMA</strong></td>
+                                <td>:</td>
+                                <td>{{ strtoupper($absensi->nama) }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:33.33%"> <!-- Kolom kiri -->
+                        <table style="float: right">
+                            <tr>
+                                <td><strong>DEPARTEMEN</strong></td>
+                                <td>:</td>
+                                <td>{{ strtoupper($absensi->departemen->nm_dept) }}</td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
             </table>
+
         </div>
-        <p>Dengan surat ini mengajukan permohonan untuk meninggalkan pekerjaan:</p>
         <div class="details">
             <table class="dtabsen" style="width: 100%; border:1px solid #000">
                 <thead>
                     <tr>
-                        <th>NIP</th>
-                        <th>Nama</th>
-                        <th>Sektor</th>
-                        <th>Jenis Absen</th>
-                        <th>Keterangan</th>
+                        <th rowspan="2">No.</th>
+                        <th rowspan="2">TGL ABSEN</th>
+                        <th colspan="10">JENIS MENINGGALKAN PEKERJAAN</th>
+                        <th rowspan="2">KETERANGAN</th>
+                        {{-- <th rowspan="2">MENYETUJUI ATASAN</th>
+                        <th rowspan="2">MENGETAHUI HR</th> --}}
+                    </tr>
+                    <tr>
+                        <th>S</th>
+                        <th>I</th>
+                        <th>IK</th>
+                        <th>C</th>
+                        <th>CK</th>
+                        <th>CH</th>
+                        <th>ITD</th>
+                        <th>ICP</th>
+                        <th>IKS</th>
+                        <th>DL</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $absensi->nip }}</td>
-                        <td>{{ $absensi->nama }}</td>
-                        <td>{{ $absensi->sect }}</td>
-                        <td>{{ $absensi->jns_absen }}</td>
+                        <td style="text-align: center">{{ $no1++ }}</td>
+                        <td>{{ Carbon\Carbon::parse($absensi->tgl_absen)->format('d-m-Y') }}</td>
+                        <td style="text-align: center"><i class="fas fa-check"></i></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
+                        <td style="text-align: center"></td>
                         <td>{{ $absensi->ket }}</td>
+                        {{-- <td> <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:25%"></td>
+                        <td> <img src="{{ $atasan->foto_ttd }}" alt="" style="width:25%"></td> --}}
                     </tr>
                 </tbody>
             </table>
         </div>
-        <p>Demikian surat ini saya ajukan. Atas perhatian dan persetujuan dari pihak
-            yang berwenang,
-            saya mengucapkan terima kasih.</p>
+        <div style="margin-top: 10px;">
+            <table class="cuti" style="float: left">
+                <!-- Isi tabel pertama -->
+                <thead>
+                    <tr>
+                        <th rowspan="2">NO.</th>
+                        <th colspan="2">PENGAMBILAN CUTI TAHUNAN</th>
+                        <th rowspan="2">SISA CUTI</th>
+                    </tr>
+                    <tr>
+                        <th>TGL</th>
+                        <th>JUMLAH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center">{{ $no2++ }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="cuti" style="float: right">
+                <thead>
+                    <tr>
+                        <th rowspan="2">NO.</th>
+                        <th colspan="2">PENGAMBILAN CUTI HAID & MELAHIRKAN</th>
+                        <th rowspan="2">SISA CUTI</th>
+                    </tr>
+                    <tr>
+                        <th>TGL</th>
+                        <th>JUMLAH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center">{{ $no3++ }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="clear:both;"></div>
+        </div>
+
     </div>
     <div class="footer">
-        <h4 style="text-align: center; margin:0; padding:0">Disetujui</h4>
+        <h5 style="text-align: center; margin:0; padding:0">Disetujui Oleh,</h5>
         <table style="width: 100%; text-align: center;">
             <tr>
                 <td style="width: 33%; text-align: center; padding-right: 20px;">
                     <p>{{ $staff_hr->nama }}</p>
                     @if ($absensi->status_pengajuan == 'Diterima')
-                        <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:70%">
+                        <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:60%">
                     @endif
-                    <p><strong>{{ $staff_hr->divisi }}</strong></p>
+                    <p><strong>{{ $staff_hr->nm_jabatan }}</strong></p>
                 </td>
                 <td style="width: 33%;">
                     <p></p>
@@ -179,14 +288,15 @@
                 <td style="width: 33%; text-align: center; padding-left: 20px;">
                     <p>{{ $atasan->nama }}</p>
                     @if ($absensi->status_pengajuan == 'Diterima')
-                        <img src="{{ $atasan->foto_ttd }}" alt="" style="width:70%">
+                        <img src="{{ $atasan->foto_ttd }}" alt="" style="width:60%">
                     @endif
-                    <p><strong>{{ $atasan->divisi }}</strong></p>
+                    <p><strong>{{ $atasan->nm_jabatan }}</strong></p>
                 </td>
             </tr>
         </table>
     </div>
     </div>
 </body>
+{{-- @include('layouts.footer') --}}
 
 </html>

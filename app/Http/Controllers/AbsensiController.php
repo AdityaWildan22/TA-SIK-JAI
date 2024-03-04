@@ -203,6 +203,10 @@ class AbsensiController extends Controller
     public function print_surat_absensi($id_absen){
         $absensi = Absensi::find($id_absen);
 
+        $no1 = 1;
+        $no2 = 1;
+        $no3 = 1;
+        
         $karyawan = DB::table("absensis")
         ->join("karyawans","absensis.nip","=","karyawans.nip")
         ->select("karyawans.*")
@@ -213,18 +217,20 @@ class AbsensiController extends Controller
         
         $atasan = DB::table("absensis")
         ->join("karyawans","absensis.id_atasan","=","karyawans.nip")
-        ->select("karyawans.*")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
         ->where("karyawans.nip",$absensi->id_atasan)
         ->first();
 
         $staff_hr = DB::table("absensis")
         ->join("karyawans","absensis.id_staff_hr","=","karyawans.nip")
-        ->select("karyawans.*")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
         ->where("karyawans.nip",$absensi->id_staff_hr)
         ->first();
 
         // Ambil tampilan Blade ke dalam variabel
-        $html = view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr'))->render();
+        $html = view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr','no1','no2','no3'))->render();
     
         // Konfigurasi dompdf
         $options = new Options();
@@ -245,6 +251,6 @@ class AbsensiController extends Controller
     
         // Tampilkan PDF di browser
         return $dompdf->stream('surat_absensi.pdf', ['Attachment' => false]);
-        //  return view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr'));
+        //  return view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr','no1','no2','no3'));
     }
 }

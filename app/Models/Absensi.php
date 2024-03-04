@@ -28,4 +28,5 @@ class Absensi extends Model
     {
         return $this->belongsTo(Departemen::class, 'id_departemen');
     }
+    
 }

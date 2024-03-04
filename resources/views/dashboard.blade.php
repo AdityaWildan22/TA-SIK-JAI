@@ -67,7 +67,7 @@
                         <tr>
                             <th>NIP</th>
                             <th>Nama Staff</th>
-                            <th>Sektor</th>
+                            <th>Departemen</th>
                             <th>Jenis Absensi</th>
                             <th>Tanggal Absensi</th>
                             <th>Status</th>
@@ -78,7 +78,7 @@
                             <tr>
                                 <td>{{ $item->nip }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->sect }}</td>
+                                <td>{{ $item->nm_dept }}</td>
                                 <td>{{ $item->jns_absen }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tgl_absen)->format('d-m-Y') }}</td>
                                 <td>
@@ -114,7 +114,7 @@
                         <tr>
                             <th>NIP</th>
                             <th>Nama Staff</th>
-                            <th>Sektor</th>
+                            <th>Departemen</th>
                             <th>Tanggal Overtime</th>
                             <th>Jam Awal</th>
                             <th>Jam Akhir</th>
@@ -126,7 +126,7 @@
                             <tr>
                                 <td>{{ $item->nip }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->sect }}</td>
+                                <td>{{ $item->nm_dept }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tgl_ovt)->format('d-m-Y') }}</td>
                                 <td>{{ $item->jam_awal }}</td>
                                 <td>{{ $item->jam_akhir }}</td>

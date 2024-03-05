@@ -206,16 +206,56 @@
                     <tr>
                         <td style="text-align: center">{{ $no1++ }}</td>
                         <td>{{ Carbon\Carbon::parse($absensi->tgl_absen)->format('d-m-Y') }}</td>
-                        <td style="text-align: center"><i class="fas fa-check"></i></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
-                        <td style="text-align: center"></td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Sakit')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Izin')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Izin Khusus')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Cuti')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Cuti Kehamilan')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Cuti Haid')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Izin Terlambat Datang')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Izin Cepat Pulang')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Izin Keluar Sementara')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            @if ($absensi->jns_absen == 'Dinas Luar')
+                                <i class="fas fa-check"></i>
+                            @endif
+                        </td>
                         <td>{{ $absensi->ket }}</td>
                         {{-- <td> <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:25%"></td>
                         <td> <img src="{{ $atasan->foto_ttd }}" alt="" style="width:25%"></td> --}}

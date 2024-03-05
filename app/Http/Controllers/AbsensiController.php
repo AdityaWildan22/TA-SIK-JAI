@@ -29,11 +29,12 @@ class AbsensiController extends Controller
             $absensi = DB::table('absensis')
             ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
             ->join('karyawans','absensis.nip','=','karyawans.nip')
-            ->select('absensis.*','karyawans.*','departemens.nm_dept');
+            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->select('absensis.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
         
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
             if ($user->role === 'Staff') {
-                $absensi->where('nip', $user->nip);
+                $absensi->where('absensis.nip', $user->nip);
             }else if($user->role === 'SPV' || $user->role === 'Manager'){
                 $absensi->where('absensis.id_departemen',$user->id_departemen);
             }
@@ -47,12 +48,7 @@ class AbsensiController extends Controller
         
             return view($this->view . 'data', compact('routes', 'absensi'));
         } else {
-            // Jika pengguna tidak terotentikasi, redirect mereka ke halaman login
-            // return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
-            $absensi = DB::table('absensis')
-            ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
-            ->select('absensis.*','departemens.nm_dept')
-            ->get();
+            $absensi = $absensi->get();
         }
     }
     
@@ -80,10 +76,27 @@ class AbsensiController extends Controller
      */
     public function store(StoreAbsensiRequest $request)
     {
-        // dd($request->all());
+        $jumlahCuti = 0;
+        $batasCuti = 12;
+
+        // Pengecekan jika jenis absennya cuti
+        if ($request->jns_absen == 'Cuti') {
+            $tahunIni = date('Y');
+            $jumlahCuti = Absensi::where('nip', $request->nip)
+                ->where('jns_absen', 'Cuti')
+                ->whereYear('tgl_absen', $tahunIni)
+                ->count();
+            if ($jumlahCuti >= $batasCuti) {
+                return redirect()->back()->with('error', 'Maaf, jumlah cuti Anda sudah habis.');
+            }
+        }
+    
+        // Jika jumlah cuti belum mencapai batas, simpan data absensi
         $request["status_pengajuan"] = "Diproses";
-        Absensi::create($request->all());
-        return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
+        if ($jumlahCuti < $batasCuti) {
+            Absensi::create($request->all());
+            return redirect($this->route)->with('success', 'DATA BERHASIL DISIMPAN');
+        }
     }
 
     /**
@@ -137,12 +150,23 @@ class AbsensiController extends Controller
      */
     public function update(UpdateAbsensiRequest $request, Absensi $absensi, $id_absen)
     {
-        // dd($request->all());
-        // $request["status_pengajuan"] = "Diproses";
+        if ($request->jns_absen == 'Cuti') {
+            $tahunIni = date('Y');
+            $jumlahCuti = Absensi::where('nip', $request->nip)
+                ->where('jns_absen', 'Cuti')
+                ->whereYear('tgl_absen', $tahunIni)
+                ->count();
+            $batasCuti = 12;
+            if ($jumlahCuti >= $batasCuti) {
+                return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
+            }
+        }
+    
         $absensi = Absensi::find($id_absen);
         $absensi->fill($request->all());
         $absensi->save();
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
+    
+        return redirect($this->route)->with('success', 'DATA BERHASIL DI UPDATE');
     }
 
     /**

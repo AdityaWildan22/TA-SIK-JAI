@@ -24,11 +24,13 @@ class OvertimeController extends Controller
         $user = auth()->user();
         $overtime = DB::table('overtimes')
         ->join('departemens','overtimes.id_departemen','=','departemens.id_departemen')
-        ->select('overtimes.*','departemens.nm_dept');
+        ->join('karyawans','overtimes.nip','=','karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->select('overtimes.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
     
         // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
         if ($user->role === 'Staff') {
-            $overtime->where('nip', $user->nip);
+            $overtime->where('overtimes.nip', $user->nip);
         }else if($user->role === 'SPV' || $user->role === 'Manager'){
             $overtime->where('overtimes.id_departemen',$user->id_departemen);
         }

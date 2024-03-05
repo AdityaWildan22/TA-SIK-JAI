@@ -14,12 +14,12 @@
                         <div class="form-group">
                             <label for="tgl_absen">Tanggal Awal</label>
                             <input type="date" class="form-control form-control" id="tgl_absen" name="tgl_awal"
-                                placeholder="Masukkan Tanggal Awal">
+                                placeholder="Pilih Tanggal Awal">
                         </div>
                         <div class="form-group">
                             <label for="tgl_absen">Tanggal Akhir</label>
                             <input type="date" class="form-control form-control" id="tgl_absen" name="tgl_akhir"
-                                placeholder="Masukkan Tanggal Akhir">
+                                placeholder="Pilih Tanggal Akhir">
                         </div>
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
                             <input type="submit" value="TAMPILKAN" class="btn btn-md btn-primary">
@@ -39,12 +39,12 @@
                         <div class="form-group">
                             <label for="tgl_absen">Tanggal Awal</label>
                             <input type="date" class="form-control form-control" id="tgl_absen" name="tgl_awal"
-                                placeholder="Masukkan Tanggal Awal">
+                                placeholder="Pilih Tanggal Awal">
                         </div>
                         <div class="form-group">
                             <label for="tgl_absen">Tanggal Akhir</label>
                             <input type="date" class="form-control form-control" id="tgl_absen" name="tgl_akhir"
-                                placeholder="Masukkan Tanggal Akhir">
+                                placeholder="Pilih Tanggal Akhir">
                         </div>
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
                             <input type="submit" value="TAMPILKAN" class="btn btn-md btn-primary">

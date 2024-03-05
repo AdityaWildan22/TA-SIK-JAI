@@ -41,7 +41,7 @@ class DashboardController extends Controller
                 $total_absensi = isset($absensi) ? count($absensi) : 0;
                 $total_overtime = isset($overtime) ? count($overtime) : 0;
 
-            }else if($user->role == 'SPV' || $user->role == 'Admin') {
+            }else if($user->role == 'SPV' || $user->role == 'Manager') {
 
                 $absensi = DB::table('absensis')
                 ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')

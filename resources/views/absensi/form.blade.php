@@ -217,12 +217,17 @@
             var jns_absen = document.getElementById('jns_absen');
             var tgl_absen_akhir = document.getElementById('tgl_absen_akhir');
 
-            // Sembunyikan input tanggal absen akhir saat halaman dimuat
-            tgl_absen_akhir.style.display = 'none';
+            // Tampilkan input tanggal absen akhir secara default saat halaman dimuat (untuk mode tambah baru)
+            tgl_absen_akhir.style.display = 'block';
+
+            // Sembunyikan input tanggal absen akhir saat halaman dimuat jika jenis absensi bukan 'Cuti Melahirkan'
+            if (jns_absen.value !== 'Cuti Melahirkan') {
+                tgl_absen_akhir.style.display = 'none';
+            }
 
             // Tampilkan atau sembunyikan input tanggal absen akhir berdasarkan pilihan jenis absensi
             jns_absen.addEventListener('change', function() {
-                if (this.value === 'Cuti Melahirkan') {
+                if (this.value == 'Cuti Melahirkan') {
                     tgl_absen_akhir.style.display = 'block';
                 } else {
                     tgl_absen_akhir.style.display = 'none';
@@ -230,18 +235,7 @@
             });
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var tgl_absen_akhir_input = document.getElementById('tgl_absen_akhir_input');
 
-            // Pasang Flatpickr pada elemen input tanggal absen akhir
-            flatpickr(tgl_absen_akhir_input, {
-                enableTime: false,
-                dateFormat: "Y-m-d",
-                locale: "id",
-            });
-        });
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var jns_absen = document.getElementById('jns_absen');
@@ -258,6 +252,18 @@
 
                 // Setel nilai label
                 tgl_absen_label.textContent = labelText;
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var tgl_absen_akhir_input = document.getElementById('tgl_absen_akhir_input');
+
+            // Pasang Flatpickr pada elemen input tanggal absen akhir
+            flatpickr(tgl_absen_akhir_input, {
+                enableTime: false,
+                dateFormat: "Y-m-d",
+                locale: "id",
             });
         });
     </script>

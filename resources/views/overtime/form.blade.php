@@ -14,38 +14,59 @@
                             <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA OVERTIME</h2>
                         </div>
                         <div class="card-body">
+                            @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
+                                <div class="form-group">
+                                    <label for="id_manager">Nama Manager</label>
+                                    <select name="id_manager" id="id_manager"
+                                        class="form-control
+                                    @error('id_manager') is-invalid  @enderror">
+                                        <option value="" selected disabled="true">Pilih Nama Manager</option>
+                                        @foreach ($manager as $item)
+                                            <option value="{{ $item->nip }}"
+                                                {{ (old('id_manager') ? old('id_manager') : @$overtime->id_manager) == $item->nip ? 'selected' : '' }}>
+                                                {{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('id_manager'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('id_manager') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                            @if (Auth::user()->jabatan->nm_jabatan != 'SPV' && Auth::user()->jabatan->nm_jabatan != 'HR')
+                                <div class="form-group">
+                                    <label for="id_spv">Nama SPV</label>
+                                    <select name="id_spv" id="id_spv"
+                                        class="form-control @error('id_spv') is-invalid  @enderror">
+                                        <option value="" selected disabled="true">Pilih Nama SPV</option>
+                                        @foreach ($spv as $item)
+                                            <option value="{{ $item->nip }}"
+                                                {{ (old('id_spv') ? old('id_spv') : @$overtime->id_spv) == $item->nip ? 'selected' : '' }}>
+                                                {{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('id_spv'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('id_spv') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                             <div class="form-group">
-                                <label for="id_atasan">Nama Atasan</label>
-                                <select name="id_atasan" id="id_atasan"
-                                    class="form-control
-                                    @error('id_atasan') is-invalid  @enderror">
-                                    <option value="" selected disabled="true">Pilih Nama Atasan</option>
-                                    @foreach ($manager as $item)
-                                        <option value="{{ $item->nip }}"
-                                            {{ (old('id_atasan') ? old('id_atasan') : @$overtime->id_atasan) == $item->nip ? 'selected' : '' }}>
-                                            {{ $item->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('id_atasan'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('id_atasan') }}
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="id_staff_hr">Nama Staff HR</label>
-                                <select name="id_staff_hr" id="id_staff_hr"
-                                    class="form-control @error('id_staff_hr') is-invalid  @enderror">
+                                <label for="id_hr">Nama HR</label>
+                                <select name="id_hr" id="id_hr"
+                                    class="form-control @error('id_hr') is-invalid  @enderror">
                                     <option value="" selected disabled="true">Pilih Nama HR</option>
-                                    @foreach ($spv as $item)
+                                    @foreach ($hr as $item)
                                         <option value="{{ $item->nip }}"
-                                            {{ (old('id_staff_hr') ? old('id_staff_hr') : @$overtime->id_staff_hr) == $item->nip ? 'selected' : '' }}>
+                                            {{ (old('id_hr') ? old('id_hr') : @$overtime->id_hr) == $item->nip ? 'selected' : '' }}>
                                             {{ $item->nama }}</option>
                                     @endforeach
                                 </select>
-                                @if ($errors->has('id_staff_hr'))
+                                @if ($errors->has('id_hr'))
                                     <div class="invalid-feedback">
-                                        {{ $errors->first('id_staff_hr') }}
+                                        {{ $errors->first('id_hr') }}
                                     </div>
                                 @endif
                             </div>

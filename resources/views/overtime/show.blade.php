@@ -23,15 +23,24 @@
         </div>
         <div class="card-body">
             <table>
+                @if ($overtime->nm_jabatan == 'SPV' || $overtime->nm_jabatan == 'HR')
+                    <tr>
+                        <td>Nama Manager</td>
+                        <td>:</td>
+                        <td>{{ $manager->nama }}</td>
+                    </tr>
+                @endif
+                @if ($overtime->nm_jabatan != 'SPV' && $overtime->nm_jabatan != 'HR')
+                    <tr>
+                        <td>Nama SPV</td>
+                        <td>:</td>
+                        <td>{{ $spv->nama }}</td>
+                    </tr>
+                @endif
                 <tr>
-                    <td>Nama Manager</td>
+                    <td>Nama HR</td>
                     <td>:</td>
-                    <td>{{ $manager->nama }}</td>
-                </tr>
-                <tr>
-                    <td>Nama SPV</td>
-                    <td>:</td>
-                    <td>{{ $spv->nama }}</td>
+                    <td>{{ $hr->nama }}</td>
                 </tr>
                 <tr>
                     <td>NIP</td>

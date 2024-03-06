@@ -9,6 +9,7 @@ use App\Http\Requests\StoreOvertimeRequest;
 use App\Http\Requests\UpdateOvertimeRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -64,12 +65,34 @@ class OvertimeController extends Controller
             'is_update'=>false,
         ];
 
-        $manager = Karyawan::where('role','Manager')->get();
-        $spv = Karyawan::where('role','SPV')->get();
+        $spv = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','SPV')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $manager = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','Manager')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $hr = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','HR')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+        
         $departemen = Departemen::All();
 
 
-        return view($this->view.'form',compact('routes','manager','spv','departemen'));
+        return view($this->view.'form',compact('routes','manager','spv','departemen','hr'));
     }
 
     /**
@@ -90,23 +113,32 @@ class OvertimeController extends Controller
     {
         $overtime = Overtime::find($id_ovt)
         ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-        ->select('overtimes.*', 'departemens.nm_dept')
+        ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->select('overtimes.*', 'departemens.nm_dept','jabatans.nm_jabatan')
+        ->where('overtimes.id_ovt',$id_ovt)
         ->first();
 
         $manager = DB::table("overtimes")
-        ->join("karyawans","overtimes.id_atasan","=","karyawans.nip")
+        ->join("karyawans","overtimes.id_manager","=","karyawans.nip")
         ->select("karyawans.nama")
-        ->where("karyawans.nip",$overtime->id_atasan)
+        ->where("karyawans.nip",$overtime->id_manager)
         ->first();
 
         $spv = DB::table("overtimes")
-        ->join("karyawans","overtimes.id_staff_hr","=","karyawans.nip")
+        ->join("karyawans","overtimes.id_spv","=","karyawans.nip")
         ->select("karyawans.nama")
-        ->where("karyawans.nip",$overtime->id_staff_hr)
+        ->where("karyawans.nip",$overtime->id_spv)
+        ->first();
+
+        $hr = DB::table("overtimes")
+        ->join("karyawans","overtimes.id_hr","=","karyawans.nip")
+        ->select("karyawans.nama")
+        ->where("karyawans.nip",$overtime->id_hr)
         ->first();
 
         // dd($atasan);
-        return view($this->view . 'show', compact('overtime','manager','spv'));
+        return view($this->view . 'show', compact('overtime','manager','spv','hr'));
     }
 
     /**
@@ -121,11 +153,33 @@ class OvertimeController extends Controller
             'is_update' => true,
         ];
 
-        $manager = Karyawan::where('role','Manager')->get();
-        $spv = Karyawan::where('role','SPV')->get();
+        $spv = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','SPV')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $manager = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','Manager')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $hr = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','HR')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+        
         $departemen = Departemen::All();
 
-        return view($this->view . 'form', compact('routes','overtime','spv', 'manager','departemen'));
+        return view($this->view . 'form', compact('routes','overtime','spv', 'manager','departemen','hr'));
     }
 
     /**
@@ -154,7 +208,7 @@ class OvertimeController extends Controller
         // dd($id_ovt);
         $now = Carbon::now();
         $overtime = Overtime::find($id_ovt); 
-        $overtime->tgl_persetujuan_staff_hr = $now;
+        $overtime->tgl_persetujuan_spv = $now;
         $overtime->status_pengajuan = 'Diterima';
         $overtime->save();
     
@@ -165,7 +219,7 @@ class OvertimeController extends Controller
     {
         // dd($id_ovt);
         $overtime = Overtime::find($id_ovt); 
-        $overtime->tgl_persetujuan_staff_hr = "";
+        $overtime->tgl_persetujuan_spv = "";
         $overtime->status_pengajuan = 'Ditolak';
         $overtime->save();
     
@@ -177,7 +231,7 @@ class OvertimeController extends Controller
         // dd($id_ovt);
         $now = Carbon::now();
         $overtime = Overtime::find($id_ovt);
-        $overtime->tgl_persetujuan_atasan = $now;
+        $overtime->tgl_persetujuan_manager = $now;
         $overtime->status_pengajuan = 'Diterima';
         $overtime->save();
     
@@ -188,7 +242,7 @@ class OvertimeController extends Controller
     {
         // dd($id_ovt);
         $overtime = Overtime::find($id_ovt);
-        $overtime->tgl_persetujuan_atasan = "";
+        $overtime->tgl_persetujuan_manager = "";
         $overtime->status_pengajuan = 'Ditolak';
         $overtime->save();
     
@@ -208,43 +262,27 @@ class OvertimeController extends Controller
         ->where("karyawans.nip",$overtime->nip)
         ->first();
        
-        $atasan = DB::table("overtimes")
-        ->join("karyawans","overtimes.id_atasan","=","karyawans.nip")
+        $manager = DB::table("overtimes")
+        ->join("karyawans","overtimes.id_manager","=","karyawans.nip")
         ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
         ->select("karyawans.*","jabatans.nm_jabatan")
-        ->where("karyawans.nip",$overtime->id_atasan)
+        ->where("karyawans.nip",$overtime->id_manager)
         ->first();
 
-        $staff_hr = DB::table("overtimes")
-        ->join("karyawans","overtimes.id_staff_hr","=","karyawans.nip")
+        $spv = DB::table("overtimes")
+        ->join("karyawans","overtimes.id_spv","=","karyawans.nip")
         ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
         ->select("karyawans.*","jabatans.nm_jabatan")
-        ->where("karyawans.nip",$overtime->id_staff_hr)
+        ->where("karyawans.nip",$overtime->id_spv)
         ->first();
 
-        // // Ambil tampilan Blade ke dalam variabel
-        // $html = view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'))->render();
-    
-        // // Konfigurasi dompdf
-        // $options = new Options();
-        // $options->set('isHtml5ParserEnabled', true);
-        // $options->set('isRemoteEnabled', true);
-        // $options->set('defaultPaperSize', 'F4'); // Set ukuran kertas menjadi A4
-        // $options->set('defaultFont', 'Arial'); // Set font default jika diperlukan
-        // $options->set('defaultPaperOrientation', 'landscape');
-    
-        // // Buat instance dompdf
-        // $dompdf = new Dompdf($options);
-    
-        // // Muat HTML ke dalam dompdf
-        // $dompdf->loadHtml($html);
-    
-        // // Render PDF
-        // $dompdf->render();
-    
-        // Tampilkan PDF di browser
-        // return $dompdf->stream('surat_overtime.pdf', ['Attachment' => false]);
+        $hr = DB::table("overtimes")
+        ->join("karyawans","overtimes.id_hr","=","karyawans.nip")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
+        ->where("karyawans.nip",$overtime->id_hr)
+        ->first();
 
-        return view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'));
+        return view('overtime.surat_overtime',compact('overtime','manager','spv','karyawan','hr'));
     }
 }

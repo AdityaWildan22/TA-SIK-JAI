@@ -12,8 +12,9 @@ class Overtime extends Model
     protected $fillable = 
     [
         
-        'id_staff_hr',
-        'id_atasan',
+        'id_manager',
+        'id_spv',
+        'id_hr',
         'nip',
         'nama',
         'id_departemen',
@@ -21,8 +22,8 @@ class Overtime extends Model
         'jam_awal',
         'jam_akhir',
         'ket',
-        'tgl_persetujuan_staff_hr',
-        'tgl_persetujuan_atasan',
+        'tgl_persetujuan_spv',
+        'tgl_persetujuan_manager',
         'status_pengajuan'
     ];
 }

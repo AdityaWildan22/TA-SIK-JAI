@@ -281,8 +281,10 @@
             </table>
             <div style="clear:both;"></div>
         </div>
-
     </div>
+    <script>
+        window.print();
+    </script>
 </body>
 
 </html>

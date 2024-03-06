@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Firdaus',
             'id_departemen' => 1,
             'id_jabatan' => 1,
-            'role' => 'Manager',
+            'role' => 'SuperAdmin',
             'tempat_lahir' => 'Nganjuk',
             'tanggal_lahir' => Carbon::now(),
             'jenis_kelamin' => 'Laki-laki',
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Zubaidah',
             'id_departemen' => 1,
             'id_jabatan' => 2,
-            'role' => 'HR',
+            'role' => 'Admin',
             'tempat_lahir' => 'Malang',
             'tanggal_lahir' => Carbon::now(),
             'jenis_kelamin' => 'Perempuan',
@@ -81,6 +81,19 @@ class DatabaseSeeder extends Seeder
             'jenis_kelamin' => 'Perempuan',
         ]);
 
+        Karyawan::create([
+            'nip' => 110207,
+            'username' => 'Imelda',
+            'password' => Hash::make(110206),
+            'nama' => 'Imelda',
+            'id_departemen' => 1,
+            'id_jabatan' => 5,
+            'role' => 'Admin',
+            'tempat_lahir' => 'Pasuruan',
+            'tanggal_lahir' => Carbon::now(),
+            'jenis_kelamin' => 'Perempuan',
+        ]);
+        
         Jabatan::create([
             'nm_jabatan' => 'Manager',
         ]);
@@ -95,6 +108,10 @@ class DatabaseSeeder extends Seeder
 
         Jabatan::create([
             'nm_jabatan' => 'Staff',
+        ]);
+
+        Jabatan::create([
+            'nm_jabatan' => 'Admin HR',
         ]);
 
         Departemen::create([

@@ -23,8 +23,6 @@ class UpdateOvertimeRequest extends FormRequest
     {
         return [
             'nip'=>'required|numeric',
-            'id_atasan'=>'required',
-            'id_staff_hr'=>'required',
             'nama'=>'required',
             'tgl_ovt'=>'required',
             'jam_awal'=>'required',
@@ -39,8 +37,6 @@ class UpdateOvertimeRequest extends FormRequest
             'nip.required'=>'NIP Harus Diisi',
             'nip.numeric'=>'NIP Harus Berupa Angka',
             'nama.required'=>'Nama Harus Diisi',
-            'id_atasan.required'=>'Atasan Harus Diisi',
-            'id_staff_hr.required'=>'Staff HR Harus Diisi',
             'tgl_ovt.required'=>'Tanggal Overtime Harus Diisi',
             'jam_awal.required'=>'Jam Awal Harus Diisi',
             'jam_akhir.required'=>'Jam Akhir Harus Diisi',

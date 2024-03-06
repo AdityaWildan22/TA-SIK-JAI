@@ -187,6 +187,7 @@ class OvertimeController extends Controller
      */
     public function update(UpdateOvertimeRequest $request, Overtime $overtime, $id_ovt)
     {
+        // dd($request->all());
         $overtime = Overtime::find($id_ovt);
         $overtime->fill($request->all());
         $overtime->save();

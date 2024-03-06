@@ -124,7 +124,7 @@
         </tbody>
     </table>
     @if ($overtime->isEmpty())
-        <h4 style="margin-top: 20px; text-align:center">Data Overtime Kosong</h4>
+        <h4 style="margin-top: 20px; text-align:center">DATA OVERTIME KOSONG</h4>
     @endif
     </div>
     {{-- Print --}}

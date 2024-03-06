@@ -147,7 +147,7 @@
         </tbody>
     </table>
     @if ($absensi->isEmpty())
-        <h4 style="margin-top: 20px; text-align:center">Data Absensi Kosong</h4>
+        <h4 style="margin-top: 20px; text-align:center">DATA ABSENSI KOSONG</h4>
     @endif
     </div>
     {{-- Print --}}

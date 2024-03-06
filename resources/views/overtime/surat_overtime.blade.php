@@ -158,18 +158,28 @@
                         <br>
                         <p><strong>{{ $karyawan->nm_jabatan }}</strong></p>
                     </td>
-                    <td style="width: 33%;">
-                        <p>Mengetahui</p>
-                        <p>{{ $staff_hr->nama }}</p>
-                        <br>
-                        <p><strong>{{ $staff_hr->nm_jabatan }}</strong></p>
-                    </td>
+                    @if ($spv->nama != '')
+                        <td style="width: 33%;">
+                            <p>Mengetahui</p>
+                            <p>{{ $spv->nama }}</p>
+                            <br>
+                            <p><strong>{{ $spv->nm_jabatan }}</strong></p>
+                        </td>
+                    @endif
                     <td style="width: 33%; text-align: center; padding-right: 20px;">
                         <p>Disetujui</p>
-                        <p>{{ $atasan->nama }}</p>
+                        <p>{{ $hr->nama }}</p>
                         <br>
-                        <p><strong>{{ $atasan->nm_jabatan }}</strong></p>
+                        <p><strong>{{ $hr->nm_jabatan }}</strong></p>
                     </td>
+                    @if ($manager != '')
+                        <td style="width: 33%; text-align: center; padding-right: 20px;">
+                            <p>Disetujui</p>
+                            <p>{{ $manager->nama }}</p>
+                            <br>
+                            <p><strong>{{ $manager->nm_jabatan }}</strong></p>
+                        </td>
+                    @endif
                 </tr>
             </table>
         </div>

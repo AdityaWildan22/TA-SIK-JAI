@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('id_jabatan');
             $table->string('tempat_lahir',25);
             $table->date('tanggal_lahir');
-            $table->enum('role',['SuperAdmin','Admin','Manager','Admin','Staff']);
+            $table->enum('role',['SuperAdmin','Admin','Manager','SPV','Staff']);
             $table->enum('jenis_kelamin',['Laki-laki','Perempuan']);
             $table->timestamps();
         });

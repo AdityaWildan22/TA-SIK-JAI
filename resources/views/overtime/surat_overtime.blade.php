@@ -11,12 +11,12 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        .header h2 {
+        .header h4 {
             text-align: center;
             padding: 5px;
             margin: 0;
@@ -67,14 +67,14 @@
         }
 
         .logo h3 {
-            max-width: 700px;
+            /* max-width: 700px; */
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            max-width: 700px;
+            /* max-width: 700px; */
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -101,7 +101,7 @@
             <div class="garis-bawah"></div>
         </div>
         <div class="header">
-            <h2>Surat Perintah Kerja Lembur</h2>
+            <h4>SURAT PERINTAH KERJA LEMBUR</h4>
         </div>
         <div class="content">
             <div class="details">
@@ -112,9 +112,9 @@
                         <td>{{ Carbon\Carbon::parse($overtime->tgl_ovt)->format('d-m-Y') }} </td>
                     </tr>
                     <tr>
-                        <td>Sektor</td>
+                        <td>Departemen</td>
                         <td>:</td>
-                        <td>{{ $overtime->sect }}</td>
+                        <td>{{ $overtime->nm_dept }}</td>
                     </tr>
                     <tr>
                         <td>Keterangan Lembur</td>
@@ -130,7 +130,7 @@
                         <tr>
                             <th>NIP</th>
                             <th>Nama</th>
-                            <th>Sektor</th>
+                            <th>Departemen</th>
                             <th>Jam Mulai</th>
                             <th>Jam Selesai</th>
                         </tr>
@@ -139,7 +139,7 @@
                         <tr>
                             <td>{{ $overtime->nip }}</td>
                             <td>{{ $overtime->nama }}</td>
-                            <td>{{ $overtime->sect }}</td>
+                            <td>{{ $overtime->nm_dept }}</td>
                             <td>{{ Carbon\Carbon::parse($overtime->jam_awal)->format('H:i') }}</td>
                             <td>{{ Carbon\Carbon::parse($overtime->jam_akhir)->format('H:i') }}</td>
                         </tr>
@@ -150,25 +150,25 @@
             </div>
         </div>
         <div class="footer mt-0">
-            <h5>Disetujui Oleh</h5>
             <table style="width: 100%; text-align: center;">
                 <tr>
                     <td style="width: 33%; text-align: center; padding-left: 20px;">
-                        <p>{{ $staff_hr->nama }}</p>
-                        @if ($overtime->status_pengajuan == 'Diterima')
-                            <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:70%">
-                        @endif
-                        <p><strong>{{ $staff_hr->divisi }}</strong></p>
+                        <br>
+                        <p>{{ $overtime->nama }}</p>
+                        <br>
+                        <p><strong>{{ $karyawan->nm_jabatan }}</strong></p>
                     </td>
                     <td style="width: 33%;">
-                        <p></p>
+                        <p>Mengetahui</p>
+                        <p>{{ $staff_hr->nama }}</p>
+                        <br>
+                        <p><strong>{{ $staff_hr->nm_jabatan }}</strong></p>
                     </td>
                     <td style="width: 33%; text-align: center; padding-right: 20px;">
+                        <p>Disetujui</p>
                         <p>{{ $atasan->nama }}</p>
-                        @if ($overtime->status_pengajuan == 'Diterima')
-                            <img src="{{ $atasan->foto_ttd }}" alt="" style="width:70%">
-                        @endif
-                        <p><strong>{{ $atasan->divisi }}</strong></p>
+                        <br>
+                        <p><strong>{{ $atasan->nm_jabatan }}</strong></p>
                     </td>
                 </tr>
             </table>

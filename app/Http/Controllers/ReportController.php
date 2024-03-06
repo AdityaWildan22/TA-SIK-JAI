@@ -69,7 +69,7 @@ class ReportController extends Controller
         ->groupBy('absensis.nip')
         ->get();
         
-        return view('report.report_absensi',compact('absensi','no'));
+        return view('report.report_absensi',compact('absensi','no','tgl_awal','tgl_akhir'));
     }
 
     public function rpt_overtime(){
@@ -106,6 +106,6 @@ class ReportController extends Controller
         ->groupBy('overtimes.nip')
         ->get();
 
-        return view('report.report_overtime',compact('overtime','no'));
+        return view('report.report_overtime',compact('overtime','no','tgl_awal','tgl_akhir'));
     }
 }

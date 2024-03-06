@@ -12,9 +12,9 @@
         }
 
         .container {
-            max-width: 900px;
+            /* max-width: 900px; */
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
             /* border: 1px solid #ccc; */
             /* border-radius: 10px; */
         }
@@ -58,14 +58,14 @@
         }
 
         .logo h3 {
-            max-width: 700px;
+            /* max-width: 700px; */
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            max-width: 700px;
+            /* max-width: 700px; */
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -152,7 +152,7 @@
                             <tr>
                                 <td><strong>NIP</strong></td>
                                 <td>:</td>
-                                <td>{{ $absensi->nip }}</td>
+                                <td>{{ $absensi->first()->nip }}</td>
                             </tr>
                         </table>
                     </td>
@@ -161,7 +161,7 @@
                             <tr>
                                 <td><strong>NAMA</strong></td>
                                 <td>:</td>
-                                <td>{{ strtoupper($absensi->nama) }}</td>
+                                <td>{{ strtoupper($absensi->first()->nama) }}</td>
                             </tr>
                         </table>
                     </td>
@@ -170,7 +170,7 @@
                             <tr>
                                 <td><strong>DEPARTEMEN</strong></td>
                                 <td>:</td>
-                                <td>{{ strtoupper($absensi->departemen->nm_dept) }}</td>
+                                <td>{{ strtoupper($absensi->first()->nm_dept) }}</td>
                             </tr>
                         </table>
                     </td>
@@ -186,8 +186,6 @@
                         <th rowspan="2">TGL ABSEN</th>
                         <th colspan="10">JENIS MENINGGALKAN PEKERJAAN</th>
                         <th rowspan="2">KETERANGAN</th>
-                        {{-- <th rowspan="2">MENYETUJUI ATASAN</th>
-                        <th rowspan="2">MENGETAHUI HR</th> --}}
                     </tr>
                     <tr>
                         <th>S</th>
@@ -203,65 +201,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align: center">{{ $no1++ }}</td>
-                        <td>{{ Carbon\Carbon::parse($absensi->tgl_absen)->format('d-m-Y') }}</td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Sakit')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Izin')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Izin Khusus')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Cuti')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Cuti Kehamilan')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Cuti Haid')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Izin Terlambat Datang')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Izin Cepat Pulang')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Izin Keluar Sementara')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td style="text-align: center">
-                            @if ($absensi->jns_absen == 'Dinas Luar')
-                                <i class="fas fa-check"></i>
-                            @endif
-                        </td>
-                        <td>{{ $absensi->ket }}</td>
-                        {{-- <td> <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:25%"></td>
-                        <td> <img src="{{ $atasan->foto_ttd }}" alt="" style="width:25%"></td> --}}
-                    </tr>
+                    @foreach ($absensi as $absen)
+                        <tr>
+                            <td style="text-align: center">{{ $loop->iteration }}</td>
+                            <td>{{ Carbon\Carbon::parse($absen->tgl_absen)->format('d-m-Y') }}</td>
+                            @foreach (['Sakit', 'Izin', 'Izin Khusus', 'Cuti', 'Cuti Kehamilan', 'Cuti Haid', 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara', 'Dinas Luar'] as $absensiType)
+                                <td style="text-align: center">
+                                    @if ($absen->jns_absen == $absensiType)
+                                        <i class="fas fa-check"></i>
+                                    @endif
+                                </td>
+                            @endforeach
+                            <td>{{ $absen->ket }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
+
         </div>
         <div style="margin-top: 10px;">
             <table class="cuti" style="float: left">
@@ -274,16 +230,24 @@
                     </tr>
                     <tr>
                         <th>TGL</th>
-                        <th>JUMLAH</th>
+                        <th>KETERANGAN</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align: center">{{ $no2++ }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @php
+                        $sisaCuti = env('BATAS_CUTI');
+                    @endphp
+                    @foreach ($absensiCuti as $index => $item)
+                        <tr>
+                            <td style="text-align: center">{{ $index + 1 }}</td>
+                            <td>{{ Carbon\Carbon::parse($item->tgl_absen)->format('d-m-Y') }}</td>
+                            <td>{{ $item->ket }}</td>
+                            @php
+                                $sisaCuti -= 1;
+                            @endphp
+                            <td>{{ max(0, $sisaCuti) }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <table class="cuti" style="float: right">
@@ -295,48 +259,30 @@
                     </tr>
                     <tr>
                         <th>TGL</th>
-                        <th>JUMLAH</th>
+                        <th>KETERANGAN</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align: center">{{ $no3++ }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @php
+                        $sisaCuti = env('BATAS_CUTI');
+                    @endphp
+                    @foreach ($absensiCutiWanita as $index => $item)
+                        <tr>
+                            <td style="text-align: center">{{ $index + 1 }}</td>
+                            <td>{{ Carbon\Carbon::parse($item->tgl_absen)->format('d-m-Y') }}</td>
+                            <td>{{ $item->ket }}</td>
+                            @php
+                                $sisaCuti -= 1;
+                            @endphp
+                            <td>{{ max(0, $sisaCuti) }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div style="clear:both;"></div>
         </div>
 
     </div>
-    <div class="footer">
-        <h5 style="text-align: center; margin:0; padding:0">Disetujui Oleh,</h5>
-        <table style="width: 100%; text-align: center;">
-            <tr>
-                <td style="width: 33%; text-align: center; padding-right: 20px;">
-                    <p>{{ $staff_hr->nama }}</p>
-                    @if ($absensi->status_pengajuan == 'Diterima')
-                        <img src="{{ $staff_hr->foto_ttd }}" alt="" style="width:60%">
-                    @endif
-                    <p><strong>{{ $staff_hr->nm_jabatan }}</strong></p>
-                </td>
-                <td style="width: 33%;">
-                    <p></p>
-                </td>
-                <td style="width: 33%; text-align: center; padding-left: 20px;">
-                    <p>{{ $atasan->nama }}</p>
-                    @if ($absensi->status_pengajuan == 'Diterima')
-                        <img src="{{ $atasan->foto_ttd }}" alt="" style="width:60%">
-                    @endif
-                    <p><strong>{{ $atasan->nm_jabatan }}</strong></p>
-                </td>
-            </tr>
-        </table>
-    </div>
-    </div>
 </body>
-{{-- @include('layouts.footer') --}}
 
 </html>

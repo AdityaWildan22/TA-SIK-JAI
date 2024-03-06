@@ -23,8 +23,6 @@ class StoreAbsensiRequest extends FormRequest
     {
         return [
             'nip'=>'required|numeric',
-            'id_atasan'=>'required',
-            'id_staff_hr'=>'required',
             'nama'=>'required',
             'tgl_absen'=>'required',
             'jns_absen'=>'required',
@@ -38,8 +36,6 @@ class StoreAbsensiRequest extends FormRequest
             'nip.required'=>'NIP Harus Diisi',
             'nip.numeric'=>'NIP Harus Berupa Angka',
             'nama.required'=>'Nama Harus Diisi',
-            'id_atasan.required'=>'Atasan Harus Diisi',
-            'id_staff_hr.required'=>'Staff HR Harus Diisi',
             'tgl_absen.required'=>'Tanggal Absen Harus Diisi',
             'jns_absen.required'=>'Jenis Absen Harus Diisi',
             'ket.required'=>'Keterangan Harus Diisi',

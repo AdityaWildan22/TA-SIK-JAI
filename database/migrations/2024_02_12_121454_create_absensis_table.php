@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->increments('id_absen');
-            $table->integer('id_staff_hr');
-            $table->integer('id_atasan');
+            $table->integer('id_manager')->nullable();
+            $table->integer('id_hr');
+            $table->integer('id_spv')->nullable();
             $table->string('nip',50);
             $table->string('nama',100);
             $table->integer('id_departemen');
             $table->enum('jns_absen', ['Sakit', 'Izin' , 'Izin Khusus' , 'Cuti' , 'Cuti Melahirkan' , 'Cuti Haid' , 'Izin Terlambat Datang' , 'Izin Cepat Pulang' , 'Izin Keluar Sementara' ,'Dinas Luar']);
             $table->date('tgl_absen');
+            $table->date('tgl_absen_akhir')->nullable();
             $table->mediumText('ket');
-            $table->dateTime('tgl_persetujuan_staff_hr');
-            $table->dateTime('tgl_persetujuan_atasan');
+            $table->dateTime('tgl_persetujuan_spv');
+            $table->dateTime('tgl_persetujuan_manager');
             $table->enum('status_pengajuan', ['Diproses','Pending','Diterima','Ditolak']);
             $table->timestamps();
         });

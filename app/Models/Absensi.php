@@ -11,16 +11,18 @@ class Absensi extends Model
     protected $primaryKey = 'id_absen';
     protected $fillable =
     [
-        'id_staff_hr',
-        'id_atasan',
+        'id_manager',
+        'id_hr',
+        'id_spv',
         'nip',
         'nama',
         'id_departemen',
         'jns_absen',
         'tgl_absen',
+        'tgl_absen_akhir',
         'ket',
-        'tgl_persetujuan_staff_hr',
-        'tgl_persetujuan_atasan',
+        'tgl_persetujuan_spv',
+        'tgl_persetujuan_manager',
         'status_pengajuan',
     ];
 

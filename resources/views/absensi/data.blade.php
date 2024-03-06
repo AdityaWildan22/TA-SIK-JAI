@@ -108,7 +108,7 @@
                                             title="Edit"><i class="fas fa-pen"></i></a>
                                     @endif
                                     @if ($item->status_pengajuan == 'Diterima')
-                                        <a href="{{ url($routes->index . 'surat_absensi/' . $item->id_absen) }}"
+                                        <a href="{{ url($routes->index . 'surat_absensi/' . $item->nip) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Print"><i class="fas fa-print"></i></a>
                                     @endif

@@ -51,6 +51,13 @@ $(function () {
         locale: "id",
     });
 
+    // flatpickr("#tgl_absen_akhir", {
+    //     enableTime: false,
+    //     // time_24hr: true,
+    //     dateFormat: "Y-m-d",
+    //     locale: "id",
+    // });
+
     flatpickr("#tanggal_lahir", {
         enableTime: false,
         // time_24hr: true,
@@ -81,6 +88,35 @@ $(function () {
     $("#foto_ttd").change(function () {
      setImage(this, "#avatar");
     });
+
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     var jns_absen = document.getElementById('jns_absen');
+    //     var tgl_absen_akhir_group = document.getElementById('tgl_absen_akhir_group');
+    
+    //     // Sembunyikan grup form tanggal absen akhir saat halaman dimuat
+    //     tgl_absen_akhir_group.style.display = 'none';
+    
+    //     // Tampilkan atau sembunyikan grup form tanggal absen akhir berdasarkan pilihan jenis absensi
+    //     jns_absen.addEventListener('change', function () {
+    //         if (this.value === 'Cuti Melahirkan') {
+    //             tgl_absen_akhir_group.style.display = 'block';
+    //             applyFlatpickr(); // Terapkan flatpickr pada input tanggal akhir saat ditampilkan
+    //         } else {
+    //             tgl_absen_akhir_group.style.display = 'none';
+    //         }
+    //     });
+    // });
+    
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     var tgl_absen_akhir_input = document.getElementById('tgl_absen_akhir_input');
+    
+    //     // Pasang Flatpickr pada elemen input tanggal absen akhir
+    //     flatpickr(tgl_absen_akhir_input, {
+    //         enableTime: false,
+    //         dateFormat: "Y-m-d",
+    //         locale: "id",
+    //     });
+    // });
 
 
 });

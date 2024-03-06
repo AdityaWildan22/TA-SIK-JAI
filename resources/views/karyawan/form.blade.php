@@ -2,26 +2,6 @@
 @section('judul', 'Form Karyawan')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-4 card-with-image">
-            <div class="card">
-                <form action="{{ url($routes->save) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @if ($routes->is_update)
-                        @method('PUT')
-                    @endif
-                    <div class="card-header" style="background-color:#4e73df;color:#fff">
-                        <h2 class="card-title mb-0" style="font-size: 20px">UPLOAD TTD</h2>
-                    </div>
-                    <div class="card-body">
-                        <img id="avatar"
-                            src="{{ @$karyawan->foto_ttd != '' ? @$karyawan->foto_ttd : asset('img/no-images.jpg') }}"
-                            alt="">
-                        <input type="file" class="foto_ttd" name="foto_ttd" id="foto_ttd" style="display:none"
-                            value="{{ old('foto_ttd') ? old('foto_ttd') : @$karyawan->foto_ttd }}">
-                        <textarea name="foto" id="foto" cols="30" rows="10" style="display:none">{{ @$karyawan->foto }}</textarea>
-                    </div>
-            </div>
-        </div>
         <div class="col-md-8">
             <div class="card mb-3">
                 <div class="card">
@@ -120,8 +100,8 @@
                                 <option {{ old('role', @$karyawan->role) == 'Admin' ? 'selected' : '' }} value="Admin">
                                     Admin
                                 </option>
-                                <option {{ old('role', @$karyawan->role) == 'Manager' ? 'selected' : '' }}
-                                    value="Manager">Manager
+                                <option {{ old('role', @$karyawan->role) == 'Manager' ? 'selected' : '' }} value="Manager">
+                                    Manager
                                 </option>
                                 <option {{ old('role', @$karyawan->role) == 'SPV' ? 'selected' : '' }} value="SPV">SPV
                                 </option>

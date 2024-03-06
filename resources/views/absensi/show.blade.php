@@ -23,15 +23,24 @@
         </div>
         <div class="card-body">
             <table>
+                @if ($absensi->nm_jabatan == 'SPV' || $absensi->nm_jabatan == 'HR')
+                    <tr>
+                        <td>Nama Manager</td>
+                        <td>:</td>
+                        <td>{{ $manager->nama }}</td>
+                    </tr>
+                @endif
+                @if ($absensi->nm_jabatan != 'SPV' && $absensi->nm_jabatan != 'HR')
+                    <tr>
+                        <td>Nama SPV</td>
+                        <td>:</td>
+                        <td>{{ $spv->nama }}</td>
+                    </tr>
+                @endif
                 <tr>
-                    <td>Nama Manager</td>
+                    <td>Nama HR</td>
                     <td>:</td>
-                    <td>{{ $manager->nama }}</td>
-                </tr>
-                <tr>
-                    <td>Nama SPV</td>
-                    <td>:</td>
-                    <td>{{ $spv->nama }}</td>
+                    <td>{{ $hr->nama }}</td>
                 </tr>
                 <tr>
                     <td>NIP</td>
@@ -54,10 +63,21 @@
                     <td>{{ $absensi->jns_absen }}</td>
                 </tr>
                 <tr>
-                    <td>Tanggal Absen</td>
+                    <td>Tanggal Absen
+                        @if ($absensi->tgl_absen_akhir != '')
+                            Awal
+                        @endif
+                    </td>
                     <td>:</td>
                     <td>{{ Carbon\Carbon::parse($absensi->tgl_absen)->format('d-m-Y') }}</td>
                 </tr>
+                @if ($absensi->tgl_absen_akhir != '')
+                    <tr>
+                        <td>Tanggal Absen Akhir</td>
+                        <td>:</td>
+                        <td>{{ Carbon\Carbon::parse($absensi->tgl_absen_akhir)->format('d-m-Y') }}</td>
+                    </tr>
+                @endif
                 <tr>
                     <td>Keterangan</td>
                     <td>:</td>

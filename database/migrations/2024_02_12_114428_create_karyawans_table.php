@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('karyawans', function (Blueprint $table) {
             $table->increments('id_karyawan');
-            $table->integer('nip');
+            $table->string('nip',50);
             $table->string('username',100);
             $table->string('password',100);
             // $table->integer('nik');
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->enum('role',['SuperAdmin','Admin','Manager','Admin','Staff']);
             $table->enum('jenis_kelamin',['Laki-laki','Perempuan']);
-            $table->longText('foto_ttd')->nullable();
             $table->timestamps();
         });
     }

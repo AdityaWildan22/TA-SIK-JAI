@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AbsensiController extends Controller
 {
@@ -33,9 +35,9 @@ class AbsensiController extends Controller
             ->select('absensis.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
         
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
-            if ($user->role === 'Staff') {
+            if ($user->role == 'Staff') {
                 $absensi->where('absensis.nip', $user->nip);
-            }else if($user->role === 'SPV' || $user->role === 'Manager'){
+            }else if($user->role == 'SPV' || $user->role == 'Manager' || $user->role == 'HR'){
                 $absensi->where('absensis.id_departemen',$user->id_departemen);
             }
                     
@@ -64,11 +66,33 @@ class AbsensiController extends Controller
             'is_update'=>false,
         ];
 
-        $spv = Karyawan::where('role','SPV')->get();
-        $manager = Karyawan::where('role','Manager')->get();
+        $spv = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','SPV')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $manager = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','Manager')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $hr = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','HR')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+        
         $departemen = Departemen::All();
 
-        return view($this->view.'form',compact('routes','spv','manager','departemen'));
+        return view($this->view.'form',compact('routes','spv','manager','hr','departemen'));
     }
 
     /**
@@ -76,8 +100,9 @@ class AbsensiController extends Controller
      */
     public function store(StoreAbsensiRequest $request)
     {
+        // dd($request->all());
         $jumlahCuti = 0;
-        $batasCuti = 12;
+        $batasCuti = env('BATAS_CUTI');
 
         // Pengecekan jika jenis absennya cuti
         if ($request->jns_absen == 'Cuti') {
@@ -87,7 +112,7 @@ class AbsensiController extends Controller
                 ->whereYear('tgl_absen', $tahunIni)
                 ->count();
             if ($jumlahCuti >= $batasCuti) {
-                return redirect()->back()->with('error', 'Maaf, jumlah cuti Anda sudah habis.');
+                return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
             }
         }
     
@@ -106,24 +131,32 @@ class AbsensiController extends Controller
     {
         $absensi = Absensi::find($id_absen)
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
-        ->select('absensis.*', 'departemens.nm_dept')
+        ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->select('absensis.*', 'departemens.nm_dept','jabatans.nm_jabatan')
         ->where('absensis.id_absen',$id_absen)
         ->first();
 
-        $manager = DB::table("absensis")
-        ->join("karyawans","absensis.id_atasan","=","karyawans.nip")
-        ->select("karyawans.nama")
-        ->where("karyawans.nip",$absensi->id_atasan)
+        $spv = DB::table('absensis')
+        ->join('karyawans','absensis.id_spv','=','karyawans.nip')
+        ->select('karyawans.nama')
+        ->where('karyawans.nip',$absensi->id_spv)
         ->first();
 
-        $spv = DB::table("absensis")
-        ->join("karyawans","absensis.id_staff_hr","=","karyawans.nip")
-        ->select("karyawans.nama")
-        ->where("karyawans.nip",$absensi->id_staff_hr)
+        $manager = DB::table('absensis')
+        ->join('karyawans','absensis.id_manager','=','karyawans.nip')
+        ->select('karyawans.nama')
+        ->where('karyawans.nip',$absensi->id_manager)
         ->first();
 
-        // dd($atasan);
-        return view($this->view . 'show', compact('absensi','manager','spv'));
+        $hr = DB::table('absensis')
+        ->join('karyawans','absensis.id_hr','=','karyawans.nip')
+        ->select('karyawans.nama')
+        ->where('karyawans.nip',$absensi->id_hr)
+        ->first();
+
+        // dd($absensi->id_spv);
+        return view($this->view . 'show', compact('absensi','manager','spv','hr'));
     }
 
     /**
@@ -138,11 +171,33 @@ class AbsensiController extends Controller
             'is_update' => true,
         ];
 
-        $spv = Karyawan::where('role','SPV')->get();
-        $manager = Karyawan::where('role','manager')->get();
+        $spv = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','SPV')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $manager = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','Manager')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
+        $hr = DB::table('karyawans')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->select('karyawans.*','jabatans.nm_jabatan','departemens.*')
+        ->where('nm_jabatan','HR')
+        ->where('karyawans.id_departemen',Auth::user()->id_departemen)
+        ->get();
+
         $departemen = Departemen::All();
 
-        return view($this->view . 'form', compact('routes','absensi','spv', 'manager','departemen'));
+        return view($this->view . 'form', compact('routes','absensi','spv', 'manager','departemen','hr'));
     }
 
     /**
@@ -156,7 +211,7 @@ class AbsensiController extends Controller
                 ->where('jns_absen', 'Cuti')
                 ->whereYear('tgl_absen', $tahunIni)
                 ->count();
-            $batasCuti = 12;
+            $batasCuti = env('BATAS_CUTI');
             if ($jumlahCuti >= $batasCuti) {
                 return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
             }
@@ -184,7 +239,7 @@ class AbsensiController extends Controller
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
-        $absensi->tgl_persetujuan_staff_hr = $now;
+        $absensi->tgl_persetujuan_spv = $now;
         $absensi->status_pengajuan = 'Diterima';
         $absensi->save();
     
@@ -195,7 +250,7 @@ class AbsensiController extends Controller
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
-        $absensi->tgl_persetujuan_staff_hr = "";
+        $absensi->tgl_persetujuan_spv = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
     
@@ -207,7 +262,7 @@ class AbsensiController extends Controller
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
-        $absensi->tgl_persetujuan_atasan = $now;
+        $absensi->tgl_persetujuan_manager = $now;
         $absensi->status_pengajuan = 'Diterima';
         $absensi->save();
     
@@ -218,64 +273,62 @@ class AbsensiController extends Controller
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
-        $absensi->tgl_persetujuan_atasan = "";
+        $absensi->tgl_persetujuan_manager = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
     }
 
-    public function print_surat_absensi($id_absen){
-        $absensi = Absensi::find($id_absen);
+    public function print_surat_absensi($nip){
+        // $absensi = Absensi::where('nip', $nip)->get();
+        $absensi = DB::table('absensis')
+        ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+        ->select('absensis.*', 'departemens.nm_dept')
+        ->where('absensis.nip',$nip)
+        ->get();
 
+        $tahunIni = Carbon::now()->year;
+        $absensiCuti = Absensi::where('nip', $nip)
+        ->where('jns_absen', 'Cuti')
+        ->whereYear('tgl_absen', $tahunIni)
+        ->get();
+
+        $absensiCutiWanita = Absensi::where('nip', $nip)
+        ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Melahirkan']) // Menggunakan whereIn untuk mencakup kedua jenis absensi
+        ->whereYear('tgl_absen', $tahunIni)
+        ->get();
+        
+        $jumlahCuti = $absensiCuti->count();
+        $jumlahCutiWanita = $absensiCutiWanita->count();
+        
         $no1 = 1;
         $no2 = 1;
         $no3 = 1;
-        
-        $karyawan = DB::table("absensis")
-        ->join("karyawans","absensis.nip","=","karyawans.nip")
-        ->select("karyawans.*")
-        ->where("karyawans.nip",$absensi->nip)
-        ->first();
 
-        // dd($absensi->nip);
-        
-        $atasan = DB::table("absensis")
-        ->join("karyawans","absensis.id_atasan","=","karyawans.nip")
-        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
-        ->select("karyawans.*","jabatans.nm_jabatan")
-        ->where("karyawans.nip",$absensi->id_atasan)
-        ->first();
+        return view('absensi.surat_absensi',compact('absensi','no1','no2','no3','absensiCuti','jumlahCuti','absensiCutiWanita','jumlahCutiWanita'));
+    }
 
-        $staff_hr = DB::table("absensis")
-        ->join("karyawans","absensis.id_staff_hr","=","karyawans.nip")
-        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
-        ->select("karyawans.*","jabatans.nm_jabatan")
-        ->where("karyawans.nip",$absensi->id_staff_hr)
-        ->first();
+    public function showFormUbahJumlahCuti()
+    {
+        return view('setting.setting_batas_cuti');
+    }
 
-        // Ambil tampilan Blade ke dalam variabel
-        $html = view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr','no1','no2','no3'))->render();
-    
-        // Konfigurasi dompdf
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', true);
-        $options->set('defaultPaperSize', 'F4');
-        $options->set('defaultFont', 'Arial');
-        $options->set('defaultPaperOrientation', 'landscape');
-    
-        // Buat instance dompdf
-        $dompdf = new Dompdf($options);
-    
-        // Muat HTML ke dalam dompdf
-        $dompdf->loadHtml($html);
-    
-        // Render PDF
-        $dompdf->render();
-    
-        // Tampilkan PDF di browser
-        return $dompdf->stream('surat_absensi.pdf', ['Attachment' => false]);
-        //  return view('absensi.surat_absensi',compact('absensi','karyawan','atasan','staff_hr','no1','no2','no3'));
+    public function updateJumlahCuti(Request $request)
+    {
+        $data = [
+            'BATAS_CUTI' => $request->input('batas_cuti'),
+        ];
+
+        foreach ($data as $key => $value) {
+            file_put_contents(app()->environmentFilePath(), str_replace(
+                "$key=" . env($key), "$key=$value", file_get_contents(app()->environmentFilePath())
+            ));
+        }
+
+        \Artisan::call('config:clear');
+        \Artisan::call('cache:clear');
+
+        return redirect()->back()->with('success', 'BATAS CUTI BERHASIL DIUPDATE');
     }
 }

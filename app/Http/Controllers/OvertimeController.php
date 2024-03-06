@@ -196,49 +196,55 @@ class OvertimeController extends Controller
     }
 
     public function print_surat_overtime($id_ovt){
-        $overtime = Overtime::find($id_ovt);
+        $overtime = Overtime::find($id_ovt)
+        ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+        ->select('overtimes.*', 'departemens.nm_dept')
+        ->first();
         // dd($overtime->nip);
         $karyawan = DB::table("overtimes")
         ->join("karyawans","overtimes.nip","=","karyawans.nip")
-        ->select("karyawans.*")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
         ->where("karyawans.nip",$overtime->nip)
         ->first();
        
         $atasan = DB::table("overtimes")
         ->join("karyawans","overtimes.id_atasan","=","karyawans.nip")
-        ->select("karyawans.*")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
         ->where("karyawans.nip",$overtime->id_atasan)
         ->first();
 
         $staff_hr = DB::table("overtimes")
         ->join("karyawans","overtimes.id_staff_hr","=","karyawans.nip")
-        ->select("karyawans.*")
+        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        ->select("karyawans.*","jabatans.nm_jabatan")
         ->where("karyawans.nip",$overtime->id_staff_hr)
         ->first();
 
-        // Ambil tampilan Blade ke dalam variabel
-        $html = view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'))->render();
+        // // Ambil tampilan Blade ke dalam variabel
+        // $html = view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'))->render();
     
-        // Konfigurasi dompdf
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', true);
-        $options->set('defaultPaperSize', 'F4'); // Set ukuran kertas menjadi A4
-        $options->set('defaultFont', 'Arial'); // Set font default jika diperlukan
-        $options->set('defaultPaperOrientation', 'landscape');
+        // // Konfigurasi dompdf
+        // $options = new Options();
+        // $options->set('isHtml5ParserEnabled', true);
+        // $options->set('isRemoteEnabled', true);
+        // $options->set('defaultPaperSize', 'F4'); // Set ukuran kertas menjadi A4
+        // $options->set('defaultFont', 'Arial'); // Set font default jika diperlukan
+        // $options->set('defaultPaperOrientation', 'landscape');
     
-        // Buat instance dompdf
-        $dompdf = new Dompdf($options);
+        // // Buat instance dompdf
+        // $dompdf = new Dompdf($options);
     
-        // Muat HTML ke dalam dompdf
-        $dompdf->loadHtml($html);
+        // // Muat HTML ke dalam dompdf
+        // $dompdf->loadHtml($html);
     
-        // Render PDF
-        $dompdf->render();
+        // // Render PDF
+        // $dompdf->render();
     
         // Tampilkan PDF di browser
-        return $dompdf->stream('surat_overtime.pdf', ['Attachment' => false]);
+        // return $dompdf->stream('surat_overtime.pdf', ['Attachment' => false]);
 
-        // return view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'));
+        return view('overtime.surat_overtime',compact('overtime','atasan','staff_hr','karyawan'));
     }
 }

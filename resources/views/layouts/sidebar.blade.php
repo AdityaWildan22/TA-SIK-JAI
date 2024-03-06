@@ -105,6 +105,13 @@
        </li>
        @if (Auth::check())
            @if (Auth::user()->role == 'SuperAdmin' || Auth::user()->role == 'Admin')
+               <!-- Divider -->
+               <hr class="sidebar-divider">
+
+               <!-- Heading -->
+               <div class="sidebar-heading">
+                   Laporan
+               </div>
                <li class="nav-item">
                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
                        aria-expanded="true" aria-controls="collapsePages2">
@@ -139,6 +146,24 @@
                </div>
            </div>
        </li>
+
+       @if (Auth::check())
+           @if (Auth::user()->role == 'SuperAdmin')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+                       aria-expanded="true" aria-controls="collapsePages3">
+                       <i class="fas fa-calendar"></i>
+                       <span>Batas Cuti</span>
+                   </a>
+                   <div id="collapsePages3" class="collapse" aria-labelledby="headingPages"
+                       data-parent="#accordionSidebar">
+                       <div class="bg-white py-2 collapse-inner rounded">
+                           <a class="collapse-item" href="{{ url('/ubah-jumlah-cuti') }}">Setting Batas Cuti</a>
+                       </div>
+                   </div>
+               </li>
+           @endif
+       @endif
 
        <!-- Divider -->
        <hr class="sidebar-divider d-none d-md-block">

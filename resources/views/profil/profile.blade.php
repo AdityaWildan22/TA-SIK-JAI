@@ -15,57 +15,37 @@
     <form action="{{ url('/profil/save/' . Auth::user()->id_karyawan) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row justify-content-center">
-            @if (Auth::user()->divisi == 'Staff HR' || Auth::user()->divisi == 'Atasan')
-                <div class="dt-ttd col-md-4">
-                    <div class="card">
-                        <div class="card-header" style="background-color:#4e73df;color:#fff">
-                            <h2 class="card-title mb-0" style="font-size: 20px">UPLOAD TTD</h2>
-                        </div>
-                        <div class="card-body">
-                            <img id="avatar"
-                                src="{{ Auth::user()->foto_ttd != '' ? Auth::user()->foto_ttd : asset('img/no-images.jpg') }}"
-                                alt="" style=" max-width: 100%;
-                            height: auto;">
-                            <input type="file" class="foto_ttd" name="foto_ttd" id="foto_ttd" style="display:none"
-                                value="{{ old('foto_ttd') ? old('foto_ttd') : Auth::user()->foto_ttd }}">
-                            <textarea name="foto" id="foto" cols="30" rows="10" style="display:none">{{ Auth::user()->foto }}</textarea>
-                        </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header" style="background-color:#4e73df;color:#fff">
+                        <h2 class="card-title mb-0" style="font-size: 20px">DATA PROFIL</h2>
+                    </div>
+                    <div class="card-body">
+                        <table>
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>&nbsp;{{ Auth::user()->nama }} </td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td>:</td>
+                                <td>&nbsp;{{ Auth::user()->username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tempat Lahir</td>
+                                <td>:</td>
+                                <td>&nbsp;{{ Auth::user()->tempat_lahir }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal</td>
+                                <td>:</td>
+                                <td>&nbsp;{{ Carbon\Carbon::parse(Auth::user()->tanggal_lahir)->format('d-m-Y') }} </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-            @endif
-            @if (Auth::user()->divisi == 'Staff')
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header" style="background-color:#4e73df;color:#fff">
-                            <h2 class="card-title mb-0" style="font-size: 20px">DATA PROFIL</h2>
-                        </div>
-                        <div class="card-body">
-                            <table>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>:</td>
-                                    <td>&nbsp;{{ Auth::user()->nama }} </td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>:</td>
-                                    <td>&nbsp;{{ Auth::user()->username }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Tempat Lahir</td>
-                                    <td>:</td>
-                                    <td>&nbsp;{{ Auth::user()->tempat_lahir }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Tanggal</td>
-                                    <td>:</td>
-                                    <td>&nbsp;{{ Carbon\Carbon::parse(Auth::user()->tanggal_lahir)->format('d-m-Y') }} </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
+            </div>
             <div class="col-md-1"></div>
             <div class="dt-update col-md-6">
                 <div class="card mb-3">

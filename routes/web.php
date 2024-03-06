@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profil/save/{id_karyawan}', [KaryawanController::class, 'update_profil']);
     
     // Route Absensi
-    Route::get('/absensi/surat_absensi/{id_absen}', [AbsensiController::class, 'print_surat_absensi']);
+    Route::get('/absensi/surat_absensi/{nip}', [AbsensiController::class, 'print_surat_absensi']);
     Route::resource('absensi', AbsensiController::class)->parameters([
         'absensi' => 'id_absensi',
     ]);
@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/absensi/penolakan_hr/{id_absen}', [AbsensiController::class, 'penolakan_hr']);
     Route::get('/absensi/persetujuan_atasan/{id_absen}', [AbsensiController::class, 'persetujuan_atasan']);
     Route::get('/absensi/penolakan_atasan/{id_absen}', [AbsensiController::class, 'penolakan_atasan']);
+    Route::get('/ubah-jumlah-cuti', [AbsensiController::class,'showFormUbahJumlahCuti'])->name('ubah-jumlah-cuti');
+    Route::post('/update-jumlah-cuti', [AbsensiController::class,'updateJumlahCuti'])->name('update-jumlah-cuti');
     
     // Route Overtime
     Route::get('/overtime/surat_overtime/{id_ovt}', [OvertimeController::class, 'print_surat_overtime']);

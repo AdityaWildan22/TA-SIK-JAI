@@ -37,7 +37,7 @@ class AbsensiController extends Controller
             // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
             if ($user->role == 'Staff') {
                 $absensi->where('absensis.nip', $user->nip);
-            }else if($user->role == 'SPV' || $user->role == 'Manager' || $user->role == 'HR'){
+            }else if($user->role == 'SPV' || $user->role == 'Manager'){
                 $absensi->where('absensis.id_departemen',$user->id_departemen);
             }
                     
@@ -286,17 +286,20 @@ class AbsensiController extends Controller
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
         ->select('absensis.*', 'departemens.nm_dept')
         ->where('absensis.nip',$nip)
+        ->where('absensis.status_pengajuan','Diterima')
         ->get();
 
         $tahunIni = Carbon::now()->year;
         $absensiCuti = Absensi::where('nip', $nip)
         ->where('jns_absen', 'Cuti')
         ->whereYear('tgl_absen', $tahunIni)
+        ->where('absensis.status_pengajuan','Diterima')
         ->get();
 
         $absensiCutiWanita = Absensi::where('nip', $nip)
         ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Melahirkan']) // Menggunakan whereIn untuk mencakup kedua jenis absensi
         ->whereYear('tgl_absen', $tahunIni)
+        ->where('absensis.status_pengajuan','Diterima')
         ->get();
         
         $jumlahCuti = $absensiCuti->count();

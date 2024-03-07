@@ -18,11 +18,9 @@
         </div>
     @endif
     <div class="card-shadow">
-        @if (Auth::user()->role != 'Admin')
-            <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
-                <i class="fas fa-plus"> Tambah Data</i><br>
-            </a>
-        @endif
+        <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
+            <i class="fas fa-plus"> Tambah Data</i><br>
+        </a>
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">
@@ -78,9 +76,7 @@
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
                                     @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
-                                            $item->status_pengajuan == 'Diterima' &&
-                                            $item->nm_jabatan == 'Staff') ||
+                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff') ||
                                             ($item->nm_jabatan == 'Admin' &&
                                                 Auth::user()->jabatan->nm_jabatan != 'Manager' &&
                                                 Auth::user()->jabatan->nm_jabatan != 'Admin'))
@@ -90,19 +86,19 @@
                                     @endif
                                     @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
                                             $item->status_pengajuan != 'Diterima' &&
-                                            $item->nm_jabatan == 'SPV')
+                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
                                         <a href="{{ url('/absensi/persetujuan_atasan/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
                                     @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan != 'Ditolak' &&
-                                            $item->status_pengajuan != 'Diproses' &&
-                                            $item->nm_jabatan == 'SPV')
+                                            ($item->status_pengajuan == 'Diterima' || $item->status_pengajuan == 'Diproses') &&
+                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
                                         <a href="{{ url('/absensi/penolakan_atasan/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
+
                                     <a href="{{ url($routes->index . $item->id_absen) }}" class="btn btn-success btn-sm"
                                         data-toggle="tooltip" data-placement="top" title="Lihat Data"><i
                                             class="fas fa-eye"></i></a>

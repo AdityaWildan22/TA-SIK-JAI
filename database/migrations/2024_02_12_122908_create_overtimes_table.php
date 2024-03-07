@@ -25,7 +25,7 @@ return new class extends Migration
             $table->mediumText('ket');
             $table->dateTime('tgl_persetujuan_spv');
             $table->dateTime('tgl_persetujuan_manager');
-            $table->enum('status_pengajuan', ['Diproses','Pending','Diterima','Ditolak']);
+            $table->enum('status_pengajuan', ['Diproses','Diterima','Ditolak']);
             $table->timestamps();
         });
     }

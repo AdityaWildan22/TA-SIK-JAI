@@ -136,14 +136,17 @@
                                         value="Cuti">
                                         Cuti
                                     </option>
-                                    <option
-                                        {{ old('jns_absen', @$absensi->jns_absen) == 'Cuti Melahirkan' ? 'selected' : '' }}
-                                        value="Cuti Melahirkan">Cuti Melahirkan
-                                    </option>
-                                    <option {{ old('jns_absen', @$absensi->jns_absen) == 'Cuti Haid' ? 'selected' : '' }}
-                                        value="Cuti Haid">
-                                        Cuti Haid
-                                    </option>
+                                    @if (Auth::user()->jenis_kelamin == 'Perempuan')
+                                        <option
+                                            {{ old('jns_absen', @$absensi->jns_absen) == 'Cuti Melahirkan' ? 'selected' : '' }}
+                                            value="Cuti Melahirkan">Cuti Melahirkan
+                                        </option>
+                                        <option
+                                            {{ old('jns_absen', @$absensi->jns_absen) == 'Cuti Haid' ? 'selected' : '' }}
+                                            value="Cuti Haid">
+                                            Cuti Haid
+                                        </option>
+                                    @endif
                                     <option
                                         {{ old('jns_absen', @$absensi->jns_absen) == 'Izin Terlambat Datang' ? 'selected' : '' }}
                                         value="Izin Terlambat Datang">Izin Terlambat Datang

@@ -55,21 +55,8 @@ class KaryawanController extends Controller
      */
     public function store(StoreKaryawanRequest $request)
     {
-        $foto = $request->foto;
-        $karyawan = new Karyawan;
-        $karyawan->nip = $request->nip;
-        $karyawan->username = $request->username;
-        $karyawan->password = Hash::make($request->password);
-        $karyawan->nama = $request->nama;
-        $karyawan->id_departemen = $request->id_departemen;
-        $karyawan->id_jabatan = $request->id_jabatan;
-        $karyawan->role = $request->role;
-        $karyawan->tempat_lahir = $request->tempat_lahir;
-        $karyawan->tanggal_lahir = $request->tanggal_lahir;
-        $karyawan->jenis_kelamin = $request->jenis_kelamin;
-        $karyawan->foto_ttd = $foto;
-        // dd($request->all());
-        $karyawan->save();
+        $request['password'] = Hash::make($request->password);
+        Karyawan::create($request->all());
         
         return redirect($this->route)->with('success', 'DATA BERHASIL DISIMPAN');
         
@@ -111,8 +98,6 @@ class KaryawanController extends Controller
      */
     public function update(UpdateKaryawanRequest $request, Karyawan $karyawan, $id_karyawan)
     {
-        $fotoBase64 = $request->foto;
-
         $karyawan = Karyawan::find($id_karyawan);
         $karyawan->nip = $request->nip;
         $karyawan->username = $request->username;
@@ -126,11 +111,6 @@ class KaryawanController extends Controller
         $karyawan->jenis_kelamin = $request->jenis_kelamin;
         // dd($request->old_password);
         // Cek apakah ada file foto baru yang diunggah
-        if ($request->hasFile('foto_ttd')) {
-            // Ambil data gambar base64 dari request
-            $fotoBase64 = $request->foto ;
-            $karyawan->foto_ttd = $fotoBase64; // Simpan foto dalam bentuk base64
-        }
     
         $karyawan->save();
         

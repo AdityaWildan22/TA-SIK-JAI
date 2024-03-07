@@ -34,6 +34,7 @@ class ReportController extends Controller
         COUNT(CASE WHEN jns_absen = "Izin Keluar Sementara" THEN 1 END) AS jumlah_IKS,
         COUNT(CASE WHEN jns_absen = "Dinas Luar" THEN 1 END) AS jumlah_DL,
         COUNT(*) AS total_absensi')
+        ->where('status_pengajuan','Diterima')
         ->groupBy('absensis.nip')
         ->get();
         
@@ -66,6 +67,7 @@ class ReportController extends Controller
         COUNT(*) AS total_absensi')
         ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
         ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
+        ->where('status_pengajuan','Diterima')
         ->groupBy('absensis.nip')
         ->get();
         
@@ -82,6 +84,7 @@ class ReportController extends Controller
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
         ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
         ->selectRaw('COUNT(*) AS total_overtime')
+        ->where('status_pengajuan','Diterima')
         ->groupBy('overtimes.nip')
         ->get();
         
@@ -103,6 +106,7 @@ class ReportController extends Controller
         ->selectRaw('COUNT(*) AS total_overtime')
         ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
         ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
+        ->where('status_pengajuan','Diterima')
         ->groupBy('overtimes.nip')
         ->get();
 

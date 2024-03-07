@@ -99,7 +99,9 @@
            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                <div class="bg-white py-2 collapse-inner rounded">
                    <a class="collapse-item" href="{{ url('/overtime') }}">Data Overtime</a>
-                   <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
+                   @if (Auth::user()->jabatan->nm_jabatan == 'Admin' || Auth::user()->jabatan->nm_jabatan == 'Staff')
+                       <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
+                   @endif
                </div>
            </div>
        </li>

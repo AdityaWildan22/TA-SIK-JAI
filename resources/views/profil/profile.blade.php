@@ -38,7 +38,7 @@
                                 <td>&nbsp;{{ Auth::user()->tempat_lahir }}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal</td>
+                                <td>Tanggal Lahir</td>
                                 <td>:</td>
                                 <td>&nbsp;{{ Carbon\Carbon::parse(Auth::user()->tanggal_lahir)->format('d-m-Y') }} </td>
                             </tr>

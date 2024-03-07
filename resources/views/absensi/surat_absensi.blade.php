@@ -58,14 +58,14 @@
         }
 
         .logo h3 {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -205,7 +205,7 @@
                         <tr>
                             <td style="text-align: center">{{ $loop->iteration }}</td>
                             <td>{{ Carbon\Carbon::parse($absen->tgl_absen)->format('d-m-Y') }}</td>
-                            @foreach (['Sakit', 'Izin', 'Izin Khusus', 'Cuti', 'Cuti Kehamilan', 'Cuti Haid', 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara', 'Dinas Luar'] as $absensiType)
+                            @foreach (['Sakit', 'Izin', 'Izin Khusus', 'Cuti', 'Cuti Melahirkan', 'Cuti Haid', 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara', 'Dinas Luar'] as $absensiType)
                                 <td style="text-align: center">
                                     @if ($absen->jns_absen == $absensiType)
                                         <i class="fas fa-check"></i>
@@ -254,11 +254,11 @@
                 <thead>
                     <tr>
                         <th rowspan="2">NO.</th>
-                        <th colspan="2">PENGAMBILAN CUTI HAID & MELAHIRKAN</th>
-                        <th rowspan="2">SISA CUTI</th>
+                        <th colspan="3">PENGAMBILAN CUTI HAID & MELAHIRKAN</th>
                     </tr>
                     <tr>
-                        <th>TGL</th>
+                        <th>TGL IZIN AWAL</th>
+                        <th>TGL IZIN AKHIR</th>
                         <th>KETERANGAN</th>
                     </tr>
                 </thead>
@@ -270,11 +270,12 @@
                         <tr>
                             <td style="text-align: center">{{ $index + 1 }}</td>
                             <td>{{ Carbon\Carbon::parse($item->tgl_absen)->format('d-m-Y') }}</td>
+                            @if ($item->tgl_absen_akhir != '')
+                                <td>{{ Carbon\Carbon::parse($item->tgl_absen_akhir)->format('d-m-Y') }}</td>
+                            @elseif($item->tgl_absen_akhir == '')
+                                <td></td>
+                            @endif
                             <td>{{ $item->ket }}</td>
-                            @php
-                                $sisaCuti -= 1;
-                            @endphp
-                            <td>{{ max(0, $sisaCuti) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

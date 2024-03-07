@@ -3,12 +3,16 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card">
-                    <div class="card-header" style="background-color:#4e73df;color:#fff">
-                        <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA KARYAWAN</h2>
-                    </div>
-                    <div class="card-body">
+            <div class="card">
+                <div class="card-header" style="background-color:#4e73df;color:#fff">
+                    <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA KARYAWAN</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url($routes->save) }}" method="POST">
+                        @csrf
+                        @if ($routes->is_update)
+                            @method('PUT')
+                        @endif
                         <div class="form-group">
                             <label for="nip">NIP</label>
                             <input type="number" class="form-control @error('nip') is-invalid  @enderror" id="nip"
@@ -103,7 +107,8 @@
                                 <option {{ old('role', @$karyawan->role) == 'Manager' ? 'selected' : '' }} value="Manager">
                                     Manager
                                 </option>
-                                <option {{ old('role', @$karyawan->role) == 'SPV' ? 'selected' : '' }} value="SPV">SPV
+                                <option {{ old('role', @$karyawan->role) == 'SPV' ? 'selected' : '' }} value="SPV">
+                                    SPV
                                 </option>
                                 <option {{ old('role', @$karyawan->role) == 'Staff' ? 'selected' : '' }} value="Staff">
                                     Staff
@@ -160,10 +165,9 @@
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
                             <input type="submit" value="SIMPAN" class="btn btn-md btn-primary">
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-        </form>
     </div>
 @endsection

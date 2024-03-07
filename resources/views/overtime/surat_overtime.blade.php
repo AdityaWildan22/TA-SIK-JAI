@@ -18,7 +18,7 @@
 
         .header h4 {
             text-align: center;
-            padding: 5px;
+            padding: 10px 0;
             margin: 0;
         }
 
@@ -67,14 +67,14 @@
         }
 
         .logo h3 {
-            /* max-width: 700px; */
+            max-width: 750px;
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            /* max-width: 700px; */
+            max-width: 750px;
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -160,21 +160,21 @@
                     </td>
                     @if ($spv->nama != '')
                         <td style="width: 33%;">
-                            <p>Mengetahui</p>
+                            <p>Menyetujui</p>
                             <p>{{ $spv->nama }}</p>
                             <br>
                             <p><strong>{{ $spv->nm_jabatan }}</strong></p>
                         </td>
                     @endif
                     <td style="width: 33%; text-align: center; padding-right: 20px;">
-                        <p>Disetujui</p>
+                        <p>Mengetahui</p>
                         <p>{{ $hr->nama }}</p>
                         <br>
                         <p><strong>{{ $hr->nm_jabatan }}</strong></p>
                     </td>
                     @if ($manager != '')
                         <td style="width: 33%; text-align: center; padding-right: 20px;">
-                            <p>Disetujui</p>
+                            <p>Menyetujui</p>
                             <p>{{ $manager->nama }}</p>
                             <br>
                             <p><strong>{{ $manager->nm_jabatan }}</strong></p>

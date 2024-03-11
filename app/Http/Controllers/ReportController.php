@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 use App\Models\Absensi;
 use App\Models\Karyawan;
+use App\Models\Overtime;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ReportAbsensiAllExport;
+use App\Exports\ReportAbsensiPerTanggalExport;
+use App\Exports\ReportOvertimePerTanggalExport;
+use App\Exports\ReportOvertimeAllExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class ReportController extends Controller
 {
@@ -27,7 +34,7 @@ class ReportController extends Controller
         COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
         COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
         COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-        COUNT(CASE WHEN jns_absen = "Cuti Kehamilan" THEN 1 END) AS jumlah_CK,
+        COUNT(CASE WHEN jns_absen = "Cuti Melahirkan" THEN 1 END) AS jumlah_CK,
         COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
         COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
         COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
@@ -39,6 +46,11 @@ class ReportController extends Controller
         ->get();
         
         return view('report.report_absensi',compact('absensi','no'));
+    }
+
+    public function export_absensi_all()
+    {
+        return Excel::download(new ReportAbsensiAllExport, 'Laporan Semua Data Absensi.xlsx');
     }
 
     public function rpt_absensi_tanggal(Request $req){
@@ -58,7 +70,7 @@ class ReportController extends Controller
         COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
         COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
         COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-        COUNT(CASE WHEN jns_absen = "Cuti Kehamilan" THEN 1 END) AS jumlah_CK,
+        COUNT(CASE WHEN jns_absen = "Cuti Melahirkan" THEN 1 END) AS jumlah_CK,
         COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
         COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
         COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
@@ -72,6 +84,30 @@ class ReportController extends Controller
         ->get();
         
         return view('report.report_absensi',compact('absensi','no','tgl_awal','tgl_akhir'));
+    }
+
+    public function export_absensi_pertanggal(Request $request){
+        
+        $tgl_awal_input = $request->input("tgl_awal");
+        $tgl_akhir_input = $request->input("tgl_akhir");
+
+        $tgl_awal = date("Y-m-d", strtotime($tgl_awal_input));
+        $tgl_akhir = date("Y-m-d", strtotime($tgl_akhir_input));
+    
+        if (!$request->filled('tgl_awal') || !$request->filled('tgl_akhir')) {
+            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+        }
+
+        $absensi = Absensi::whereBetween('absensis.tgl_absen', [$tgl_awal, $tgl_akhir])
+        ->get();
+        
+        if ($absensi->isEmpty()) {
+            return redirect()->back()->with('error', 'DATA LAPORAN ABSENSI KOSONG');
+        }
+
+        $nama_file = 'Laporan Data Absensi Periode ' . date('d-m-Y', strtotime($tgl_awal)) . ' - ' . date('d-m-Y', strtotime($tgl_akhir)) . '.xlsx';
+    
+        return Excel::download(new ReportAbsensiPerTanggalExport($tgl_awal, $tgl_akhir), $nama_file);
     }
 
     public function rpt_overtime(){
@@ -89,6 +125,11 @@ class ReportController extends Controller
         ->get();
         
         return view('report.report_overtime',compact('overtime','no'));
+    }
+
+    public function export_overtime_all()
+    {
+        return Excel::download(new ReportOvertimeAllExport, 'Laporan Semua Data Overtime.xlsx');
     }
 
     public function rpt_overtime_tanggal(Request $req){
@@ -112,4 +153,29 @@ class ReportController extends Controller
 
         return view('report.report_overtime',compact('overtime','no','tgl_awal','tgl_akhir'));
     }
+
+    public function export_overtime_pertanggal(Request $request){
+        
+        $tgl_awal_input = $request->input("tgl_awal");
+        $tgl_akhir_input = $request->input("tgl_akhir");
+
+        $tgl_awal = date("Y-m-d", strtotime($tgl_awal_input));
+        $tgl_akhir = date("Y-m-d", strtotime($tgl_akhir_input));
+
+        if (!$request->filled('tgl_awal') || !$request->filled('tgl_akhir')) {
+            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+        }
+
+        $overtime = Overtime::whereBetween('overtimes.tgl_ovt', [$tgl_awal, $tgl_akhir])
+        ->get();
+        
+        if ($overtime->isEmpty()) {
+            return redirect()->back()->with('error', 'DATA LAPORAN OVERTIME KOSONG');
+        }
+
+        $nama_file = 'Laporan Data Overtime Periode ' . date('d-m-Y', strtotime($tgl_awal)) . ' - ' . date('d-m-Y', strtotime($tgl_akhir)) . '.xlsx';
+    
+        return Excel::download(new ReportOvertimePerTanggalExport($tgl_awal, $tgl_akhir), $nama_file);
+    }
+
 }

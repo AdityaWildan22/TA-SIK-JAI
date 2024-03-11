@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Exports\KaryawanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KaryawanController extends Controller
 {
@@ -163,5 +165,12 @@ class KaryawanController extends Controller
     {
         Auth::logout();
         return redirect()->route('login');
+    }
+
+    public function export()
+    {
+        // $data = new KaryawanExport;
+        // dd($data->collection(), $data->headings());
+        return Excel::download(new KaryawanExport, 'Data Karyawan.xlsx');
     }
 }

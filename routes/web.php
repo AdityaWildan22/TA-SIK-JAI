@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
         'karyawan' => 'id_karyawan',
     ]);
 
+    Route::get('/export-karyawan', [KaryawanController::class, 'export'])->name('export-karyawan');
+
     // Route Departemen
     Route::resource('departemen', DepartemenController::class)->parameters([
         'departemen' => 'id_departemen',
@@ -56,20 +58,31 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('absensi', AbsensiController::class)->parameters([
         'absensi' => 'id_absensi',
     ]);
+
+    Route::get('/export-absensi', [AbsensiController::class, 'export'])->name('export-absensi');
+
     Route::get('/absensi/persetujuan_hr/{id_absen}', [AbsensiController::class, 'persetujuan_hr']);
     Route::get('/absensi/penolakan_hr/{id_absen}', [AbsensiController::class, 'penolakan_hr']);
+
     Route::get('/absensi/persetujuan_atasan/{id_absen}', [AbsensiController::class, 'persetujuan_atasan']);
     Route::get('/absensi/penolakan_atasan/{id_absen}', [AbsensiController::class, 'penolakan_atasan']);
+
     Route::get('/ubah-jumlah-cuti', [AbsensiController::class,'showFormUbahJumlahCuti'])->name('ubah-jumlah-cuti');
     Route::post('/update-jumlah-cuti', [AbsensiController::class,'updateJumlahCuti'])->name('update-jumlah-cuti');
     
     // Route Overtime
     Route::get('/overtime/surat_overtime/{id_ovt}', [OvertimeController::class, 'print_surat_overtime']);
+
     Route::resource('overtime', OvertimeController::class)->parameters([
         'overtime' => 'id_ovt',
     ]);
+
+    Route::get('/export-overtime', [OvertimeController::class, 'export'])->name('export-overtime');
+
+
     Route::get('/overtime/persetujuan_hr/{id_ovt}', [OvertimeController::class, 'persetujuan_hr']);
     Route::get('/overtime/penolakan_hr/{id_ovt}', [OvertimeController::class, 'penolakan_hr']);
+
     Route::get('/overtime/persetujuan_atasan/{id_ovt}', [OvertimeController::class, 'persetujuan_atasan']);
     Route::get('/overtime/penolakan_atasan/{id_ovt}', [OvertimeController::class, 'penolakan_atasan']);
 
@@ -79,6 +92,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/report/overtime/tanggal', [ReportController::class, 'rpt_overtime_tanggal']);
     Route::get('/report/absensi', [ReportController::class, 'rpt_absensi']);
     Route::get('/report/overtime', [ReportController::class, 'rpt_overtime']);
-    // Route untuk Logout
+
+    // Route Export Excel Report
+    Route::get('/export-absensi-all', [ReportController::class, 'export_absensi_all'])->name('export_absensi_all');
+    Route::get('/export-absensi-pertanggal', [ReportController::class, 'export_absensi_pertanggal'])->name('export_absensi_pertanggal');
+    Route::get('/export-overtime-all', [ReportController::class, 'export_overtime_all'])->name('export_overtime_all');
+    Route::get('/export-overtime-pertanggal', [ReportController::class, 'export_overtime_pertanggal'])->name('export_overtime_pertanggal');
+
+    // Route Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

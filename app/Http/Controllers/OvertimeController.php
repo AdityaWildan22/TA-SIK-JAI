@@ -10,8 +10,8 @@ use App\Http\Requests\UpdateOvertimeRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use App\Exports\OvertimeExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OvertimeController extends Controller
 {
@@ -285,5 +285,10 @@ class OvertimeController extends Controller
         ->first();
 
         return view('overtime.surat_overtime',compact('overtime','manager','spv','karyawan','hr'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new OvertimeExport, 'Data Overtime.xlsx');
     }
 }

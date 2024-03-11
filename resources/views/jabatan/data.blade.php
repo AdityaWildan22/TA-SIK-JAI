@@ -14,24 +14,6 @@
                         @if ($routes->is_update)
                             @method('PUT')
                         @endif
-                        {{-- <div class="form-group">
-                            <label for="id_dept">Nama Departemen</label>
-                            <select name="id_dept" id="id_dept"
-                                class="form-control
-                                @error('id_dept') is-invalid  @enderror">
-                                <option value="" selected disabled="true">Pilih Nama Departemen</option>
-                                @foreach ($departemen as $item)
-                                    <option value="{{ $item->id_departemen }}"
-                                        {{ (old('id_dept') ? old('id_dept') : @$jab->id_dept) == $item->id_departemen ? 'selected' : '' }}>
-                                        {{ $item->nm_dept }}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('id_dept'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('id_dept') }}
-                                </div>
-                            @endif
-                        </div> --}}
                         <div class="form-group">
                             <label for="nm_jabatan">Nama Jabatan</label>
                             <input type="text" class="form-control @error('nm_jabatan') is-invalid  @enderror"
@@ -46,7 +28,9 @@
                             @enderror
                         </div>
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
-                            <input type="submit" value="SIMPAN" class="btn btn-md btn-primary">
+                            <button type="submit" class="btn btn-md btn-primary">
+                                <i class="fas fa-save"></i> Simpan
+                            </button>
                         </div>
                     </form>
                 </div>

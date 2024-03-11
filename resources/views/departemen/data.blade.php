@@ -27,7 +27,9 @@
                             @enderror
                         </div>
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
-                            <input type="submit" value="SIMPAN" class="btn btn-md btn-primary">
+                            <button type="submit" class="btn btn-md btn-primary">
+                                <i class="fas fa-save"></i> Simpan
+                            </button>
                         </div>
                     </form>
                 </div>

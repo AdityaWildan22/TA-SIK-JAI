@@ -16,6 +16,11 @@
                 <i class="fas fa-plus"> Tambah Data</i><br>
             </a>
         @endif
+        @if (Auth::user()->role == 'SuperAdmin')
+            <a href="{{ route('export-overtime') }}" class="btn btn-success h-20 mb-3" style="margin-left:25px">
+                <i class="fas fa-file-excel"> Export Excel</i><br>
+            </a>
+        @endif
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">

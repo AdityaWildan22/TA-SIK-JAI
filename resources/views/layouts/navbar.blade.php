@@ -13,7 +13,11 @@
                   aria-haspopup="true" aria-expanded="false">
                   <span class="mr-2 d-none d-lg-inline text-light-600 small"
                       style="color: #fff">{{ Auth::user()->nama }}</span>
-                  <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile.svg') }}">
+                  @if (Auth::user()->jenis_kelamin == 'Laki-laki')
+                      <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile.svg') }}">
+                  @else
+                      <img class="img-profile rounded-circle" src="{{ asset('img/undraw_profile_1.svg') }}">
+                  @endif
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

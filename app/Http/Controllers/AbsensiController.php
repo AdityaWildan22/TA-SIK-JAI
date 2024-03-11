@@ -12,10 +12,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AbsensiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AbsensiController extends Controller
 {
@@ -333,5 +333,10 @@ class AbsensiController extends Controller
         \Artisan::call('cache:clear');
 
         return redirect()->back()->with('success', 'BATAS CUTI BERHASIL DIUPDATE');
+    }
+
+    public function export()
+    {
+        return Excel::download(new AbsensiExport, 'Data Absensi.xlsx');
     }
 }

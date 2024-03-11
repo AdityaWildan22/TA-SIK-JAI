@@ -154,7 +154,7 @@
                         <div class="form-group">
                             <label for="tanggal_lahir">Tanggal Lahir</label>
                             <input type="date" class="form-control @error('tanggal_lahir') is-invalid  @enderror"
-                                id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tempat Lahir"
+                                id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir"
                                 value="{{ old('tanggal_lahir') ? old('tanggal_lahir') : @$karyawan->tanggal_lahir }}">
                             @if ($errors->has('tanggal_lahir'))
                                 <div class="invalid-feedback">
@@ -163,7 +163,9 @@
                             @endif
                         </div>
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
-                            <input type="submit" value="SIMPAN" class="btn btn-md btn-primary">
+                            <button type="submit" class="btn btn-md btn-primary">
+                                <i class="fas fa-save"></i> Simpan
+                            </button>
                         </div>
                     </form>
                 </div>

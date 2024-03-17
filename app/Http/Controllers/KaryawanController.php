@@ -138,23 +138,13 @@ class KaryawanController extends Controller
 
     public function update_profil(Request $req, $id_karyawan){
 
-        $fotoBase64 = $req->foto;
         $profil = Karyawan::find($id_karyawan);
         
         $profil->username = $req->username;
         $profil->password = $req->password ? Hash::make($req->password) : $req->old_password;
         $profil->nama = $req->nama;
-        $profil->sect = $req->sect;
         $profil->tempat_lahir = $req->tempat_lahir;
         $profil->tanggal_lahir = $req->tanggal_lahir;
-    
-        // Cek apakah ada file foto baru yang diunggah
-        if ($req->hasFile('foto_ttd')) {
-            // Ambil data gambar base64 dari request
-            $fotoBase64 = $req->foto ;
-            $profil->foto_ttd = $fotoBase64; // Simpan foto dalam bentuk base64
-            // dd($profil->foto_ttd);
-        }
 
         $profil->save();
 

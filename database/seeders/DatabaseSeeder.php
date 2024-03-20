@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
         Karyawan::create([
             'nip' => 110207,
             'username' => 'Imelda',
-            'password' => Hash::make(110206),
+            'password' => Hash::make(110207),
             'nama' => 'Imelda',
             'id_departemen' => 1,
             'id_jabatan' => 5,

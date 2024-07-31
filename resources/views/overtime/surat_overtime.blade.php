@@ -152,34 +152,32 @@
         <div class="footer mt-0">
             <table style="width: 100%; text-align: center;">
                 <tr>
-                    <td style="width: 33%; text-align: center; padding-left: 20px;">
+                    {{-- <td style="width: 33%; text-align: center; padding-left: 20px;">
                         <br>
                         <p>{{ $overtime->nama }}</p>
                         <br>
                         <p><strong>{{ $karyawan->nm_jabatan }}</strong></p>
-                    </td>
-                    @if ($spv->nama != '')
+                    </td> --}}
+                    {{-- @if ($spv->nama != '')
                         <td style="width: 33%;">
                             <p>Menyetujui</p>
                             <p>{{ $spv->nama }}</p>
                             <br>
                             <p><strong>{{ $spv->nm_jabatan }}</strong></p>
                         </td>
-                    @endif
+                    @endif --}}
+                    <td style="width: 33%; text-align: center; padding-right: 20px;">
+                        <p>Menyetujui</p>
+                        <p>{{ $spv->nama }}</p>
+                        <br>
+                        <p><strong>{{ $spv->nm_jabatan }}</strong></p>
+                    </td>
                     <td style="width: 33%; text-align: center; padding-right: 20px;">
                         <p>Mengetahui</p>
                         <p>{{ $hr->nama }}</p>
                         <br>
                         <p><strong>{{ $hr->nm_jabatan }}</strong></p>
                     </td>
-                    @if ($manager != '')
-                        <td style="width: 33%; text-align: center; padding-right: 20px;">
-                            <p>Menyetujui</p>
-                            <p>{{ $manager->nama }}</p>
-                            <br>
-                            <p><strong>{{ $manager->nm_jabatan }}</strong></p>
-                        </td>
-                    @endif
                 </tr>
             </table>
         </div>

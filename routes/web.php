@@ -61,12 +61,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/export-absensi', [AbsensiController::class, 'export'])->name('export-absensi');
 
-    Route::get('/absensi/persetujuan_hr/{id_absen}', [AbsensiController::class, 'persetujuan_hr']);
-    Route::get('/absensi/penolakan_hr/{id_absen}', [AbsensiController::class, 'penolakan_hr']);
+    Route::get('/absensi/persetujuan_spv/{id_absen}', [AbsensiController::class, 'persetujuan_spv']);
+    Route::get('/absensi/penolakan_spv/{id_absen}', [AbsensiController::class, 'penolakan_spv']);
 
-    Route::get('/absensi/persetujuan_atasan/{id_absen}', [AbsensiController::class, 'persetujuan_atasan']);
-    Route::get('/absensi/penolakan_atasan/{id_absen}', [AbsensiController::class, 'penolakan_atasan']);
+    Route::get('/absensi/persetujuan_manager/{id_absen}', [AbsensiController::class, 'persetujuan_manager']);
+    Route::get('/absensi/penolakan_manager/{id_absen}', [AbsensiController::class, 'penolakan_manager']);
 
+    Route::get('/absensi/verify_hr/{id_absen}', [AbsensiController::class, 'verify_hr']);
+
+    // Route Setting
     Route::get('/ubah-jumlah-cuti', [AbsensiController::class,'showFormUbahJumlahCuti'])->name('ubah-jumlah-cuti');
     Route::post('/update-jumlah-cuti', [AbsensiController::class,'updateJumlahCuti'])->name('update-jumlah-cuti');
     
@@ -80,11 +83,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-overtime', [OvertimeController::class, 'export'])->name('export-overtime');
 
 
-    Route::get('/overtime/persetujuan_hr/{id_ovt}', [OvertimeController::class, 'persetujuan_hr']);
-    Route::get('/overtime/penolakan_hr/{id_ovt}', [OvertimeController::class, 'penolakan_hr']);
+    Route::get('/overtime/persetujuan_spv/{id_ovt}', [OvertimeController::class, 'persetujuan_spv']);
+    Route::get('/overtime/penolakan_spv/{id_ovt}', [OvertimeController::class, 'penolakan_spv']);
 
-    Route::get('/overtime/persetujuan_atasan/{id_ovt}', [OvertimeController::class, 'persetujuan_atasan']);
-    Route::get('/overtime/penolakan_atasan/{id_ovt}', [OvertimeController::class, 'penolakan_atasan']);
+    Route::get('/overtime/verify_hr/{id_ovt}', [OvertimeController::class, 'verify_hr']);
+
+    // Route::get('/overtime/persetujuan_atasan/{id_ovt}', [OvertimeController::class, 'persetujuan_atasan']);
+    // Route::get('/overtime/penolakan_atasan/{id_ovt}', [OvertimeController::class, 'penolakan_atasan']);
 
     // Route Report
     Route::get('/report', [ReportController::class, 'index']);

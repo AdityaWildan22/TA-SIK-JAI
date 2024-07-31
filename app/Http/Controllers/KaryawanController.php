@@ -100,6 +100,7 @@ class KaryawanController extends Controller
      */
     public function update(UpdateKaryawanRequest $request, Karyawan $karyawan, $id_karyawan)
     {
+        // dd($request->all());
         $karyawan = Karyawan::find($id_karyawan);
         $karyawan->nip = $request->nip;
         $karyawan->username = $request->username;

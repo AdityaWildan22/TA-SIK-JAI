@@ -1,5 +1,5 @@
 @extends('layouts.template')
-@section('judul', 'Data Absensi')
+@section('judul', 'Data Absen')
 
 @section('content')
     @if (session('success'))
@@ -21,7 +21,7 @@
         <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
             <i class="fas fa-plus"> Tambah Data</i><br>
         </a>
-
+{{Auth::user()->jabatan->nm_jabatan}}
         @if (Auth::user()->role == 'SuperAdmin')
             <a href="{{ route('export-absensi') }}" class="btn btn-success h-20 mb-3" style="margin-left:25px">
                 <i class="fas fa-file-excel"> Export Excel</i><br>
@@ -30,7 +30,7 @@
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">
-            <h2 class="card-title mb-0" style="font-size: 20px">DATA ABSENSI</h2>
+            <h2 class="card-title mb-0" style="font-size: 20px">DATA ABSEN</h2>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -72,39 +72,38 @@
                                 <td>
                                     @if (
                                         (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
-                                            $item->status_pengajuan != 'Diterima' &&
-                                            $item->nm_jabatan == 'Staff') ||
-                                            ($item->nm_jabatan == 'Admin' &&
-                                                Auth::user()->jabatan->nm_jabatan != 'Manager' &&
-                                                Auth::user()->jabatan->nm_jabatan != 'Admin'))
-                                        <a href="{{ url('/absensi/persetujuan_hr/' . $item->id_absen) }}"
+                                            $item->status_pengajuan != 'Diterima'  &&
+                                            $item->status_pengajuan != 'Pending' &&
+                                            $item->nm_jabatan == 'Staff'))
+                                             <a href="{{ url('/absensi/persetujuan_spv/' . $item->id_absen) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
                                     @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff') ||
+                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff') && ($item->status_pengajuan != "Diproses") ||
                                             ($item->nm_jabatan == 'Admin' &&
                                                 Auth::user()->jabatan->nm_jabatan != 'Manager' &&
                                                 Auth::user()->jabatan->nm_jabatan != 'Admin'))
-                                        <a href="{{ url('/absensi/penolakan_hr/' . $item->id_absen) }}"
+                                                <a href="{{ url('/absensi/penolakan_spv/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan != 'Diterima' &&
-                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
-                                        <a href="{{ url('/absensi/persetujuan_atasan/' . $item->id_absen) }}"
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan == 'Diproses')
+                                            <a href="{{ url('/absensi/persetujuan_manager/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            ($item->status_pengajuan == 'Diterima' || $item->status_pengajuan == 'Diproses') &&
-                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
-                                        <a href="{{ url('/absensi/penolakan_atasan/' . $item->id_absen) }}"
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan == 'Pending')
+                                            <a href="{{ url('/absensi/penolakan_manager/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'HR' &&
+                                        $item->status_pengajuan == 'Pending')
+                                        <a href="{{ url('/absensi/verify_hr/' . $item->id_absen) }}"
+                                        class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
+                                        title="Verifikasi"><i class="fas fa-check"></i></a>
+                                 @endif
                                     <a href="{{ url($routes->index . $item->id_absen) }}" class="btn btn-success btn-sm"
                                         data-toggle="tooltip" data-placement="top" title="Lihat Data"><i
                                             class="fas fa-eye"></i></a>

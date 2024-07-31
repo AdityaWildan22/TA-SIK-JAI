@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('overtimes', function (Blueprint $table) {
             $table->increments('id_ovt');
             $table->integer('id_manager')->nullable();
-            $table->integer('id_hr');
+            $table->integer('id_hr')->nullable();
             $table->integer('id_spv')->nullable();
             $table->string('nip',50);
             $table->string('nama',100);
@@ -22,10 +22,10 @@ return new class extends Migration
             $table->date('tgl_ovt');
             $table->time('jam_awal');
             $table->time('jam_akhir');
-            $table->mediumText('ket');
-            $table->dateTime('tgl_persetujuan_spv');
-            $table->dateTime('tgl_persetujuan_manager');
-            $table->enum('status_pengajuan', ['Diproses','Diterima','Ditolak']);
+            $table->mediumText('ket')->nullable();
+            $table->dateTime('tgl_persetujuan_spv')->nullable();
+            $table->dateTime('tgl_persetujuan_manager')->nullable();
+            $table->enum('status_pengajuan', ['Diproses','Pending','Diterima','Ditolak']);
             $table->timestamps();
         });
     }

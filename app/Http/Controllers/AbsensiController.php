@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AbsensiController extends Controller
 {
-    protected $view = 'absensi.';
+    protected $view = 'absen.';
     protected $route = '/absensi/';
     /**
      * Display a listing of the resource.
@@ -234,19 +234,19 @@ class AbsensiController extends Controller
         return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
     }
 
-    public function persetujuan_hr($id_absen)
+    public function persetujuan_spv($id_absen)
     {
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
         $absensi->tgl_persetujuan_spv = $now;
-        $absensi->status_pengajuan = 'Diterima';
+        $absensi->status_pengajuan = "Pending";
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
     }
 
-    public function penolakan_hr($id_absen)
+    public function penolakan_spv($id_absen)
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
@@ -257,19 +257,19 @@ class AbsensiController extends Controller
         return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
     }
 
-    public function persetujuan_atasan($id_absen)
+    public function persetujuan_manager($id_absen)
     {
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
         $absensi->tgl_persetujuan_manager = $now;
-        $absensi->status_pengajuan = 'Diterima';
+        $absensi->status_pengajuan = 'Pending';
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
     }
 
-    public function penolakan_atasan($id_absen)
+    public function penolakan_manager($id_absen)
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
@@ -278,6 +278,14 @@ class AbsensiController extends Controller
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
+    }
+
+    public function verify_hr($id_absen){
+        $absensi = Absensi::find($id_absen);
+        $absensi->status_pengajuan = 'Diterima';
+        $absensi->save();
+    
+        return redirect()->back()->with('success', 'Permohonan Berhasil Diverifikasi');
     }
 
     public function print_surat_absensi($nip){
@@ -309,7 +317,7 @@ class AbsensiController extends Controller
         $no2 = 1;
         $no3 = 1;
 
-        return view('absensi.surat_absensi',compact('absensi','no1','no2','no3','absensiCuti','jumlahCuti','absensiCutiWanita','jumlahCutiWanita'));
+        return view('absen.surat_absensi',compact('absensi','no1','no2','no3','absensiCuti','jumlahCuti','absensiCutiWanita','jumlahCutiWanita'));
     }
 
     public function showFormUbahJumlahCuti()

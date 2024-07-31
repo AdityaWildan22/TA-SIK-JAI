@@ -204,19 +204,19 @@ class OvertimeController extends Controller
         return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
     }
 
-    public function persetujuan_hr($id_ovt)
+    public function persetujuan_spv($id_ovt)
     {
         // dd($id_ovt);
         $now = Carbon::now();
         $overtime = Overtime::find($id_ovt); 
         $overtime->tgl_persetujuan_spv = $now;
-        $overtime->status_pengajuan = 'Diterima';
+        $overtime->status_pengajuan = 'Pending';
         $overtime->save();
     
         return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
     }
 
-    public function penolakan_hr($id_ovt)
+    public function penolakan_spv($id_ovt)
     {
         // dd($id_ovt);
         $overtime = Overtime::find($id_ovt); 
@@ -227,28 +227,37 @@ class OvertimeController extends Controller
         return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
     }
 
-    public function persetujuan_atasan($id_ovt)
-    {
-        // dd($id_ovt);
-        $now = Carbon::now();
+    public function verify_hr($id_ovt){
         $overtime = Overtime::find($id_ovt);
-        $overtime->tgl_persetujuan_manager = $now;
         $overtime->status_pengajuan = 'Diterima';
+        $overtime->id_hr = Auth::user()->nip;
         $overtime->save();
     
-        return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
+        return redirect()->back()->with('success', 'Permohonan Berhasil Diverifikasi');
     }
 
-    public function penolakan_atasan($id_ovt)
-    {
-        // dd($id_ovt);
-        $overtime = Overtime::find($id_ovt);
-        $overtime->tgl_persetujuan_manager = "";
-        $overtime->status_pengajuan = 'Ditolak';
-        $overtime->save();
+    // public function persetujuan_atasan($id_ovt)
+    // {
+    //     // dd($id_ovt);
+    //     $now = Carbon::now();
+    //     $overtime = Overtime::find($id_ovt);
+    //     $overtime->tgl_persetujuan_manager = $now;
+    //     $overtime->status_pengajuan = 'Diterima';
+    //     $overtime->save();
     
-        return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
-    }
+    //     return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
+    // }
+
+    // public function penolakan_atasan($id_ovt)
+    // {
+    //     // dd($id_ovt);
+    //     $overtime = Overtime::find($id_ovt);
+    //     $overtime->tgl_persetujuan_manager = "";
+    //     $overtime->status_pengajuan = 'Ditolak';
+    //     $overtime->save();
+    
+    //     return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
+    // }
 
     public function print_surat_overtime($id_ovt){
         $overtime = Overtime::find($id_ovt)
@@ -263,12 +272,12 @@ class OvertimeController extends Controller
         ->where("karyawans.nip",$overtime->nip)
         ->first();
        
-        $manager = DB::table("overtimes")
-        ->join("karyawans","overtimes.id_manager","=","karyawans.nip")
-        ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
-        ->select("karyawans.*","jabatans.nm_jabatan")
-        ->where("karyawans.nip",$overtime->id_manager)
-        ->first();
+        // $manager = DB::table("overtimes")
+        // ->join("karyawans","overtimes.id_manager","=","karyawans.nip")
+        // ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
+        // ->select("karyawans.*","jabatans.nm_jabatan")
+        // ->where("karyawans.nip",$overtime->id_manager)
+        // ->first();
 
         $spv = DB::table("overtimes")
         ->join("karyawans","overtimes.id_spv","=","karyawans.nip")
@@ -284,7 +293,7 @@ class OvertimeController extends Controller
         ->where("karyawans.nip",$overtime->id_hr)
         ->first();
 
-        return view('overtime.surat_overtime',compact('overtime','manager','spv','karyawan','hr'));
+        return view('overtime.surat_overtime',compact('overtime','spv','karyawan','hr'));
     }
 
     public function export()

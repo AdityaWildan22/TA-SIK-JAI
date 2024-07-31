@@ -53,7 +53,7 @@
                                     @endif
                                 </div>
                             @endif
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="id_hr">Nama HR</label>
                                 <select name="id_hr" id="id_hr"
                                     class="form-control @error('id_hr') is-invalid  @enderror">
@@ -69,7 +69,7 @@
                                         {{ $errors->first('id_hr') }}
                                     </div>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="nip">NIP</label>
                                 <input type="number" class="form-control @error('nip') is-invalid  @enderror"

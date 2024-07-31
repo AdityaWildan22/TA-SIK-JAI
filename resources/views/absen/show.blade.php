@@ -19,7 +19,7 @@
 @section('content')
     <div class="card">
         <div class="card-header bg-primary">
-            <h2 class="card-title mb-0" style="font-size: 25px; color:#fff">DATA DETAIL ABSENSI
+            <h2 class="card-title mb-0" style="font-size: 25px; color:#fff">DATA DETAIL ABSEN
         </div>
         <div class="card-body">
             <table>
@@ -37,11 +37,6 @@
                         <td>{{ $spv->nama }}</td>
                     </tr>
                 @endif
-                <tr>
-                    <td>Nama HR</td>
-                    <td>:</td>
-                    <td>{{ $hr->nama }}</td>
-                </tr>
                 <tr>
                     <td>NIP</td>
                     <td>:</td>

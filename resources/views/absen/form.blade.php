@@ -19,7 +19,7 @@
                     @endif
                     <div class="card">
                         <div class="card-header" style="background-color:#4e73df;color:#fff">
-                            <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA ABSENSI</h2>
+                            <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA ABSEN</h2>
                         </div>
                         <div class="card-body">
                             @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
@@ -60,7 +60,7 @@
                                     @endif
                                 </div>
                             @endif
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="id_hr">Nama HR</label>
                                 <select name="id_hr" id="id_hr"
                                     class="form-control @error('id_hr') is-invalid  @enderror">
@@ -76,7 +76,7 @@
                                         {{ $errors->first('id_hr') }}
                                     </div>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="nip">NIP</label>
                                 <input type="number" class="form-control @error('nip') is-invalid  @enderror"

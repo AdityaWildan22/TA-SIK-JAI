@@ -78,33 +78,31 @@
            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
                <i class="fas fa-calendar"></i>
-               <span>Data Absensi</span>
+               <span>Data Absen</span>
            </a>
            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                data-parent="#accordionSidebar">
                <div class="bg-white py-2 collapse-inner rounded">
-                   <a class="collapse-item" href="{{ url('/absensi') }}">Data Absensi</a>
-                   <a class="collapse-item" href="{{ url('/absensi/create    ') }}">Form Absensi</a>
+                   <a class="collapse-item" href="{{ url('/absensi') }}">Data Absen</a>
+                   <a class="collapse-item" href="{{ url('/absensi/create') }}">Form Absen</a>
                </div>
            </div>
        </li>
-
-       <!-- Nav Item - Pages Collapse Menu -->
-       <li class="nav-item">
-           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-               aria-expanded="true" aria-controls="collapsePages">
-               <i class="fas fa-fw fa-clock"></i>
-               <span>Data Overtime</span>
-           </a>
-           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-               <div class="bg-white py-2 collapse-inner rounded">
-                   <a class="collapse-item" href="{{ url('/overtime') }}">Data Overtime</a>
-                   @if (Auth::user()->jabatan->nm_jabatan == 'Admin' || Auth::user()->jabatan->nm_jabatan == 'Staff')
-                       <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
-                   @endif
-               </div>
-           </div>
-       </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-clock"></i>
+                    <span>Data Overtime</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ url('/overtime') }}">Data Overtime</a>
+                        @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' || Auth::user()->jabatan->nm_jabatan == 'Staff')
+                            <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
+                        @endif
+                    </div>
+                </div>
+            </li>
        @if (Auth::check())
            @if (Auth::user()->role == 'SuperAdmin' || Auth::user()->role == 'Admin')
                <!-- Divider -->

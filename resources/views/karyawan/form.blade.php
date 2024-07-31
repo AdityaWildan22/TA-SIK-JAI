@@ -13,9 +13,10 @@
                         @if ($routes->is_update)
                             @method('PUT')
                         @endif
+                        
                         <div class="form-group">
                             <label for="nip">NIP</label>
-                            <input type="number" class="form-control @error('nip') is-invalid  @enderror" id="nip"
+                            <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip"
                                 name="nip" placeholder="Masukkan NIP"
                                 value="{{ old('nip') ? old('nip') : @$karyawan->nip }}">
                             @if ($errors->has('nip'))
@@ -24,9 +25,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control @error('username') is-invalid  @enderror"
+                            <input type="text" class="form-control @error('username') is-invalid @enderror"
                                 id="username" name="username" placeholder="Masukkan Username"
                                 value="{{ old('username') ? old('username') : @$karyawan->username }}">
                             @if ($errors->has('username'))
@@ -35,9 +37,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control  @error('password') is-invalid  @enderror"
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 id="password" name="password" placeholder="Masukkan Password" value="">
                             <input type="hidden" name="old_password" id="old_password" value="{{ @$karyawan->password }}">
                             @if ($errors->has('password'))
@@ -46,9 +49,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control @error('nama') is-invalid  @enderror" id="nama"
+                            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
                                 name="nama" placeholder="Masukkan Nama"
                                 value="{{ old('nama') ? old('nama') : @$karyawan->nama }}">
                             @if ($errors->has('nama'))
@@ -57,9 +61,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="id_departemen">Departemen</label>
-                            <select class="custom-select rounded-0  @error('id_departemen') is-invalid  @enderror"
+                            <select class="custom-select rounded-0 @error('id_departemen') is-invalid @enderror"
                                 id="id_departemen" name="id_departemen">
                                 <option value="" selected="true" disabled>- Pilih Departemen -</option>
                                 @foreach ($departemen as $item)
@@ -75,9 +80,24 @@
                                 </div>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                            <label for="id_section">Section</label>
+                            <select class="custom-select rounded-0 @error('id_section') is-invalid @enderror"
+                                id="id_section" name="id_section">
+                                <option value="" selected="true" disabled>- Pilih Section -</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                            @if ($errors->has('id_section'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('id_section') }}
+                                </div>
+                            @endif
+                        </div>
+
                         <div class="form-group">
                             <label for="id_jabatan">Jabatan</label>
-                            <select class="custom-select rounded-0  @error('id_jabatan') is-invalid  @enderror"
+                            <select class="custom-select rounded-0 @error('id_jabatan') is-invalid @enderror"
                                 id="id_jabatan" name="id_jabatan">
                                 <option value="" selected="true" disabled>- Pilih Jabatan -</option>
                                 @foreach ($jabatan as $item)
@@ -93,9 +113,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="role">Role</label>
-                            <select class="custom-select rounded-0  @error('role') is-invalid  @enderror" id="role"
+                            <select class="custom-select rounded-0 @error('role') is-invalid @enderror" id="role"
                                 name="role">
                                 <option value="" selected="true" disabled>- Pilih Role -</option>
                                 <option {{ old('role', @$karyawan->role) == 'SuperAdmin' ? 'selected' : '' }}
@@ -120,9 +141,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin</label>
-                            <select class="custom-select rounded-0  @error('jenis_kelamin') is-invalid  @enderror"
+                            <select class="custom-select rounded-0 @error('jenis_kelamin') is-invalid @enderror"
                                 id="jenis_kelamin" name="jenis_kelamin">
                                 <option value="" selected="true" disabled>- Pilih Jenis Kelamin -</option>
                                 <option
@@ -140,9 +162,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="tempat_lahir">Tempat Lahir</label>
-                            <input type="text" class="form-control @error('tempat_lahir') is-invalid  @enderror"
+                            <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror"
                                 id="tempat_lahir" name="tempat_lahir" placeholder="Masukkan Tempat Lahir"
                                 value="{{ old('tempat_lahir') ? old('tempat_lahir') : @$karyawan->tempat_lahir }}">
                             @if ($errors->has('tempat_lahir'))
@@ -151,9 +174,10 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group">
                             <label for="tanggal_lahir">Tanggal Lahir</label>
-                            <input type="date" class="form-control @error('tanggal_lahir') is-invalid  @enderror"
+                            <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                 id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir"
                                 value="{{ old('tanggal_lahir') ? old('tanggal_lahir') : @$karyawan->tanggal_lahir }}">
                             @if ($errors->has('tanggal_lahir'))
@@ -162,6 +186,7 @@
                                 </div>
                             @endif
                         </div>
+
                         <div class="form-group mb-0" style="display: flex; justify-content:end">
                             <button type="submit" class="btn btn-md btn-primary">
                                 <i class="fas fa-save"></i> Simpan
@@ -172,4 +197,43 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const departemenSelect = document.getElementById('id_departemen');
+            const sectionSelect = document.getElementById('id_section');
+
+            // Function to update sections based on selected departemen
+            const updateSections = () => {
+                const departemenId = departemenSelect.value;
+                sectionSelect.innerHTML = '<option value="" selected="true" disabled>- Pilih Section -</option>'; // Reset section options
+
+                if (departemenId) {
+                    fetch(`/get-sections?departemen_id=${departemenId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.sections.forEach(section => {
+                                const option = document.createElement('option');
+                                option.value = section.id_section;
+                                option.text = section.nm_section;
+                                sectionSelect.add(option);
+                            });
+
+                            // Select the previously selected section if applicable
+                            const selectedSection = "{{ old('id_section', @$karyawan->id_section) }}";
+                            if (selectedSection) {
+                                sectionSelect.value = selectedSection;
+                            }
+                        });
+                }
+            };
+
+            // Add event listener to update sections when departemen changes
+            departemenSelect.addEventListener('change', updateSections);
+
+            // Initialize section options on page load if there is already a selected departemen
+            if (departemenSelect.value) {
+                updateSections();
+            }
+        });
+    </script>
 @endsection

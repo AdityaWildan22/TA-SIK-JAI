@@ -54,6 +54,11 @@
                     <td>{{ $karyawan->nm_jabatan }}</td>
                 </tr>
                 <tr>
+                    <td>Section</td>
+                    <td>:</td>
+                    <td>{{ $karyawan->nm_section }}</td>
+                </tr>
+                <tr>
                     <td>Role</td>
                     <td>:</td>
                     <td>{{ $karyawan->role }}</td>

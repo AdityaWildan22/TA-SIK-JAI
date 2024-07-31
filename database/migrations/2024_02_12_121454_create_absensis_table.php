@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nip',50);
             $table->string('nama',100);
             $table->integer('id_departemen');
+            $table->integer('id_section');
             $table->enum('jns_absen', ['Sakit', 'Izin' , 'Izin Khusus' , 'Cuti' , 'Cuti Melahirkan' , 'Cuti Haid' , 'Izin Terlambat Datang' , 'Izin Cepat Pulang' , 'Izin Keluar Sementara' ,'Dinas Luar']);
             $table->date('tgl_absen');
             $table->date('tgl_absen_akhir')->nullable();

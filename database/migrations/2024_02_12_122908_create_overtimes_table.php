@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nip',50);
             $table->string('nama',100);
             $table->integer('id_departemen');
+            $table->integer('id_section');
             $table->date('tgl_ovt');
             $table->time('jam_awal');
             $table->time('jam_akhir');

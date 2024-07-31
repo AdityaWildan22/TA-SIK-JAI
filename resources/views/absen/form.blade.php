@@ -60,23 +60,6 @@
                                     @endif
                                 </div>
                             @endif
-                            {{-- <div class="form-group">
-                                <label for="id_hr">Nama HR</label>
-                                <select name="id_hr" id="id_hr"
-                                    class="form-control @error('id_hr') is-invalid  @enderror">
-                                    <option value="" selected disabled="true">Pilih Nama HR</option>
-                                    @foreach ($hr as $item)
-                                        <option value="{{ $item->nip }}"
-                                            {{ (old('id_hr') ? old('id_hr') : @$absensi->id_hr) == $item->nip ? 'selected' : '' }}>
-                                            {{ $item->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('id_hr'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('id_hr') }}
-                                    </div>
-                                @endif
-                            </div> --}}
                             <div class="form-group">
                                 <label for="nip">NIP</label>
                                 <input type="number" class="form-control @error('nip') is-invalid  @enderror"
@@ -92,7 +75,7 @@
                                 <label for="nama">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid  @enderror"
                                     id="nama" name="nama" placeholder="Masukkan Nama"
-                                    value="{{ old('nama') ? old('nama') : @$absensi->nama }}">
+                                    value="{{ old('nama') ? old('nama') : @$absensi->nama }}" readonly>
                                 @if ($errors->has('nama'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('nama') }}
@@ -101,19 +84,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_departemen">Departemen</label>
-                                <select class="custom-select rounded-0  @error('id_departemen') is-invalid  @enderror"
-                                    id="id_departemen" name="id_departemen">
-                                    <option value="" selected="true" disabled>- Pilih Departemen -</option>
-                                    @foreach ($departemen as $item)
-                                        <option value="{{ $item->id_departemen }}"
-                                            {{ (old('id_departemen') ? old('id_departemen') : @$absensi->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
-                                            {{ $item->nm_dept }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control @error('id_departemen') is-invalid  @enderror"
+                                    id="id_departemen" name="id_departemen" placeholder="Departemen"
+                                    value="{{ old('id_departemen') ? old('id_departemen') : @$absensi->id_departemen }}" readonly>
                                 @if ($errors->has('id_departemen'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('id_departemen') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="id_section">Section</label>
+                                <input type="text" class="form-control @error('id_section') is-invalid  @enderror"
+                                    id="id_section" name="id_section" placeholder="Section"
+                                    value="{{ old('id_section') ? old('id_section') : @$absensi->id_section }}" readonly>
+                                @if ($errors->has('id_section'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('id_section') }}
                                     </div>
                                 @endif
                             </div>
@@ -219,18 +206,19 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var nipInput = document.getElementById('nip');
+            var namaInput = document.getElementById('nama');
+            var departemenInput = document.getElementById('id_departemen');
+            var sectionInput = document.getElementById('id_section');
             var jns_absen = document.getElementById('jns_absen');
             var tgl_absen_akhir = document.getElementById('tgl_absen_akhir');
 
-            // Tampilkan input tanggal absen akhir secara default saat halaman dimuat (untuk mode tambah baru)
             tgl_absen_akhir.style.display = 'block';
 
-            // Sembunyikan input tanggal absen akhir saat halaman dimuat jika jenis absensi bukan 'Cuti Melahirkan'
             if (jns_absen.value !== 'Cuti Melahirkan') {
                 tgl_absen_akhir.style.display = 'none';
             }
 
-            // Tampilkan atau sembunyikan input tanggal absen akhir berdasarkan pilihan jenis absensi
             jns_absen.addEventListener('change', function() {
                 if (this.value == 'Cuti Melahirkan') {
                     tgl_absen_akhir.style.display = 'block';
@@ -238,37 +226,33 @@
                     tgl_absen_akhir.style.display = 'none';
                 }
             });
-        });
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var jns_absen = document.getElementById('jns_absen');
-            var tgl_absen_label = document.getElementById('tgl_absen_label');
+            nipInput.addEventListener('input', function() {
+                var nip = nipInput.value;
 
-            jns_absen.addEventListener('change', function() {
-                var selectedOption = this.value;
-                var labelText = 'Tanggal Absen';
-
-                // Ubah nilai label jika jenis absensi adalah 'Cuti Melahirkan'
-                if (selectedOption === 'Cuti Melahirkan') {
-                    labelText += ' Awal';
+                if (nip) {
+                    fetch(`/get-karyawan-by-nip?nip=${nip}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data); // Debug: lihat struktur data yang diterima
+                            if (data.success && data.data) {
+                                namaInput.value = data.data.nama || '';
+                                departemenInput.value = data.data.nm_dept || '';
+                                sectionInput.value = data.data.nm_section || '';
+                            } else {
+                                namaInput.value = '';
+                                departemenInput.value = '';
+                                sectionInput.value = '';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching employee:', error);
+                        });
+                } else {
+                    namaInput.value = '';
+                    departemenInput.value = '';
+                    sectionInput.value = '';
                 }
-
-                // Setel nilai label
-                tgl_absen_label.textContent = labelText;
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var tgl_absen_akhir_input = document.getElementById('tgl_absen_akhir_input');
-
-            // Pasang Flatpickr pada elemen input tanggal absen akhir
-            flatpickr(tgl_absen_akhir_input, {
-                enableTime: false,
-                dateFormat: "Y-m-d",
-                locale: "id",
             });
         });
     </script>

@@ -7,6 +7,7 @@ use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ReportController;
 
@@ -39,9 +40,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/export-karyawan', [KaryawanController::class, 'export'])->name('export-karyawan');
 
+    Route::get('/get-sections', [KaryawanController::class, 'getSectionsByDepartemen']);
+
     // Route Departemen
     Route::resource('departemen', DepartemenController::class)->parameters([
         'departemen' => 'id_departemen',
+    ]);
+
+    // Route Section
+    Route::resource('section', SectionController::class)->parameters([
+        'section' => 'id_section',
     ]);
 
     // Route Jabatan
@@ -69,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/absensi/verify_hr/{id_absen}', [AbsensiController::class, 'verify_hr']);
 
+    Route::get('/get-karyawan-by-nip', [AbsensiController::class, 'getKaryawanByNip']);
+
     // Route Setting
     Route::get('/ubah-jumlah-cuti', [AbsensiController::class,'showFormUbahJumlahCuti'])->name('ubah-jumlah-cuti');
     Route::post('/update-jumlah-cuti', [AbsensiController::class,'updateJumlahCuti'])->name('update-jumlah-cuti');
@@ -87,6 +97,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/overtime/penolakan_spv/{id_ovt}', [OvertimeController::class, 'penolakan_spv']);
 
     Route::get('/overtime/verify_hr/{id_ovt}', [OvertimeController::class, 'verify_hr']);
+
+    Route::get('/get-karyawan-nip', [OvertimeController::class, 'getKaryawanNip']);
 
     // Route::get('/overtime/persetujuan_atasan/{id_ovt}', [OvertimeController::class, 'persetujuan_atasan']);
     // Route::get('/overtime/penolakan_atasan/{id_ovt}', [OvertimeController::class, 'penolakan_atasan']);

@@ -23,7 +23,8 @@ class KaryawanExport implements FromCollection, WithHeadings, WithStyles, Should
         return collect(DB::table('karyawans')
         ->join('departemens', 'karyawans.id_departemen', '=', 'departemens.id_departemen')
         ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
-        ->select('karyawans.nip','karyawans.nama', 'departemens.nm_dept', 'jabatans.nm_jabatan','karyawans.tempat_lahir','karyawans.tanggal_lahir','karyawans.jenis_kelamin')
+        ->join('sections','karyawans.id_section','=','sections.id_section')
+        ->select('karyawans.nip','karyawans.nama', 'departemens.nm_dept','sections.nm_section', 'jabatans.nm_jabatan','karyawans.tempat_lahir','karyawans.tanggal_lahir','karyawans.jenis_kelamin')
         ->get());
     }
 
@@ -33,6 +34,7 @@ class KaryawanExport implements FromCollection, WithHeadings, WithStyles, Should
             'NIP',
             'NAMA KARYAWAN',
             'DEPARTEMEN',
+            'SECTION',
             'JABATAN',
             'TEMPAT LAHIR',
             'TANGGAL LAHIR',
@@ -42,7 +44,7 @@ class KaryawanExport implements FromCollection, WithHeadings, WithStyles, Should
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:G1')->applyFromArray([
+        $sheet->getStyle('A1:H1')->applyFromArray([
             'font' => [
                 'bold' => true,
             ],
@@ -60,7 +62,7 @@ class KaryawanExport implements FromCollection, WithHeadings, WithStyles, Should
 
                 foreach ($data as $key => $row) {
                     if ($key > 0) {
-                        $data[$key][5] = date('d/m/Y', strtotime($row[5]));
+                        $data[$key][6] = date('d/m/Y', strtotime($row[6]));
                     }
                 }
 

@@ -300,4 +300,28 @@ class OvertimeController extends Controller
     {
         return Excel::download(new OvertimeExport, 'Data Overtime.xlsx');
     }
+
+    public function getKaryawanNip(Request $request)
+    {
+        $nip = $request->input('nip');
+        $karyawan = DB::table('karyawans')
+        ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('sections','karyawans.id_section','=','sections.id_section')
+        ->select('karyawans.*','departemens.nm_dept','sections.nm_section')
+        ->where('karyawans.nip', $nip)
+        ->first();
+
+        if ($karyawan) {
+            return response()->json([
+                'success' => true,
+                'data' => $karyawan
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Karyawan tidak ditemukan'
+            ]);
+        }
+    }
 }

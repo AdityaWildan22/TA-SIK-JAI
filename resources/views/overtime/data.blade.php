@@ -11,7 +11,7 @@
         </div>
     @endif
     <div class="card-shadow">
-        @if (Auth::user()->role == 'Staff' || Auth::user()->role == 'Admin')
+        @if (Auth::user()->role == 'Staff' || Auth::user()->role == 'Admin' || Auth::user()->role == "SuperAdmin")
             <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
                 <i class="fas fa-plus"> Tambah Data</i><br>
             </a>

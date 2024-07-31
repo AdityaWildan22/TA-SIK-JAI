@@ -72,7 +72,14 @@ $(function () {
         locale: "id",
     });
 
-    flatpickr("#jam", {
+    flatpickr("#jam_awal", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+    flatpickr("#jam_akhir", {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",

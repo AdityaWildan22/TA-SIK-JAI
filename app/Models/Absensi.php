@@ -17,6 +17,7 @@ class Absensi extends Model
         'nip',
         'nama',
         'id_departemen',
+        'id_section',
         'jns_absen',
         'tgl_absen',
         'tgl_absen_akhir',

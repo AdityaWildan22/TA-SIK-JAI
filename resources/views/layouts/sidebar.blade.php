@@ -60,6 +60,19 @@
                </li>
 
                <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo4"
+                    aria-expanded="true" aria-controls="collapseTwo1">
+                    <i class="fas fa-building"></i>
+                    <span>Data Section</span>
+                </a>
+                <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ url('/section') }}">Data Section</a>
+                    </div>
+                </div>
+            </li>
+
+               <li class="nav-item">
                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2"
                        aria-expanded="true" aria-controls="collapseTwo2">
                        <i class="fas fa-list"></i>
@@ -97,7 +110,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ url('/overtime') }}">Data Overtime</a>
-                        @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' || Auth::user()->jabatan->nm_jabatan == 'Staff')
+                        @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' || Auth::user()->jabatan->nm_jabatan == 'Staff' || Auth::user()->role == "SuperAdmin")
                             <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
                         @endif
                     </div>

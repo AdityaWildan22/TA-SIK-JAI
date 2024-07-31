@@ -28,7 +28,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Pengajuan Absensi</div>
+                                Total Pengajuan Absen</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_absensi }}</div>
                         </div>
                         <div class="col-auto">
@@ -58,7 +58,7 @@
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">
-            <h2 class="card-title mb-0" style="font-size: 20px">DATA ABSENSI</h2>
+            <h2 class="card-title mb-0" style="font-size: 20px">DATA ABSEN</h2>
         </div>
         <div class="card-body">
             <div class="table-responsive">

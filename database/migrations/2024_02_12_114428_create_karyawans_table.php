@@ -19,6 +19,7 @@ return new class extends Migration
             // $table->integer('nik');
             $table->string('nama',100);
             $table->integer('id_departemen');
+            $table->integer('id_section');
             $table->integer('id_jabatan');
             $table->string('tempat_lahir',25);
             $table->date('tanggal_lahir');

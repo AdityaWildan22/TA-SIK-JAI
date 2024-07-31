@@ -18,6 +18,7 @@ class Overtime extends Model
         'nip',
         'nama',
         'id_departemen',
+        'id_section',
         'tgl_ovt',
         'jam_awal',
         'jam_akhir',

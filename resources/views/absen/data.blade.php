@@ -21,7 +21,6 @@
         <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
             <i class="fas fa-plus"> Tambah Data</i><br>
         </a>
-{{Auth::user()->jabatan->nm_jabatan}}
         @if (Auth::user()->role == 'SuperAdmin')
             <a href="{{ route('export-absensi') }}" class="btn btn-success h-20 mb-3" style="margin-left:25px">
                 <i class="fas fa-file-excel"> Export Excel</i><br>

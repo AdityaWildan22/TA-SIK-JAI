@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
+use App\Models\Section;
 use App\Models\Karyawan;
 use App\Models\Departemen;
-use App\Models\Jabatan;
-use App\Http\Requests\StoreKaryawanRequest;
-use App\Http\Requests\UpdateKaryawanRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Exports\KaryawanExport;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\StoreKaryawanRequest;
+use App\Http\Requests\UpdateKaryawanRequest;
 
 class KaryawanController extends Controller
 {
@@ -49,7 +50,8 @@ class KaryawanController extends Controller
         ];
         $departemen = Departemen::All();
         $jabatan = Jabatan::All();
-        return view($this->view.'form',compact('routes','departemen','jabatan'));
+        $section = Section::All();
+        return view($this->view.'form',compact('routes','departemen','jabatan','section'));
     }
 
     /**
@@ -72,7 +74,8 @@ class KaryawanController extends Controller
         $karyawan = DB::table('karyawans')
         ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-        ->select('karyawans.*','departemens.nm_dept','jabatans.nm_jabatan')
+        ->join('sections','karyawans.id_section','=','sections.id_section')
+        ->select('karyawans.*','departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
         ->where('karyawans.id_karyawan', $id_karyawan)
         ->first();  
         return view($this->view . 'show', compact('karyawan'));
@@ -85,6 +88,7 @@ class KaryawanController extends Controller
     {
         $departemen = Departemen::All();
         $jabatan = Jabatan::All();
+        $section = Section::All();
         $karyawan = Karyawan::where('id_karyawan', $id_karyawan)->first();
         $routes = (object)[
             'index' => $this->route,
@@ -92,7 +96,7 @@ class KaryawanController extends Controller
             'is_update' => true,
         ];
 
-        return view($this->view . 'form', compact('routes','karyawan','departemen','jabatan'));
+        return view($this->view . 'form', compact('routes','karyawan','departemen','jabatan','section'));
     }
 
     /**
@@ -108,6 +112,7 @@ class KaryawanController extends Controller
         $karyawan->nama = $request->nama;
         $karyawan->id_departemen = $request->id_departemen;
         $karyawan->id_jabatan = $request->id_jabatan;
+        $karyawan->id_section = $request->id_section;
         $karyawan->role = $request->role;
         $karyawan->tempat_lahir = $request->tempat_lahir;
         $karyawan->tanggal_lahir = $request->tanggal_lahir;
@@ -164,4 +169,16 @@ class KaryawanController extends Controller
         // dd($data->collection(), $data->headings());
         return Excel::download(new KaryawanExport, 'Data Karyawan.xlsx');
     }
+
+        public function getSectionsByDepartemen(Request $request)
+    {
+        $departemenId = $request->query('departemen_id');
+        
+        $sections = Section::where('id_departemen', $departemenId)->get(['id_section', 'nm_section']);
+        
+        return response()->json([
+            'sections' => $sections
+        ]);
+    }
+
 }

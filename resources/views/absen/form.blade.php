@@ -1,6 +1,13 @@
 @extends('layouts.template')
 @section('judul', 'Form Absensi')
 @section('content')
+<style>
+    .select-readonly {
+        pointer-events: none;
+        background-color: #e9ecef;
+    }
+</style>
+
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -26,7 +33,7 @@
                                 <div class="form-group">
                                     <label for="id_manager">Nama Manager</label>
                                     <select name="id_manager" id="id_manager"
-                                        class="form-control @error('id_manager') is-invalid  @enderror">
+                                        class="form-control @error('id_manager') is-invalid @enderror">
                                         <option value="" selected disabled="true">Pilih Nama Manager</option>
                                         @foreach ($manager as $item)
                                             <option value="{{ $item->nip }}"
@@ -45,7 +52,7 @@
                                 <div class="form-group">
                                     <label for="id_spv">Nama SPV</label>
                                     <select name="id_spv" id="id_spv"
-                                        class="form-control @error('id_spv') is-invalid  @enderror">
+                                        class="form-control @error('id_spv') is-invalid @enderror">
                                         <option value="" selected disabled="true">Pilih Nama SPV</option>
                                         @foreach ($spv as $item)
                                             <option value="{{ $item->nip }}"
@@ -62,7 +69,7 @@
                             @endif
                             <div class="form-group">
                                 <label for="nip">NIP</label>
-                                <input type="number" class="form-control @error('nip') is-invalid  @enderror"
+                                <input type="number" class="form-control @error('nip') is-invalid @enderror"
                                     id="nip" name="nip" placeholder="Masukkan NIP"
                                     value="{{ old('nip') ? old('nip') : @$absensi->nip }}">
                                 @if ($errors->has('nip'))
@@ -73,7 +80,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
-                                <input type="text" class="form-control @error('nama') is-invalid  @enderror"
+                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" name="nama" placeholder="Masukkan Nama"
                                     value="{{ old('nama') ? old('nama') : @$absensi->nama }}" readonly>
                                 @if ($errors->has('nama'))
@@ -84,9 +91,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_departemen">Departemen</label>
-                                <input type="text" class="form-control @error('id_departemen') is-invalid  @enderror"
-                                    id="id_departemen" name="id_departemen" placeholder="Departemen"
-                                    value="{{ old('id_departemen') ? old('id_departemen') : @$absensi->id_departemen }}" readonly>
+                                <select class="custom-select rounded-0 select-readonly @error('id_departemen') is-invalid @enderror"
+                                    id="id_departemen" name="id_departemen">
+                                    <option value="" selected disabled>- Pilih Departemen -</option>
+                                    @foreach ($departemen as $item)
+                                        <option value="{{ $item->id_departemen }}"
+                                            {{ (old('id_departemen') ? old('id_departemen') : @$absensi->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
+                                            {{ $item->nm_dept }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('id_departemen'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('id_departemen') }}
@@ -95,9 +109,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_section">Section</label>
-                                <input type="text" class="form-control @error('id_section') is-invalid  @enderror"
-                                    id="id_section" name="id_section" placeholder="Section"
-                                    value="{{ old('id_section') ? old('id_section') : @$absensi->id_section }}" readonly>
+                                <select class="custom-select rounded-0 select-readonly @error('id_section') is-invalid @enderror"
+                                    id="id_section" name="id_section">
+                                    <option value="" selected disabled>- Pilih Section -</option>
+                                    @foreach ($section as $item)
+                                        <option value="{{ $item->id_section }}"
+                                            {{ (old('id_section') ? old('id_section') : @$absensi->id_section) == $item->id_section ? 'selected' : '' }}>
+                                            {{ $item->nm_section }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('id_section'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('id_section') }}
@@ -106,9 +127,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="jns_absen">Jenis Absensi</label>
-                                <select class="custom-select rounded-0  @error('jns_absen') is-invalid  @enderror"
+                                <select class="custom-select rounded-0 @error('jns_absen') is-invalid @enderror"
                                     id="jns_absen" name="jns_absen">
-                                    <option value="" selected="true" disabled>- Pilih Absensi -</option>
+                                    <option value="" selected disabled>- Pilih Absensi -</option>
                                     <option {{ old('jns_absen', @$absensi->jns_absen) == 'Sakit' ? 'selected' : '' }}
                                         value="Sakit">Sakit
                                     </option>
@@ -160,7 +181,7 @@
                             <div class="form-group">
                                 <label id="tgl_absen_label" for="tgl_absen">Tanggal Absen</label>
                                 <input type="date"
-                                    class="form-control form-control @error('tgl_absen') is-invalid  @enderror"
+                                    class="form-control form-control @error('tgl_absen') is-invalid @enderror"
                                     id="tgl_absen" name="tgl_absen" placeholder="Masukkan Tanggal Absen"
                                     value="{{ old('tgl_absen') ? old('tgl_absen') : @$absensi->tgl_absen }}">
                                 @if ($errors->has('tgl_absen'))
@@ -172,7 +193,7 @@
                             <div class="form-group" id="tgl_absen_akhir">
                                 <label for="tgl_absen_akhir">Tanggal Absen Akhir</label>
                                 <input type="date"
-                                    class="form-control form-control @error('tgl_absen_akhir') is-invalid  @enderror"
+                                    class="form-control form-control @error('tgl_absen_akhir') is-invalid @enderror"
                                     id="tgl_absen_akhir_input" name="tgl_absen_akhir"
                                     placeholder="Masukkan Tanggal Absen"
                                     value="{{ old('tgl_absen_akhir') ? old('tgl_absen_akhir') : @$absensi->tgl_absen_akhir }}">
@@ -184,7 +205,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="ket">Keterangan</label>
-                                <input type="text" class="form-control @error('ket') is-invalid  @enderror"
+                                <input type="text" class="form-control @error('ket') is-invalid @enderror"
                                     id="ket" name="ket" placeholder="Masukkan Keterangan"
                                     value="{{ old('ket') ? old('ket') : @$absensi->ket }}">
                                 @if ($errors->has('ket'))
@@ -208,8 +229,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             var nipInput = document.getElementById('nip');
             var namaInput = document.getElementById('nama');
-            var departemenInput = document.getElementById('id_departemen');
-            var sectionInput = document.getElementById('id_section');
+            var departemenSelect = document.getElementById('id_departemen');
+            var sectionSelect = document.getElementById('id_section');
             var jns_absen = document.getElementById('jns_absen');
             var tgl_absen_akhir = document.getElementById('tgl_absen_akhir');
 
@@ -237,12 +258,12 @@
                             console.log(data); // Debug: lihat struktur data yang diterima
                             if (data.success && data.data) {
                                 namaInput.value = data.data.nama || '';
-                                departemenInput.value = data.data.nm_dept || '';
-                                sectionInput.value = data.data.nm_section || '';
+                                departemenSelect.value = data.data.id_departemen || '';
+                                sectionSelect.value = data.data.id_section || '';
                             } else {
                                 namaInput.value = '';
-                                departemenInput.value = '';
-                                sectionInput.value = '';
+                                departemenSelect.value = '';
+                                sectionSelect.value = '';
                             }
                         })
                         .catch(error => {
@@ -250,8 +271,8 @@
                         });
                 } else {
                     namaInput.value = '';
-                    departemenInput.value = '';
-                    sectionInput.value = '';
+                    departemenSelect.value = '';
+                    sectionSelect.value = '';
                 }
             });
         });

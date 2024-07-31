@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Overtime;
-use App\Models\Karyawan;
-use App\Models\Departemen;
-use App\Http\Requests\StoreOvertimeRequest;
-use App\Http\Requests\UpdateOvertimeRequest;
 use Carbon\Carbon;
+use App\Models\Section;
+use App\Models\Karyawan;
+use App\Models\Overtime;
+use App\Models\Departemen;
+use App\Exports\OvertimeExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Exports\OvertimeExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\StoreOvertimeRequest;
+use App\Http\Requests\UpdateOvertimeRequest;
 
 class OvertimeController extends Controller
 {
@@ -91,8 +92,10 @@ class OvertimeController extends Controller
         
         $departemen = Departemen::All();
 
+        $section = Section::All();
 
-        return view($this->view.'form',compact('routes','manager','spv','departemen','hr'));
+
+        return view($this->view.'form',compact('routes','manager','spv','departemen','hr','section'));
     }
 
     /**
@@ -178,8 +181,9 @@ class OvertimeController extends Controller
         ->get();
         
         $departemen = Departemen::All();
+        $section = Section::All();
 
-        return view($this->view . 'form', compact('routes','overtime','spv', 'manager','departemen','hr'));
+        return view($this->view . 'form', compact('routes','overtime','spv', 'manager','departemen','hr','section'));
     }
 
     /**

@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Absensi;
+use App\Models\Section;
 use App\Models\Karyawan;
 use App\Models\Departemen;
-use App\Controller\KaryawanController;
-use App\Http\Requests\StoreAbsensiRequest;
-use App\Http\Requests\UpdateAbsensiRequest;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Exports\AbsensiExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use App\Exports\AbsensiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Controller\KaryawanController;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreAbsensiRequest;
+use App\Http\Requests\UpdateAbsensiRequest;
 
 class AbsensiController extends Controller
 {
@@ -91,8 +92,9 @@ class AbsensiController extends Controller
         ->get();
         
         $departemen = Departemen::All();
+        $section = Section::All();
 
-        return view($this->view.'form',compact('routes','spv','manager','hr','departemen'));
+        return view($this->view.'form',compact('routes','spv','manager','hr','departemen','section'));
     }
 
     /**
@@ -196,8 +198,9 @@ class AbsensiController extends Controller
         ->get();
 
         $departemen = Departemen::All();
+        $section = Section::All();
 
-        return view($this->view . 'form', compact('routes','absensi','spv', 'manager','departemen','hr'));
+        return view($this->view . 'form', compact('routes','absensi','spv', 'manager','departemen','hr','section'));
     }
 
     /**

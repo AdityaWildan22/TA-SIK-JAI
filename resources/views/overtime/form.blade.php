@@ -1,6 +1,12 @@
 @extends('layouts.template')
 @section('judul', 'Form Overtime')
 @section('content')
+<style>
+    .select-readonly {
+        pointer-events: none;
+        background-color: #e9ecef;
+    }
+</style>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mb-3">
@@ -76,9 +82,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_departemen">Departemen</label>
-                                <input type="text" class="form-control @error('id_departemen') is-invalid @enderror"
-                                    id="id_departemen" name="id_departemen" placeholder="Departemen"
-                                    value="{{ old('id_departemen') ? old('id_departemen') : @$overtime->nm_dept }}" readonly>
+                                <select class="custom-select rounded-0 select-readonly @error('id_departemen') is-invalid @enderror"
+                                    id="id_departemen" name="id_departemen">
+                                    <option value="" selected="true" disabled>- Pilih Departemen -</option>
+                                    @foreach ($departemen as $item)
+                                        <option value="{{ $item->id_departemen }}"
+                                            {{ (old('id_departemen') ? old('id_departemen') : @$overtime->id_departemen) == $item->id_departemen ? 'selected' : '' }}>
+                                            {{ $item->nm_dept }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('id_departemen'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('id_departemen') }}
@@ -87,9 +100,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_section">Section</label>
-                                <input type="text" class="form-control @error('id_section') is-invalid @enderror"
-                                    id="id_section" name="id_section" placeholder="Section"
-                                    value="{{ old('id_section') ? old('id_section') : @$overtime->nm_section }}" readonly>
+                                <select class="custom-select rounded-0 select-readonly @error('id_section') is-invalid @enderror"
+                                    id="id_section" name="id_section">
+                                    <option value="" selected="true" disabled>- Pilih Section -</option>
+                                    @foreach ($section as $item)
+                                        <option value="{{ $item->id_section }}"
+                                            {{ (old('id_section') ? old('id_section') : @$overtime->id_section) == $item->id_section ? 'selected' : '' }}>
+                                            {{ $item->nm_section }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('id_section'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('id_section') }}
@@ -155,8 +175,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             var nipInput = document.getElementById('nip');
             var namaInput = document.getElementById('nama');
-            var departemenInput = document.getElementById('id_departemen');
-            var sectionInput = document.getElementById('id_section');
+            var departemenSelect = document.getElementById('id_departemen');
+            var sectionSelect = document.getElementById('id_section');
 
             nipInput.addEventListener('input', function() {
                 var nip = nipInput.value;
@@ -167,12 +187,12 @@
                         .then(data => {
                             if (data.success && data.data) {
                                 namaInput.value = data.data.nama;
-                                departemenInput.value = data.data.nm_dept;
-                                sectionInput.value = data.data.nm_section;
+                                departemenSelect.value = data.data.id_departemen;
+                                sectionSelect.value = data.data.id_section;
                             } else {
                                 namaInput.value = '';
-                                departemenInput.value = '';
-                                sectionInput.value = '';
+                                departemenSelect.value = '';
+                                sectionSelect.value = '';
                             }
                         })
                         .catch(error => {
@@ -180,8 +200,8 @@
                         });
                 } else {
                     namaInput.value = '';
-                    departemenInput.value = '';
-                    sectionInput.value = '';
+                    departemenSelect.value = '';
+                    sectionSelect.value = '';
                 }
             });
         });

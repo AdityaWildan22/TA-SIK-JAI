@@ -17,6 +17,11 @@
     }
 </style>
 @section('content')
+    <div class="card-shadow">
+        <a href="{{ url('/overtime') }}" class="btn btn-lg btn-primary h-20 mb-3" style="margin-left:25px">
+            <i class="fas fa-arrow-left"> Kembali</i><br>
+        </a>
+    </div>
     <div class="card">
         <div class="card-header bg-primary">
             <h2 class="card-title mb-0" style="font-size: 25px; color:#fff">DATA DETAIL OVERTIME
@@ -37,11 +42,6 @@
                         <td>{{ $spv->nama }}</td>
                     </tr>
                 @endif
-                <tr>
-                    <td>Nama HR</td>
-                    <td>:</td>
-                    <td>{{ $hr->nama }}</td>
-                </tr>
                 <tr>
                     <td>NIP</td>
                     <td>:</td>

@@ -184,13 +184,16 @@
                     <tr>
                         <th rowspan="2">No.</th>
                         <th rowspan="2">TGL ABSEN</th>
-                        <th colspan="10">JENIS MENINGGALKAN PEKERJAAN</th>
+                        <th colspan="14">JENIS MENINGGALKAN PEKERJAAN</th>
                         <th rowspan="2">KETERANGAN</th>
                     </tr>
                     <tr>
+                        <th>SD</th>
+                        <th>SO</th>
                         <th>S</th>
                         <th>I</th>
                         <th>IK</th>
+                        <th>TK</th>
                         <th>C</th>
                         <th>CK</th>
                         <th>CH</th>
@@ -198,6 +201,7 @@
                         <th>ICP</th>
                         <th>IKS</th>
                         <th>DL</th>
+                        <th>CLT</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,7 +209,7 @@
                         <tr>
                             <td style="text-align: center">{{ $loop->iteration }}</td>
                             <td>{{ Carbon\Carbon::parse($absen->tgl_absen)->format('d-m-Y') }}</td>
-                            @foreach (['Sakit', 'Izin', 'Izin Khusus', 'Cuti', 'Cuti Melahirkan', 'Cuti Haid', 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara', 'Dinas Luar'] as $absensiType)
+                            @foreach (['Sakit Dengan Surat Dokter', 'Sakit Dengan Opname', 'Sakit', 'Izin', 'Izin Khusus', 'Tanpa Keterangan', 'Cuti', 'Cuti Kelahiran/Keguguran', 'Cuti Haid', 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara', 'Dinas Luar', 'Cuti Luar Tanggungan'] as $absensiType)
                                 <td style="text-align: center">
                                     @if ($absen->jns_absen == $absensiType)
                                         <i class="fas fa-check"></i>

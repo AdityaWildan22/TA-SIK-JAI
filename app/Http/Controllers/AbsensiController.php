@@ -117,9 +117,17 @@ class AbsensiController extends Controller
                 return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
             }
         }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = $file->store('public/lampiran_foto');
+            $filePath = Storage::url($path);
+        }
     
         // Jika jumlah cuti belum mencapai batas, simpan data absensi
         $request["status_pengajuan"] = "Diproses";
+        $request["foto"] = $filePath;
+        
         if ($jumlahCuti < $batasCuti) {
             Absensi::create($request->all());
             return redirect($this->route)->with('success', 'DATA BERHASIL DISIMPAN');
@@ -308,7 +316,7 @@ class AbsensiController extends Controller
         ->get();
 
         $absensiCutiWanita = Absensi::where('nip', $nip)
-        ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Melahirkan']) // Menggunakan whereIn untuk mencakup kedua jenis absensi
+        ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Kelahiran/Keguguran'])
         ->whereYear('tgl_absen', $tahunIni)
         ->where('absensis.status_pengajuan','Diterima')
         ->get();

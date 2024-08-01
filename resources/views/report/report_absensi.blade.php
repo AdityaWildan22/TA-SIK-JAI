@@ -94,10 +94,11 @@
         <div class="garis-bawah"></div>
     </div>
     @if (@$tgl_awal != '')
-        <h3><strong>LAPORAN DATA ABSENSI PERIODE {{ Carbon\Carbon::parse($tgl_awal)->format('d/m/Y') }} -
+        <h3 style="text-align: center"><strong>LAPORAN DATA ABSENSI PERIODE
+                {{ Carbon\Carbon::parse($tgl_awal)->format('d/m/Y') }} -
                 {{ Carbon\Carbon::parse($tgl_akhir)->format('d/m/Y') }}</strong></h3>
     @elseif(@$tgl_awal == '')
-        <h3><strong>LAPORAN SELURUH DATA ABSENSI</strong></h3>
+        <h3 style="text-align: center"><strong>LAPORAN SELURUH DATA ABSENSI</strong></h3>
     @endif
     <table id="data" width="100%">
         <thead>
@@ -107,13 +108,16 @@
                 <th rowspan="2">NAMA</th>
                 <th rowspan="2">DEPARTEMEN</th>
                 <th rowspan="2">JABATAN</th>
-                <th colspan="10">JENIS MENINGGALKAN PEKERJAAN</th>
+                <th colspan="14">JENIS MENINGGALKAN PEKERJAAN</th>
                 <th rowspan="2">TOTAL ABSENSI</th>
             </tr>
             <tr>
+                <th>SD</th>
+                <th>SO</th>
                 <th>S</th>
                 <th>I</th>
                 <th>IK</th>
+                <th>TK</th>
                 <th>C</th>
                 <th>CK</th>
                 <th>CH</th>
@@ -121,6 +125,7 @@
                 <th>ICP</th>
                 <th>IKS</th>
                 <th>DL</th>
+                <th>CLT</th>
             </tr>
         </thead>
         <tbody>
@@ -131,9 +136,12 @@
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->nm_dept }}</td>
                     <td>{{ $item->nm_jabatan }}</td>
+                    <td>{{ $item->jumlah_SD }}</td>
+                    <td>{{ $item->jumlah_SO }}</td>
                     <td>{{ $item->jumlah_S }}</td>
                     <td>{{ $item->jumlah_I }}</td>
                     <td>{{ $item->jumlah_IK }}</td>
+                    <td>{{ $item->jumlah_TK }}</td>
                     <td>{{ $item->jumlah_C }}</td>
                     <td>{{ $item->jumlah_CK }}</td>
                     <td>{{ $item->jumlah_CH }}</td>
@@ -141,6 +149,7 @@
                     <td>{{ $item->jumlah_ICP }}</td>
                     <td>{{ $item->jumlah_IKS }}</td>
                     <td>{{ $item->jumlah_DL }}</td>
+                    <td>{{ $item->jumlah_CLT }}</td>
                     <td>{{ $item->total_absensi }}</td>
                 </tr>
             @endforeach

@@ -20,13 +20,16 @@ return new class extends Migration
             $table->string('nama',100);
             $table->integer('id_departemen');
             $table->integer('id_section');
-            $table->enum('jns_absen', ['Sakit', 'Izin' , 'Izin Khusus' , 'Cuti' , 'Cuti Melahirkan' , 'Cuti Haid' , 'Izin Terlambat Datang' , 'Izin Cepat Pulang' , 'Izin Keluar Sementara' ,'Dinas Luar']);
+            $table->enum('jns_absen', ['Sakit Dengan Surat Dokter','Sakit Dengan Opname','Sakit', 'Izin' , 'Izin Khusus' ,'Tanpa Keterangan', 'Cuti' , 'Cuti Kelahiran/Keguguran' , 'Cuti Haid' , 'Izin Terlambat Datang' , 'Izin Cepat Pulang' , 'Izin Keluar Sementara' ,'Dinas Luar','Cuti Luar Tanggungan']);
             $table->date('tgl_absen');
             $table->date('tgl_absen_akhir')->nullable();
+            $table->time('jam_awal')->nullable();
+            $table->time('jam_akhir')->nullable();
             $table->mediumText('ket')->nullable();
             $table->dateTime('tgl_persetujuan_spv')->nullable();
             $table->dateTime('tgl_persetujuan_manager')->nullable();
             $table->enum('status_pengajuan', ['Diproses','Pending','Diterima','Ditolak']);
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

@@ -22,7 +22,7 @@ class StoreDepartemenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nm_dept"=>"required",
+            "nm_dept"=>"required|unique:departemens",
         ];
     }
 
@@ -30,6 +30,7 @@ class StoreDepartemenRequest extends FormRequest
     {
         return [
             'nm_dept.required'=>'Nama Departemen Harus Diisi',
+            'nm_dept.unique'=>'Nama Departemen Sudah Ada',
         ];
     }
 }

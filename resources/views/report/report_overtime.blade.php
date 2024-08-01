@@ -94,10 +94,11 @@
         <div class="garis-bawah"></div>
     </div>
     @if (@$tgl_awal != '')
-        <h3><strong>LAPORAN DATA OVERTIME PERIODE {{ Carbon\Carbon::parse($tgl_awal)->format('d/m/Y') }} -
+        <h3 style="text-align: center"><strong>LAPORAN DATA OVERTIME PERIODE
+                {{ Carbon\Carbon::parse($tgl_awal)->format('d/m/Y') }} -
                 {{ Carbon\Carbon::parse($tgl_akhir)->format('d/m/Y') }}</strong></h3>
     @elseif(@$tgl_awal == '')
-        <h3><strong>LAPORAN SELURUH DATA OVERTIME</strong></h3>
+        <h3 style="text-align: center"><strong>LAPORAN SELURUH DATA OVERTIME</strong></h3>
     @endif
     <table id="data" width="100%">
         <thead>

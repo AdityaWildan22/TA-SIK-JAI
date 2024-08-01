@@ -22,7 +22,7 @@ class StoreJabatanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nm_jabatan"=>"required"
+            "nm_jabatan"=>"required|unique:jabatans"
         ];
     }
 
@@ -30,6 +30,7 @@ class StoreJabatanRequest extends FormRequest
     {
         return [
             'nm_jabatan.required'=>'Nama Jabatan Harus Diisi',
+            'nm_jabatan.unique'=>'Nama Jabatan Sudah Ada',
         ];
     }
 }

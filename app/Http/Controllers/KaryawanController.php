@@ -34,7 +34,7 @@ class KaryawanController extends Controller
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
         ->select('karyawans.*','departemens.nm_dept','jabatans.nm_jabatan')
         ->get();
-
+        // dd($karyawan);
         return view($this->view.'data',compact('routes','karyawan'));
     }
 

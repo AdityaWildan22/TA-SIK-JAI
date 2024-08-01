@@ -31,10 +31,11 @@ class OvertimeController extends Controller
         ->select('overtimes.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
     
         // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
-        if ($user->role === 'Staff') {
+        if ($user->role ==='Staff') {
             $overtime->where('overtimes.nip', $user->nip);
-        }else if($user->role === 'SPV' || $user->role === 'Manager'){
+        }else if($user->role ==='SPV' || $user->role ==='Manager'){
             $overtime->where('overtimes.id_departemen',$user->id_departemen);
+            // dd($overtime);
         }
     
         $overtime = $overtime->get();

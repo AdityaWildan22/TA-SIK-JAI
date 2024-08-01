@@ -21,10 +21,13 @@ class Absensi extends Model
         'jns_absen',
         'tgl_absen',
         'tgl_absen_akhir',
+        'jam_awal',
+        'jam_akhir',
         'ket',
         'tgl_persetujuan_spv',
         'tgl_persetujuan_manager',
         'status_pengajuan',
+        'foto',
     ];
 
     public function departemen()

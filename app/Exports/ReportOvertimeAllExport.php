@@ -3,12 +3,13 @@
 namespace App\Exports;
 
 use App\Models\Overtime;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -20,6 +21,7 @@ class ReportOvertimeAllExport implements FromCollection, WithHeadings, WithStyle
     */
     public function collection()
     {
+        if (Auth::user()->role == "SuperAdmin") {
         return collect(DB::table('overtimes')
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
@@ -29,6 +31,18 @@ class ReportOvertimeAllExport implements FromCollection, WithHeadings, WithStyle
             ->where('status_pengajuan','Diterima')
             ->groupBy('overtimes.nip')
             ->get());
+        }else{
+            return collect(DB::table('overtimes')
+            ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+            ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
+            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan')
+            ->selectRaw('COUNT(*) AS total_overtime')
+            ->where('status_pengajuan','Diterima')
+            ->where('departemens.id_departemen', Auth::user()->id_departemen)
+            ->groupBy('overtimes.nip')
+            ->get());
+        }
     }
 
     public function headings(): array

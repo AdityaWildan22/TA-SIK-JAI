@@ -112,11 +112,11 @@ $(function () {
 
     // Foto click
     $("#avatar").click(function () {
-        $("#foto_ttd").click();
+        $("#file").click();
     });
 
     // Ketika file input change
-    $("#foto_ttd").change(function () {
+    $("#file").change(function () {
      setImage(this, "#avatar");
     });
 });

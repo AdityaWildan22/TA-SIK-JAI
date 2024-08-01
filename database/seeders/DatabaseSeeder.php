@@ -32,6 +32,20 @@ class DatabaseSeeder extends Seeder
             'jenis_kelamin' => 'Laki-laki',
         ]);
 
+        Karyawan::create([
+            'nip' => 112233,
+            'username' => 'Aisyah',
+            'password' => Hash::make(112233),
+            'nama' => 'Aisyah',
+            'id_departemen' => 1,
+            'id_jabatan' => 1,
+            'id_section' => 1,
+            'role' => 'Staff',
+            'tempat_lahir' => 'Nganjuk',
+            'tanggal_lahir' => Carbon::now(),
+            'jenis_kelamin' => 'Perempuan',
+        ]);
+
         
         Jabatan::create([
             'nm_jabatan' => 'Manager',

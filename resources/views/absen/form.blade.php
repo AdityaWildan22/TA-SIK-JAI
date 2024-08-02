@@ -17,16 +17,19 @@
         </div>
     @endif
 
-    <form action="{{ url($routes->save) }}" method="POST" enctype="multipart/form-data">
+    <form id="absen-form" action="{{ url($routes->save) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if ($routes->is_update)
             @method('PUT')
         @endif
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-4" id="absen-photo-container">
                 <img id="avatar" src="{{ @$absen->foto ? asset(@$absen->foto) : asset('img/no-images.jpg') }}"
-                    alt="Lampiran Foto" class="img-thumbnail">
-                <input type="file" class="file" name="file" id="file" style="display:none">
+                    alt="Lampiran Foto" class="img-thumbnail mb-3">
+                <input type="file" class="file" name="file" id="file"
+                    style="visibility:hidden; position:absolute;">
+
+                <div id="file-error" class="hidden" style="color: red;">Lampiran file harus diisi</div>
             </div>
             <div class="col-md-8">
                 <div class="card mb-3">
@@ -274,58 +277,80 @@
     </form>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Mendapatkan elemen
+            var fileInput = document.getElementById('file');
+            var fileError = document.getElementById('file-error');
             var nipInput = document.getElementById('nip');
             var namaInput = document.getElementById('nama');
             var departemenSelect = document.getElementById('id_departemen');
             var sectionSelect = document.getElementById('id_section');
-            var jns_absen = document.getElementById('jns_absen');
-            var tgl_absen_akhir = document.getElementById('tgl_absen_akhir');
-            var tgl_absen_label = document.getElementById('tgl_absen_label');
-            var jam_awal = document.getElementById('jam_awal');
-            var jam_akhir = document.getElementById('jam_akhir');
+            var jnsAbsen = document.getElementById('jns_absen');
+            var tglAbsenAkhir = document.getElementById('tgl_absen_akhir');
+            var tglAbsenLabel = document.getElementById('tgl_absen_label');
+            var jamAwal = document.getElementById('jam_awal');
+            var jamAkhir = document.getElementById('jam_akhir');
+            var absenPhotoContainer = document.getElementById('absen-photo-container');
 
-            tgl_absen_akhir.style.display = 'block';
-            jam_awal.style.display = 'block';
-            jam_akhir.style.display = 'block';
+            // Initial hiding of elements
+            tglAbsenAkhir.style.display = 'none';
+            jamAwal.style.display = 'none';
+            jamAkhir.style.display = 'none';
+            absenPhotoContainer.style.display = 'none';
+            fileError.style.display = 'none';
 
+            // Define constants for different types of absences
             const jenisAbsenPerluTanggal = [
                 'Sakit Dengan Surat Dokter', 'Cuti Melahirkan', 'Sakit Dengan Opname', 'Sakit', 'Izin',
-                'Izin Khusus',
-                'Tanpa Keterangan', 'Cuti', 'Cuti Kelahiran/Keguguran', 'Cuti Haid', 'Dinas Luar',
-                'Cuti Luar Tanggungan'
+                'Izin Khusus', 'Tanpa Keterangan', 'Cuti', 'Cuti Kelahiran/Keguguran', 'Cuti Haid',
+                'Dinas Luar', 'Cuti Luar Tanggungan'
             ];
 
             const jenisAbsenPerluWaktu = [
                 'Izin Terlambat Datang', 'Izin Cepat Pulang', 'Izin Keluar Sementara'
             ];
 
-            if (!jenisAbsenPerluTanggal.includes(jns_absen.value)) {
-                tgl_absen_akhir.style.display = 'none';
-            }
+            const jenisAbsenPerluFile = [
+                'Sakit Dengan Surat Dokter', 'Sakit Dengan Opname', 'Izin Khusus',
+                'Cuti Kelahiran/Keguguran', 'Cuti Luar Tanggungan'
+            ];
 
-            jns_absen.addEventListener('change', function() {
-                if (jenisAbsenPerluTanggal.includes(this.value)) {
-                    tgl_absen_akhir.style.display = 'block';
+            // Handle change event on jenis absensi
+            jnsAbsen.addEventListener('change', function() {
+                var selectedOption = this.value;
+                var labelText = 'Tanggal Absen';
+
+                // Display elements based on selected absensi type
+                if (jenisAbsenPerluTanggal.includes(selectedOption)) {
+                    tglAbsenAkhir.style.display = 'block';
+                    labelText += ' Awal';
                 } else {
-                    tgl_absen_akhir.style.display = 'none';
+                    tglAbsenAkhir.style.display = 'none';
                 }
+
+                if (jenisAbsenPerluWaktu.includes(selectedOption)) {
+                    jamAwal.style.display = 'block';
+                    jamAkhir.style.display = 'block';
+                } else {
+                    jamAwal.style.display = 'none';
+                    jamAkhir.style.display = 'none';
+                }
+
+                if (jenisAbsenPerluFile.includes(selectedOption)) {
+                    absenPhotoContainer.style.display = 'block';
+                    fileInput.style.visibility = 'visible'; // Make input file visible
+                    fileInput.style.position = 'static'; // Ensure input is in normal layout
+                    fileInput.required = true; // Set file input as required
+                } else {
+                    absenPhotoContainer.style.display = 'none';
+                    fileInput.style.visibility = 'hidden'; // Hide input file
+                    fileInput.style.position = 'absolute'; // Keep input file out of view
+                    fileInput.required = false; // Remove required attribute
+                }
+
+                tglAbsenLabel.textContent = labelText;
             });
 
-            if (!jenisAbsenPerluWaktu.includes(jns_absen.value)) {
-                jam_awal.style.display = 'none';
-                jam_akhir.style.display = 'none';
-            }
-
-            jns_absen.addEventListener('change', function() {
-                if (jenisAbsenPerluWaktu.includes(this.value)) {
-                    jam_awal.style.display = 'block';
-                    jam_akhir.style.display = 'block';
-                } else {
-                    jam_awal.style.display = 'none';
-                    jam_akhir.style.display = 'none';
-                }
-            });
-
+            // Handle NIP input to fetch employee details
             nipInput.addEventListener('input', function() {
                 var nip = nipInput.value;
 
@@ -333,7 +358,6 @@
                     fetch(`/get-karyawan-by-nip?nip=${nip}`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             if (data.success && data.data) {
                                 namaInput.value = data.data.nama || '';
                                 departemenSelect.value = data.data.id_departemen || '';
@@ -354,21 +378,24 @@
                 }
             });
 
-            jns_absen.addEventListener('change', function() {
-                var selectedOption = this.value;
-                var labelText = 'Tanggal Absen';
-
-                if (jenisAbsenPerluTanggal.includes(selectedOption)) {
-                    labelText += ' Awal';
-                }
-
-                tgl_absen_label.textContent = labelText;
-            });
-            flatpickr(tgl_absen_akhir_input, {
+            // Initialize flatpickr for date input
+            flatpickr('#tgl_absen_akhir_input', {
                 enableTime: false,
                 dateFormat: "Y-m-d",
                 locale: "id",
             });
+
+            // Handle form submission to check for file input validation
+            document.getElementById('absen-form').addEventListener('submit', function(event) {
+                // Check if file is required and not selected
+                if (fileInput.required && !fileInput.files.length) {
+                    event.preventDefault(); // Prevent form submission
+                    fileError.style.display = 'block'; // Display error
+                } else {
+                    fileError.style.display = 'none'; // Hide error if file is selected
+                }
+            });
         });
     </script>
+
 @endsection

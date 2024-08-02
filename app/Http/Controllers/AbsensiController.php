@@ -122,11 +122,11 @@ class AbsensiController extends Controller
             $file = $request->file('file');
             $path = $file->store('public/lampiran_foto');
             $filePath = Storage::url($path);
+            $request["foto"] = $filePath;
         }
     
         // Jika jumlah cuti belum mencapai batas, simpan data absensi
         $request["status_pengajuan"] = "Diproses";
-        $request["foto"] = $filePath;
         
         if ($jumlahCuti < $batasCuti) {
             Absensi::create($request->all());

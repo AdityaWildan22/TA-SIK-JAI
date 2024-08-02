@@ -17,14 +17,14 @@
     }
 </style>
 @section('content')
+    <div class="card-shadow">
+        <a href="{{ url('/karyawan') }}" class="btn btn-lg btn-primary h-20 mb-3" style="margin-left:25px; font-size:medium">
+            <i class="fas fa-arrow-left"> Kembali</i><br>
+        </a>
+    </div>
     <div class="card">
-        <div class="card-shadow">
-            <a href="{{ url('/karyawan') }}" class="btn btn-lg btn-primary h-20 mb-3" style="margin-left:25px">
-                <i class="fas fa-arrow-left"> Kembali</i><br>
-            </a>
-        </div>
         <div class="card-header bg-primary">
-            <h2 class="card-title mb-0" style="font-size: 25px; color:#fff">DATA DETAIL KARYAWAN
+            <h2 class="card-title mb-0" style="font-size: 20px; color:#fff">DATA DETAIL KARYAWAN
         </div>
         <div class="card-body">
             <table>

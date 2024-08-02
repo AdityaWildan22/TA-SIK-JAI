@@ -2,7 +2,7 @@ $(function () {
     $('#datatable').DataTable({
         "paging": true,
         "lengthChange": true,
-        "iDisplayLength": 50,
+        "iDisplayLength": 10,
         "searching": true,
         "ordering": true,
         "info": true,
@@ -13,7 +13,7 @@ $(function () {
     $('#datatable1').DataTable({
         "paging": true,
         "lengthChange": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "ordering": false,
         "info": true,
@@ -24,7 +24,7 @@ $(function () {
     $('#datatable2').DataTable({
         "paging": true,
         "lengthChange": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "ordering": false,
         "info": true,

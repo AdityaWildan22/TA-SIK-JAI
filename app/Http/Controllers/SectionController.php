@@ -44,6 +44,13 @@ class SectionController extends Controller
      */
     public function store(StoreSectionRequest $request)
     {
+            $exists = Section::where('id_departemen', $request->id_departemen)
+            ->where('nm_section', $request->nm_section)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('error','Nama Section Dengan departemen Ini Sudah Ada');
+        }
         Section::create($request->all());
         return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
     }

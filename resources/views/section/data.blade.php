@@ -35,7 +35,8 @@
                         <div class="form-group">
                             <label for="nm_section">Nama Section</label>
                             <input type="text" class="form-control @error('nm_section') is-invalid @enderror"
-                                id="nm_section" name="nm_section" placeholder="Nama Section" value="{{ old('nm_section') ?? ($section->nm_section ?? '') }}">
+                                id="nm_section" name="nm_section" placeholder="Nama Section"
+                                value="{{ old('nm_section') ?? ($section->nm_section ?? '') }}">
                             @error('nm_section')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -56,6 +57,13 @@
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @elseif(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -84,8 +92,7 @@
                                                 class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                                 title="Edit"><i class="fas fa-pen"></i></a>
                                             <form class="d-inline-block"
-                                                action="{{ route('section.destroy', $item->id_section) }}"
-                                                method="POST">
+                                                action="{{ route('section.destroy', $item->id_section) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip"

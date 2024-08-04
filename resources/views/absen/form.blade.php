@@ -277,7 +277,6 @@
     </form>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Mendapatkan elemen
             var fileInput = document.getElementById('file');
             var fileError = document.getElementById('file-error');
             var nipInput = document.getElementById('nip');
@@ -291,14 +290,12 @@
             var jamAkhir = document.getElementById('jam_akhir');
             var absenPhotoContainer = document.getElementById('absen-photo-container');
 
-            // Initial hiding of elements
             tglAbsenAkhir.style.display = 'none';
             jamAwal.style.display = 'none';
             jamAkhir.style.display = 'none';
             absenPhotoContainer.style.display = 'none';
             fileError.style.display = 'none';
 
-            // Define constants for different types of absences
             const jenisAbsenPerluTanggal = [
                 'Sakit Dengan Surat Dokter', 'Cuti Melahirkan', 'Sakit Dengan Opname', 'Sakit', 'Izin',
                 'Izin Khusus', 'Tanpa Keterangan', 'Cuti', 'Cuti Kelahiran/Keguguran', 'Cuti Haid',
@@ -314,12 +311,10 @@
                 'Cuti Kelahiran/Keguguran', 'Cuti Luar Tanggungan'
             ];
 
-            // Handle change event on jenis absensi
             jnsAbsen.addEventListener('change', function() {
                 var selectedOption = this.value;
                 var labelText = 'Tanggal Absen';
 
-                // Display elements based on selected absensi type
                 if (jenisAbsenPerluTanggal.includes(selectedOption)) {
                     tglAbsenAkhir.style.display = 'block';
                     labelText += ' Awal';
@@ -334,23 +329,28 @@
                     jamAwal.style.display = 'none';
                     jamAkhir.style.display = 'none';
                 }
+                if (selectedOption === 'Cuti') {
+                    tglAbsenAkhir.style.display = 'none';
+                    labelText = 'Tanggal Cuti';
+                } else {
+                    ""
+                }
 
                 if (jenisAbsenPerluFile.includes(selectedOption)) {
                     absenPhotoContainer.style.display = 'block';
-                    fileInput.style.visibility = 'visible'; // Make input file visible
-                    fileInput.style.position = 'static'; // Ensure input is in normal layout
-                    fileInput.required = true; // Set file input as required
+                    fileInput.style.visibility = 'visible';
+                    fileInput.style.position = 'static';
+                    fileInput.required = true;
                 } else {
                     absenPhotoContainer.style.display = 'none';
-                    fileInput.style.visibility = 'hidden'; // Hide input file
-                    fileInput.style.position = 'absolute'; // Keep input file out of view
-                    fileInput.required = false; // Remove required attribute
+                    fileInput.style.visibility = 'hidden';
+                    fileInput.style.position = 'absolute';
+                    fileInput.required = false;
                 }
 
                 tglAbsenLabel.textContent = labelText;
             });
 
-            // Handle NIP input to fetch employee details
             nipInput.addEventListener('input', function() {
                 var nip = nipInput.value;
 
@@ -378,21 +378,18 @@
                 }
             });
 
-            // Initialize flatpickr for date input
             flatpickr('#tgl_absen_akhir_input', {
                 enableTime: false,
                 dateFormat: "Y-m-d",
                 locale: "id",
             });
 
-            // Handle form submission to check for file input validation
             document.getElementById('absen-form').addEventListener('submit', function(event) {
-                // Check if file is required and not selected
                 if (fileInput.required && !fileInput.files.length) {
-                    event.preventDefault(); // Prevent form submission
-                    fileError.style.display = 'block'; // Display error
+                    event.preventDefault();
+                    fileError.style.display = 'block';
                 } else {
-                    fileError.style.display = 'none'; // Hide error if file is selected
+                    fileError.style.display = 'none';
                 }
             });
         });

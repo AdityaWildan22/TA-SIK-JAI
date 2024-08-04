@@ -175,7 +175,13 @@
             const labelTglAwal = document.getElementById('label_tgl_awal');
 
             function toggleFields(jnsAbsen) {
-                if (jenisAbsenPerluTanggal.includes(jnsAbsen)) {
+                if (jnsAbsen === 'Cuti') {
+                    labelTglAwal.textContent = 'Tanggal Cuti';
+                    tglAwal.style.display = '';
+                    tglAkhir.style.display = 'none';
+                    jamAwal.style.display = 'none';
+                    jamAkhir.style.display = 'none';
+                } else if (jenisAbsenPerluTanggal.includes(jnsAbsen)) {
                     labelTglAwal.textContent = 'Tanggal Absen Awal';
                     tglAwal.style.display = '';
                     tglAkhir.style.display = '';
@@ -196,9 +202,9 @@
                 }
             }
 
+
             toggleFields(jnsAbsen);
 
-            // Event listener for jns_absen change (assuming there's a select element with id jns_absen)
             const jnsAbsenSelect = document.getElementById('jns_absen');
             if (jnsAbsenSelect) {
                 jnsAbsenSelect.addEventListener('change', function() {

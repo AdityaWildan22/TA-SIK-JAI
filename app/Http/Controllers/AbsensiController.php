@@ -106,7 +106,6 @@ class AbsensiController extends Controller
         $jumlahCuti = 0;
         $batasCuti = env('BATAS_CUTI');
 
-        // Pengecekan jika jenis absennya cuti
         if ($request->jns_absen == 'Cuti') {
             $tahunIni = date('Y');
             $jumlahCuti = Absensi::where('nip', $request->nip)
@@ -125,7 +124,6 @@ class AbsensiController extends Controller
             $request["foto"] = $filePath;
         }
     
-        // Jika jumlah cuti belum mencapai batas, simpan data absensi
         $request["status_pengajuan"] = "Diproses";
         
         if ($jumlahCuti < $batasCuti) {

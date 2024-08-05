@@ -44,11 +44,6 @@
                     <td>{{ $karyawan->username }}</td>
                 </tr>
                 <tr>
-                    <td>Password</td>
-                    <td>:</td>
-                    <td>{{ $karyawan->password }}</td>
-                </tr>
-                <tr>
                     <td>Departemen</td>
                     <td>:</td>
                     <td>{{ $karyawan->nm_dept }}</td>

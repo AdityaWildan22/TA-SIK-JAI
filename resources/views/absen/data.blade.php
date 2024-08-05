@@ -2,21 +2,13 @@
 @section('judul', 'Data Absen')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @elseif(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <div class="card-shadow">
         <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
             <i class="fas fa-plus"> Tambah Data</i><br>

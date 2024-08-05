@@ -2,6 +2,13 @@
 @section('judul', 'Data Departemen')
 
 @section('content')
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -37,14 +44,6 @@
         </div>
         <div class="col-md-8">
             <div class="card">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <div class="card-header bg-primary">
                     <h1 class="card-title mb-0" style="color: #fff; font-size:18px">DATA DEPARTEMEN</h1>
                 </div>

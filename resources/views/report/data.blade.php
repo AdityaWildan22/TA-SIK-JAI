@@ -2,14 +2,13 @@
 @section('judul', 'Report')
 
 @section('content')
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card">

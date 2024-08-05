@@ -13,7 +13,7 @@
     @include('layouts.header')
 
 <body id="page-top">
-
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <!-- Page Wrapper -->
     <div id="wrapper">
         @include('layouts.sidebar')

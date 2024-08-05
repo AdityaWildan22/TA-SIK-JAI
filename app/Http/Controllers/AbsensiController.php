@@ -113,7 +113,8 @@ class AbsensiController extends Controller
                 ->whereYear('tgl_absen', $tahunIni)
                 ->count();
             if ($jumlahCuti >= $batasCuti) {
-                return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
+                $mess = ["type"=>"error", "text"=>"Jumlah Cuti Anda Telah Habis"];
+                return redirect()->back()->with($mess);
             }
         }
 
@@ -128,7 +129,8 @@ class AbsensiController extends Controller
         
         if ($jumlahCuti < $batasCuti) {
             Absensi::create($request->all());
-            return redirect($this->route)->with('success', 'DATA BERHASIL DISIMPAN');
+            $mess = ["type" => "success", "text" => "Data Absen Berhasil Disimpan"];
+            return redirect($this->route)->with($mess);
         }
     }
 
@@ -222,15 +224,16 @@ class AbsensiController extends Controller
                 ->count();
             $batasCuti = env('BATAS_CUTI');
             if ($jumlahCuti >= $batasCuti) {
-                return redirect()->back()->with('error', 'JUMLAH CUTI ANDA TELAH HABIS');
+                $mess = ["type" => "error", "text" => "Jumlah Cuti Anda Telah Habis"];
+                return redirect()->back()->with($mess);
             }
         }
     
         $absensi = Absensi::find($id_absen);
         $absensi->fill($request->all());
         $absensi->save();
-    
-        return redirect($this->route)->with('success', 'DATA BERHASIL DI UPDATE');
+        $mess = ["type" => "success", "text" => "Data Absen Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -240,7 +243,8 @@ class AbsensiController extends Controller
     {
         $absensi = Absensi::where('id_absen', $id_absen)->first();
         $absensi->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Absen Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 
     public function persetujuan_spv($id_absen)
@@ -251,8 +255,8 @@ class AbsensiController extends Controller
         $absensi->tgl_persetujuan_spv = $now;
         $absensi->status_pengajuan = "Pending";
         $absensi->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
+        $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Disetujui"];
+        return redirect()->back()->with($mess);
     }
 
     public function penolakan_spv($id_absen)
@@ -262,8 +266,8 @@ class AbsensiController extends Controller
         $absensi->tgl_persetujuan_spv = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
+        $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Ditolak"];
+        return redirect()->back()->with($mess);
     }
 
     public function persetujuan_manager($id_absen)
@@ -275,7 +279,7 @@ class AbsensiController extends Controller
         $absensi->status_pengajuan = 'Pending';
         $absensi->save();
     
-        return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
+        return redirect()->back()->with('success', 'Permohonan Absen Berhasil Disetujui');
     }
 
     public function penolakan_manager($id_absen)
@@ -285,16 +289,16 @@ class AbsensiController extends Controller
         $absensi->tgl_persetujuan_manager = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
+        $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Ditolak"];
+        return redirect()->back()->with($mess);
     }
 
     public function verify_hr($id_absen){
         $absensi = Absensi::find($id_absen);
         $absensi->status_pengajuan = 'Diterima';
         $absensi->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Diverifikasi');
+        $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Diverifikasi"];
+        return redirect()->back()->with($mess);
     }
 
     public function print_surat_absensi($nip){
@@ -348,8 +352,8 @@ class AbsensiController extends Controller
 
         \Artisan::call('config:clear');
         \Artisan::call('cache:clear');
-
-        return redirect()->back()->with('success', 'BATAS CUTI BERHASIL DIUPDATE');
+        $mess = ["type" => "success", "text" => "Batas Cuti Berhasil Dirubah"];
+        return redirect()->back()->with($mess);
     }
 
     public function export()

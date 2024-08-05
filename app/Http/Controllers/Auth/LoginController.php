@@ -18,10 +18,20 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
     
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            // return redirect()->intended('/');
+            return $this->sendLoginResponse($request);
         }
     
         return redirect()->route('login')->with('error','Username atau Password Salah');
+    }
+    
+    protected function sendLoginResponse(Request $request)
+    {
+        $user = Auth::user()->username;
+    
+        $success = ["type" => "success", "text" => "Selamat Datang, $user"];
+    
+        return redirect('/')->with($success);
     }
 
     public function logout()

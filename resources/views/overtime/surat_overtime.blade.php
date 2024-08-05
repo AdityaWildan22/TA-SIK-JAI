@@ -117,6 +117,11 @@
                         <td>{{ $overtime->nm_dept }}</td>
                     </tr>
                     <tr>
+                        <td>Section</td>
+                        <td>:</td>
+                        <td>{{ $overtime->nm_section }}</td>
+                    </tr>
+                    <tr>
                         <td>Keterangan Lembur</td>
                         <td>:</td>
                         <td>{{ $overtime->ket }}</td>

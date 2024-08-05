@@ -49,10 +49,12 @@ class SectionController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()->back()->with('error','Nama Section Dengan departemen Ini Sudah Ada');
+            $mess = ["type" => "error", "text" => "Nama Section Dengan Departemen Ini Sudah Ada"];
+            return redirect($this->route)->with($mess);
         }
         Section::create($request->all());
-        return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
+        $mess = ["type" => "success", "text" => "Data Section Berhasil Disimpan"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -89,7 +91,8 @@ class SectionController extends Controller
         $section = Section::find($id_section);
         $section->fill($request->all());
         $section->save();
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
+        $mess = ["type" => "success", "text" => "Data Section Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -99,6 +102,7 @@ class SectionController extends Controller
     {
         $section = Section::where('id_section', $id_section)->first();
         $section->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Section Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 }

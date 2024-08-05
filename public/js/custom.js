@@ -110,12 +110,10 @@ $(function () {
         locale: "id",
     });
 
-    // Foto click
     $("#avatar").click(function () {
         $("#file").click();
     });
 
-    // Ketika file input change
     $("#file").change(function () {
      setImage(this, "#avatar");
     });
@@ -130,15 +128,15 @@ function showPreload() {
 
 function showMessage(type, mess, target = "body") {
 
-    // Options
     toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
         "showDuration": "3000",
         "hideDuration": "3000",
         "timeOut": "5000",
         "extendedTimeOut": "3000",
     };
 
-    // Target Agar bisa tampil pada saat full screen
     toastr.options.target = target;
 
     switch (type) {
@@ -157,34 +155,19 @@ function showMessage(type, mess, target = "body") {
     }
 }
 
- // Ambil elemen alert
- var alert = $(".alert");
-
- // Tentukan durasi timeout dalam milidetik (misalnya, 5000 ms untuk 5 detik)
- var timeoutDuration = 5000;
-
- // Tunggu selama durasi timeout, lalu tutup alert
- setTimeout(function() {
-     alert.alert('close');
- }, timeoutDuration);
 
  $(function () {
-    //Initialize Select2 Elements
     $('.select2').select2()
-  
-    //Initialize Select2 Elements
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
   })
 
-  // Read Image
 function setImage(input, target) {
 
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-  
-      // Mengganti src dari object img#avatar
+
       reader.onload = function (e) {
         $(target).attr('src', e.target.result);
         $("#foto").val(e.target.result);

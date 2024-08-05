@@ -40,7 +40,8 @@ class DepartemenController extends Controller
     public function store(StoreDepartemenRequest $request)
     {
         Departemen::create($request->all());
-        return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
+        $mess = ["type" => "success", "text" => "Data Departemen Berhasil Disimpan"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -78,7 +79,8 @@ class DepartemenController extends Controller
         $departemen = Departemen::find($id_departemen);
         $departemen->fill($request->all());
         $departemen->save();
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
+        $mess = ["type" => "success", "text" => "Data Departemen Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -88,6 +90,7 @@ class DepartemenController extends Controller
     {
         $departemen = Departemen::where('id_departemen', $id_departemen)->first();
         $departemen->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Departemen Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 }

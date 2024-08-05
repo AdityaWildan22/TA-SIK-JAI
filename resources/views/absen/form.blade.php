@@ -1,22 +1,19 @@
 @extends('layouts.template')
 @section('judul', 'Form Absensi')
 @section('content')
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <style>
         .select-readonly {
             pointer-events: none;
             background-color: #e9ecef;
         }
     </style>
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
     <form id="absen-form" action="{{ url($routes->save) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if ($routes->is_update)

@@ -107,7 +107,8 @@ class OvertimeController extends Controller
         // dd($request->all());
         $request["status_pengajuan"] = "Diproses";
         Overtime::create($request->all());
-        return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Disimpan"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -196,7 +197,8 @@ class OvertimeController extends Controller
         $overtime = Overtime::find($id_ovt);
         $overtime->fill($request->all());
         $overtime->save();
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -206,7 +208,8 @@ class OvertimeController extends Controller
     {
         $overtime = Overtime::where('id_ovt', $id_ovt)->first();
         $overtime->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 
     public function persetujuan_spv($id_ovt)
@@ -217,8 +220,8 @@ class OvertimeController extends Controller
         $overtime->tgl_persetujuan_spv = $now;
         $overtime->status_pengajuan = 'Pending';
         $overtime->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Disetujui"];
+        return redirect()->back()->with($mess);
     }
 
     public function penolakan_spv($id_ovt)
@@ -228,8 +231,8 @@ class OvertimeController extends Controller
         $overtime->tgl_persetujuan_spv = "";
         $overtime->status_pengajuan = 'Ditolak';
         $overtime->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Ditolak"];
+        return redirect()->back()->with($mess);
     }
 
     public function verify_hr($id_ovt){
@@ -237,8 +240,8 @@ class OvertimeController extends Controller
         $overtime->status_pengajuan = 'Diterima';
         $overtime->id_hr = Auth::user()->nip;
         $overtime->save();
-    
-        return redirect()->back()->with('success', 'Permohonan Berhasil Diverifikasi');
+        $mess = ["type" => "success", "text" => "Data Overtime Berhasil Diverifikasi"];
+        return redirect()->back()->with($mess);
     }
 
     // public function persetujuan_atasan($id_ovt)
@@ -267,7 +270,8 @@ class OvertimeController extends Controller
     public function print_surat_overtime($id_ovt){
         $overtime = Overtime::find($id_ovt)
         ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-        ->select('overtimes.*', 'departemens.nm_dept')
+        ->join('sections', 'overtimes.id_section', '=', 'sections.id_section')
+        ->select('overtimes.*', 'departemens.nm_dept','sections.nm_section')
         ->first();
         // dd($overtime->nip);
         $karyawan = DB::table("overtimes")

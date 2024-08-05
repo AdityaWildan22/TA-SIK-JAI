@@ -2,16 +2,15 @@
 @section('judul', 'Data Overtime')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <div class="card-shadow">
-        @if (Auth::user()->role == 'Staff' || Auth::user()->role == 'Admin' || Auth::user()->role == "SuperAdmin")
+        @if (Auth::user()->role == 'Staff' || Auth::user()->role == 'Admin' || Auth::user()->role == 'SuperAdmin')
             <a href="{{ url($routes->add) }}" class="btn btn-primary h-20 mb-3" style="margin-left:25px">
                 <i class="fas fa-plus"> Tambah Data</i><br>
             </a>
@@ -66,36 +65,29 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
-                                            $item->status_pengajuan != 'Diterima' && $item->status_pengajuan != 'Pending'))
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
+                                            $item->status_pengajuan != 'Diterima' &&
+                                            $item->status_pengajuan != 'Pending')
                                         <a href="{{ url('/overtime/persetujuan_spv/' . $item->id_ovt) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff' &&
-                                        $item->status_pengajuan != 'Diproses'))
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff' && $item->status_pengajuan != 'Diproses')
                                         <a href="{{ url('/overtime/penolakan_spv/' . $item->id_ovt) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'HR' &&
-                                        $item->status_pengajuan == 'Pending')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'HR' && $item->status_pengajuan == 'Pending')
                                         <a href="{{ url('/overtime/verify_hr/' . $item->id_ovt) }}"
-                                        class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
-                                        title="Verifikasi"><i class="fas fa-check"></i></a>
+                                            class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
+                                            title="Verifikasi"><i class="fas fa-check"></i></a>
                                     @endif
-                                    {{-- @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan != 'Diterima' &&
-                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
+                                    {{-- @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan != 'Diterima' && ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
                                         <a href="{{ url('/overtime/persetujuan_atasan/' . $item->id_ovt) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan == 'Diproses' &&
-                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan == 'Diproses' && ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'HR'))
                                         <a href="{{ url('/overtime/penolakan_atasan/' . $item->id_ovt) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>

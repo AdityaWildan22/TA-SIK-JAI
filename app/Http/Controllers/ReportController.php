@@ -151,7 +151,8 @@ class ReportController extends Controller
         }
 
         if (!$req->filled('tgl_awal') || !$req->filled('tgl_akhir')) {
-            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+            $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
+            return redirect()->back()->with($mess);
         }
         
         return view('report.report_absensi',compact('absensi','no','tgl_awal','tgl_akhir'));
@@ -166,14 +167,16 @@ class ReportController extends Controller
         $tgl_akhir = date("Y-m-d", strtotime($tgl_akhir_input));
     
         if (!$request->filled('tgl_awal') || !$request->filled('tgl_akhir')) {
-            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+            $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
+            return redirect()->back()->with($mess);
         }
 
         $absensi = Absensi::whereBetween('absensis.tgl_absen', [$tgl_awal, $tgl_akhir])
         ->get();
         
         if ($absensi->isEmpty()) {
-            return redirect()->back()->with('error', 'DATA LAPORAN ABSENSI KOSONG');
+            $mess = ["type" => "error", "text" => "Laporan Data Absensi Kosong"];
+            return redirect()->back()->with($mess);
         }
 
         $nama_file = 'Laporan Data Absensi Periode ' . date('d-m-Y', strtotime($tgl_awal)) . ' - ' . date('d-m-Y', strtotime($tgl_akhir)) . '.xlsx';
@@ -251,7 +254,8 @@ class ReportController extends Controller
         }
 
         if (!$req->filled('tgl_awal') || !$req->filled('tgl_akhir')) {
-            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+            $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
+            return redirect()->back()->with($mess);
         }
 
         return view('report.report_overtime',compact('overtime','no','tgl_awal','tgl_akhir'));
@@ -266,14 +270,16 @@ class ReportController extends Controller
         $tgl_akhir = date("Y-m-d", strtotime($tgl_akhir_input));
 
         if (!$request->filled('tgl_awal') || !$request->filled('tgl_akhir')) {
-            return redirect()->back()->with('error', 'MASUKKAN TANGGAL AWAL DAN TANGGAL AKHIR');
+            $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
+            return redirect()->back()->with($mess);
         }
 
         $overtime = Overtime::whereBetween('overtimes.tgl_ovt', [$tgl_awal, $tgl_akhir])
         ->get();
         
         if ($overtime->isEmpty()) {
-            return redirect()->back()->with('error', 'DATA LAPORAN OVERTIME KOSONG');
+            $mess = ["type" => "error", "text" => "Laporan Data Overtime Kosong"];
+            return redirect()->back()->with($mess);
         }
 
         $nama_file = 'Laporan Data Overtime Periode ' . date('d-m-Y', strtotime($tgl_awal)) . ' - ' . date('d-m-Y', strtotime($tgl_akhir)) . '.xlsx';

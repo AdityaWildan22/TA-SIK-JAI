@@ -62,8 +62,8 @@ class KaryawanController extends Controller
         $request['password'] = Hash::make($request->password);
         Karyawan::create($request->all());
         
-        return redirect($this->route)->with('success', 'DATA BERHASIL DISIMPAN');
-        
+        $mess = ["type" => "success", "text" => "Data Karyawan Berhasil Disimpan"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -121,9 +121,8 @@ class KaryawanController extends Controller
         // Cek apakah ada file foto baru yang diunggah
     
         $karyawan->save();
-        
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
-        
+        $mess = ["type" => "success", "text" => "Data Karyawan Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -133,7 +132,8 @@ class KaryawanController extends Controller
     {
         $karyawan = Karyawan::where('id_karyawan', $id_karyawan)->first();
         $karyawan->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Karyawan Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 
     public function show_profil(){
@@ -154,7 +154,8 @@ class KaryawanController extends Controller
 
         $profil->save();
 
-        return redirect()->back()->with('success', 'DATA BERHASIL DIRUBAH');
+        $mess = ["type" => "success", "text" => "Data Profil Berhasil Dirubah"];
+        return redirect('/profil')->with($mess);
     }
 
     public function logout()

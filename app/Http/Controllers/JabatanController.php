@@ -47,7 +47,8 @@ class JabatanController extends Controller
     public function store(StoreJabatanRequest $request)
     {
         Jabatan::create($request->all());
-        return redirect($this->route)->with('success','DATA BERHASIL DISIMPAN');
+        $mess = ["type" => "success", "text" => "Data Jabatan Berhasil Disimpan"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -86,7 +87,8 @@ class JabatanController extends Controller
         $jabatan = Jabatan::find($id_jabatan);
         $jabatan->fill($request->all());
         $jabatan->save();
-        return redirect($this->route)->with('success','DATA BERHASIL DI UPDATE');
+        $mess = ["type" => "success", "text" => "Data Jabatan Berhasil Dirubah"];
+        return redirect($this->route)->with($mess);
     }
 
     /**
@@ -96,6 +98,7 @@ class JabatanController extends Controller
     {
         $jabatan = Jabatan::where('id_jabatan', $id_jabatan)->first();
         $jabatan->delete();
-        return redirect($this->route)->with('success', 'DATA BERHASIL DIHAPUS');
+        $mess = ["type" => "success", "text" => "Data Jabatan Berhasil Dihapus"];
+        return redirect($this->route)->with($mess);
     }
 }

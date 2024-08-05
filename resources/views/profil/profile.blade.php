@@ -3,15 +3,13 @@
 @section('judul', 'Data Profil')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-    <!-- Main content -->
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <form action="{{ url('/profil/save/' . Auth::user()->id_karyawan) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row justify-content-center">

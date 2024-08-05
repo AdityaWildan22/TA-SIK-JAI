@@ -1,7 +1,13 @@
 @extends('layouts.template')
 @section('judul', 'Dashboard')
 @section('content')
-    <!-- Content Row -->
+    <script>
+        $(function() {
+            @if (session('type'))
+                showMessage('{{ session('type') }}', '{{ session('text') }}');
+            @endif
+        });
+    </script>
     <div class="row">
         @if (Auth::user()->role == 'SuperAdmin')
             <div class="col-xl-3 col-md-6 mb-4">
@@ -169,5 +175,4 @@
             </div>
         </div>
     </div>
-    <!-- Content Row -->
 @endsection

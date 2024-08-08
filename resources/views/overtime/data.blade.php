@@ -77,7 +77,7 @@
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'HR' && $item->status_pengajuan == 'Pending')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' && $item->status_pengajuan == 'Pending')
                                         <a href="{{ url('/overtime/verify_hr/' . $item->id_ovt) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Verifikasi"><i class="fas fa-check"></i></a>

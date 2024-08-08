@@ -28,18 +28,18 @@
         </div>
         <div class="card-body">
             <table>
-                @if ($overtime->nm_jabatan == 'SPV' || $overtime->nm_jabatan == 'HR')
+                {{-- @if ($overtime->nm_jabatan == 'SPV' || $overtime->nm_jabatan == 'HR')
                     <tr>
                         <td>Nama Manager</td>
                         <td>:</td>
                         <td>{{ $manager->nama }}</td>
                     </tr>
-                @endif
+                @endif --}}
                 @if ($overtime->nm_jabatan != 'SPV' && $overtime->nm_jabatan != 'HR')
                     <tr>
                         <td>Nama SPV</td>
                         <td>:</td>
-                        <td>{{ $spv->nama }}</td>
+                        <td>{{ isset($spv->nama) && !empty($spv->nama) ? $spv->nama : 'N/A' }}</td>
                     </tr>
                 @endif
                 <tr>

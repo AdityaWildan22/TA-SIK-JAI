@@ -32,14 +32,14 @@
                     <tr>
                         <td>Nama Manager</td>
                         <td>:</td>
-                        <td>{{ $manager->nama }}</td>
+                        <td>{{ isset($manager->nama) && !empty($manager->nama) ? $manager->nama : 'N/A' }}</td>
                     </tr>
                 @endif
                 @if ($absensi->nm_jabatan != 'SPV' && $absensi->nm_jabatan != 'HR')
                     <tr>
                         <td>Nama SPV</td>
                         <td>:</td>
-                        <td>{{ $spv->nama }}</td>
+                        <td>{{ isset($spv->nama) && !empty($spv->nama) ? $spv->nama : 'N/A' }}</td>
                     </tr>
                 @endif
                 <tr>

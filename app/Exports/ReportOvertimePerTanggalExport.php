@@ -39,6 +39,7 @@ class ReportOvertimePerTanggalExport implements FromCollection, WithHeadings, Wi
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->whereBetween('overtimes.tgl_ovt', [$tgl_awal, $tgl_akhir])
@@ -50,11 +51,12 @@ class ReportOvertimePerTanggalExport implements FromCollection, WithHeadings, Wi
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->whereBetween('overtimes.tgl_ovt', [$tgl_awal, $tgl_akhir])
             ->where('status_pengajuan','Diterima')
-            ->where('departemens.id_departemen', Auth::user()->id_departemen)
+            ->where('sections.id_section',Auth::user()->id_section)
             ->groupBy('overtimes.nip')
             ->get());
         }

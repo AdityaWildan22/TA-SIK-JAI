@@ -18,7 +18,6 @@
                 <i class="fas fa-file-excel"> Export Excel</i><br>
             </a>
         @endif
-        {{ Auth::user()->nip }}
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">
@@ -89,7 +88,7 @@
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'HR' && $item->status_pengajuan == 'Pending')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' && $item->status_pengajuan == 'Pending')
                                         <a href="{{ url('/absensi/verify_hr/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Verifikasi"><i class="fas fa-check"></i></a>

@@ -26,6 +26,7 @@ class ReportAbsensiAllExport implements FromCollection, WithHeadings, WithStyles
                 ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
                 ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
                 ->select(
                     'absensis.nip',
                     'karyawans.nama',
@@ -55,6 +56,7 @@ class ReportAbsensiAllExport implements FromCollection, WithHeadings, WithStyles
                 ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
                 ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
                 ->select(
                     'absensis.nip',
                     'karyawans.nama',
@@ -77,7 +79,7 @@ class ReportAbsensiAllExport implements FromCollection, WithHeadings, WithStyles
                     DB::raw('COUNT(*) AS total_absensi')
                 )
                 ->where('status_pengajuan', 'Diterima')
-                ->where('departemens.id_departemen', Auth::user()->id_departemen)
+                ->where('sections.id_section',Auth::user()->id_section)
                 ->groupBy('absensis.nip')
                 ->get();
         }

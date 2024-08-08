@@ -48,23 +48,23 @@ class DashboardController extends Controller
 
                 $sisa_cuti = env('BATAS_CUTI') - $total_cuti;
             
-            } else if ($user->role == 'SPV' || $user->role == 'Manager') {
+            } else if ($user->role == 'SPV' || $user->role == 'Manager' || $user->role == 'Admin') {
             
                 $absensi = DB::table('absensis')
                     ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                     ->select('absensis.*', 'departemens.nm_dept')
                     ->orderBy('tgl_absen', 'DESC')
-                    ->where('absensis.id_departemen', $user->id_departemen)
+                    ->where('absensis.id_section', $user->id_section)
                     ->get();
             
                 $overtime = DB::table('overtimes')
                     ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
                     ->select('overtimes.*', 'departemens.nm_dept')
                     ->orderBy('tgl_ovt', 'DESC')
-                    ->where('overtimes.id_departemen', $user->id_departemen)
+                    ->where('overtimes.id_section', $user->id_section)
                     ->get();
                 
-                $total_karyawan = Karyawan::where('id_departemen', $user->id_departemen)->count();
+                $total_karyawan = Karyawan::where('id_section', $user->id_section)->count();
                 $total_absensi = isset($absensi) ? count($absensi) : 0;
                 $total_overtime = isset($overtime) ? count($overtime) : 0;
             

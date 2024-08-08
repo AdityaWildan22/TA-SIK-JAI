@@ -30,6 +30,7 @@ class ReportController extends Controller
             ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'absensis.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('
             COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
@@ -55,6 +56,7 @@ class ReportController extends Controller
             ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'absensis.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('
             COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
@@ -73,7 +75,7 @@ class ReportController extends Controller
             COUNT(CASE WHEN jns_absen = "Cuti Luar Tanggungan" THEN 1 END) AS jumlah_CLT,
             COUNT(*) AS total_absensi')
             ->where('status_pengajuan','Diterima')
-            ->where('departemens.id_departemen',Auth::user()->id_departemen)
+            ->where('sections.id_section',Auth::user()->id_section)
             ->groupBy('absensis.nip')
             ->get();
         }
@@ -98,6 +100,7 @@ class ReportController extends Controller
             ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'absensis.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('
             COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
@@ -125,6 +128,7 @@ class ReportController extends Controller
             ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'absensis.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('
             COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
@@ -145,7 +149,7 @@ class ReportController extends Controller
             ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
             ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
             ->where('status_pengajuan','Diterima')
-            ->where('departemens.id_departemen',Auth::user()->id_departemen)
+            ->where('sections.id_section',Auth::user()->id_section)
             ->groupBy('absensis.nip')
             ->get();
         }
@@ -193,6 +197,7 @@ class ReportController extends Controller
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->where('status_pengajuan','Diterima')
@@ -203,10 +208,11 @@ class ReportController extends Controller
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->where('status_pengajuan','Diterima')
-            ->where('departemens.id_departemen',Auth::user()->id_departemen)
+            ->where('sections.id_section',Auth::user()->id_section)
             ->groupBy('overtimes.nip')
             ->get();
         }
@@ -231,6 +237,7 @@ class ReportController extends Controller
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
@@ -243,12 +250,13 @@ class ReportController extends Controller
             ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
             ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
             ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
             ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
             ->selectRaw('COUNT(*) AS total_overtime')
             ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
             ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
             ->where('status_pengajuan','Diterima')
-            ->where('departemens.id_departemen',Auth::user()->id_departemen)
+            ->where('sections.id_section',Auth::user()->id_section)
             ->groupBy('overtimes.nip')
             ->get();
         }

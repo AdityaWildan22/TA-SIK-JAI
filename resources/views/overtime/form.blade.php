@@ -1,12 +1,12 @@
 @extends('layouts.template')
 @section('judul', 'Form Overtime')
 @section('content')
-<style>
-    .select-readonly {
-        pointer-events: none;
-        background-color: #e9ecef;
-    }
-</style>
+    <style>
+        .select-readonly {
+            pointer-events: none;
+            background-color: #e9ecef;
+        }
+    </style>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mb-3">
@@ -20,7 +20,7 @@
                             <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA OVERTIME</h2>
                         </div>
                         <div class="card-body">
-                            @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
+                            {{-- @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
                                 <div class="form-group">
                                     <label for="id_manager">Nama Manager</label>
                                     <select name="id_manager" id="id_manager"
@@ -38,8 +38,8 @@
                                         </div>
                                     @endif
                                 </div>
-                            @endif
-                            @if (Auth::user()->jabatan->nm_jabatan != 'SPV' && Auth::user()->jabatan->nm_jabatan != 'HR')
+                            @endif --}}
+                            {{-- @if (Auth::user()->jabatan->nm_jabatan != 'SPV' && Auth::user()->jabatan->nm_jabatan != 'HR')
                                 <div class="form-group">
                                     <label for="id_spv">Nama SPV</label>
                                     <select name="id_spv" id="id_spv"
@@ -57,11 +57,11 @@
                                         </div>
                                     @endif
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="form-group">
                                 <label for="nip">NIP</label>
-                                <input type="number" class="form-control @error('nip') is-invalid @enderror"
-                                    id="nip" name="nip" placeholder="Masukkan NIP"
+                                <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip"
+                                    name="nip" placeholder="Masukkan NIP"
                                     value="{{ old('nip') ? old('nip') : @$overtime->nip }}">
                                 @if ($errors->has('nip'))
                                     <div class="invalid-feedback">
@@ -82,7 +82,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_departemen">Departemen</label>
-                                <select class="custom-select rounded-0 select-readonly @error('id_departemen') is-invalid @enderror"
+                                <select
+                                    class="custom-select rounded-0 select-readonly @error('id_departemen') is-invalid @enderror"
                                     id="id_departemen" name="id_departemen">
                                     <option value="" selected="true" disabled>- Pilih Departemen -</option>
                                     @foreach ($departemen as $item)
@@ -100,7 +101,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_section">Section</label>
-                                <select class="custom-select rounded-0 select-readonly @error('id_section') is-invalid @enderror"
+                                <select
+                                    class="custom-select rounded-0 select-readonly @error('id_section') is-invalid @enderror"
                                     id="id_section" name="id_section">
                                     <option value="" selected="true" disabled>- Pilih Section -</option>
                                     @foreach ($section as $item)
@@ -151,8 +153,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="ket">Keterangan</label>
-                                <input type="text" class="form-control @error('ket') is-invalid @enderror"
-                                    id="ket" name="ket" placeholder="Masukkan Keterangan"
+                                <input type="text" class="form-control @error('ket') is-invalid @enderror" id="ket"
+                                    name="ket" placeholder="Masukkan Keterangan"
                                     value="{{ old('ket') ? old('ket') : @$overtime->ket }}">
                                 @if ($errors->has('ket'))
                                     <div class="invalid-feedback">

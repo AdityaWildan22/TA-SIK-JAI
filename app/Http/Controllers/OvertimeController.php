@@ -22,38 +22,42 @@ class OvertimeController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {if (auth()->check()) {
-        $user = auth()->user();
-        $overtime = DB::table('overtimes')
-        ->join('departemens','overtimes.id_departemen','=','departemens.id_departemen')
-        ->join('karyawans','overtimes.nip','=','karyawans.nip')
-        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-        ->select('overtimes.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
-    
-        // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
-        if ($user->role ==='Staff') {
-            $overtime->where('overtimes.nip', $user->nip);
-        }else if($user->role ==='SPV' || $user->role ==='Manager'){
-            $overtime->where('overtimes.id_departemen',$user->id_departemen);
-            // dd($overtime);
+    {
+        if (auth()->check()) {
+            if (Auth::user()->role == 'Staff'){
+                $overtime = DB::table('overtimes')
+                ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->select('overtimes.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->where('overtimes.nip',Auth::user()->nip)
+                ->get();
+            }elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager' || Auth::user()->role == 'Admin'){
+                $overtime = DB::table('overtimes')
+                ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->select('overtimes.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->where('overtimes.id_section',Auth::user()->id_section)
+                ->get();
+            }elseif  (Auth::user()->role == 'SuperAdmin'){
+                $overtime = DB::table('overtimes')
+                ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->select('overtimes.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->get();
+            }
+
+            $routes = (object) [
+                'index' => $this->route,
+                'add' => $this->route . 'create',
+            ];
+            
+            return view($this->view . 'data', compact('routes', 'overtime'));
+        }else {
+            return redirect()->route('login');
         }
-    
-        $overtime = $overtime->get();
-    
-        $routes = (object) [
-            'index' => $this->route,
-            'add' => $this->route . 'create',
-        ];
-    
-        return view($this->view . 'data', compact('routes', 'overtime'));
-    } else {
-        // Jika pengguna tidak terotentikasi, redirect mereka ke halaman login
-        // return redirect()->route('login')->with('error', 'Silakan login untuk mengakses halaman ini.');
-        $overtime = DB::table('overtimes')
-        ->join('departemens','overtimes.id_departemen','=','departemens.id_departemen')
-        ->select('overtimes.*','departemens.nm_dept')
-        ->get();
-    }
     }
 
     /**
@@ -216,7 +220,8 @@ class OvertimeController extends Controller
     {
         // dd($id_ovt);
         $now = Carbon::now();
-        $overtime = Overtime::find($id_ovt); 
+        $overtime = Overtime::find($id_ovt);
+        $overtime->id_spv = Auth::user()->nip;
         $overtime->tgl_persetujuan_spv = $now;
         $overtime->status_pengajuan = 'Pending';
         $overtime->save();
@@ -227,7 +232,8 @@ class OvertimeController extends Controller
     public function penolakan_spv($id_ovt)
     {
         // dd($id_ovt);
-        $overtime = Overtime::find($id_ovt); 
+        $overtime = Overtime::find($id_ovt);
+        $overtime->id_spv = ""; 
         $overtime->tgl_persetujuan_spv = "";
         $overtime->status_pengajuan = 'Ditolak';
         $overtime->save();

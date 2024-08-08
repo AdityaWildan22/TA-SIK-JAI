@@ -28,29 +28,44 @@ class AbsensiController extends Controller
     public function index(Request $request)
     {
         if (auth()->check()) {
-            $user = auth()->user();
-            $absensi = DB::table('absensis')
+            if (Auth::user()->role == 'Staff') {
+                $absensi = DB::table('absensis')
                 ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
                 ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
-                ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan');
-            if ($user->role == 'Staff') {
-                $absensi->where('absensis.nip', $user->nip);
-            } elseif ($user->role == 'SPV') {
-                $absensi->where('absensis.id_departemen', Auth::user()->id_section);
-            } elseif ($user->role == 'Manager') {
-                $absensi->where('absensis.id_departemen', $user->id_departemen)
-                        ->where('absensis.id_manager', Auth::user()->nip);
+                ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+                ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->where('absensis.nip', Auth::user()->nip)
+                ->get();
+            } elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager' || Auth::user()->role == 'Admin') {
+                $absensi = DB::table('absensis')
+                ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+                ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->where('absensis.id_section', Auth::user()->id_section)
+                ->get();
+            } elseif  (Auth::user()->role == 'SuperAdmin'){
+                $absensi = DB::table('absensis')
+                ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+                ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
+                ->get();
             }
-            $absensi = $absensi->get();
+        
             $routes = (object) [
                 'index' => $this->route,
                 'add' => $this->route . 'create',
             ];
+            
             return view($this->view . 'data', compact('routes', 'absensi'));
         } else {
             return redirect()->route('login');
         }
+        
         
     }
     
@@ -251,6 +266,7 @@ class AbsensiController extends Controller
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
+        $absensi->id_spv = Auth::user()->nip;
         $absensi->tgl_persetujuan_spv = $now;
         $absensi->status_pengajuan = "Pending";
         $absensi->save();
@@ -262,6 +278,7 @@ class AbsensiController extends Controller
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
+        $absensi->id_spv = "";
         $absensi->tgl_persetujuan_spv = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
@@ -274,6 +291,7 @@ class AbsensiController extends Controller
         // dd($id_absen);
         $now = Carbon::now();
         $absensi = Absensi::find($id_absen);
+        $absensi->id_manager = Auth::user()->nip;
         $absensi->tgl_persetujuan_manager = $now;
         $absensi->status_pengajuan = 'Pending';
         $absensi->save();
@@ -285,6 +303,7 @@ class AbsensiController extends Controller
     {
         // dd($id_absen);
         $absensi = Absensi::find($id_absen);
+        $absensi->id_manager = "";
         $absensi->tgl_persetujuan_manager = "";
         $absensi->status_pengajuan = 'Ditolak';
         $absensi->save();
@@ -294,6 +313,7 @@ class AbsensiController extends Controller
 
     public function verify_hr($id_absen){
         $absensi = Absensi::find($id_absen);
+        $absensi->id_hr = Auth::user()->nip;
         $absensi->status_pengajuan = 'Diterima';
         $absensi->save();
         $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Diverifikasi"];

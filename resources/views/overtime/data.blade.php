@@ -103,7 +103,7 @@
                                     @if ($item->status_pengajuan == 'Diterima')
                                         <a href="{{ url($routes->index . 'surat_overtime/' . $item->id_ovt) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
-                                            title="Print"><i class="fas fa-print"></i></a>
+                                            title="Print" target="_blank"><i class="fas fa-print"></i></a>
                                     @endif
                                     @if ($item->status_pengajuan == 'Diproses' && Auth::user()->jabatan->nm_jabatan != 'Admin')
                                         <form class="d-inline-block" action="{{ url($routes->index . $item->id_ovt) }}"

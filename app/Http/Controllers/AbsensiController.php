@@ -30,29 +30,28 @@ class AbsensiController extends Controller
         if (auth()->check()) {
             $user = auth()->user();
             $absensi = DB::table('absensis')
-            ->join('departemens','absensis.id_departemen','=','departemens.id_departemen')
-            ->join('karyawans','absensis.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->select('absensis.*','karyawans.*','departemens.nm_dept','jabatans.nm_jabatan');
-        
-            // Jika pengguna adalah "Staff", hanya tampilkan data absensi yang terkait dengan 'nip' mereka
+                ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+                ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
+                ->join('jabatans', 'karyawans.id_jabatan', '=', 'jabatans.id_jabatan')
+                ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan');
             if ($user->role == 'Staff') {
                 $absensi->where('absensis.nip', $user->nip);
-            }else if($user->role == 'SPV' || $user->role == 'Manager'){
-                $absensi->where('absensis.id_departemen',$user->id_departemen);
+            } elseif ($user->role == 'SPV') {
+                $absensi->where('absensis.id_departemen', Auth::user()->id_section);
+            } elseif ($user->role == 'Manager') {
+                $absensi->where('absensis.id_departemen', $user->id_departemen)
+                        ->where('absensis.id_manager', Auth::user()->nip);
             }
-                    
             $absensi = $absensi->get();
-        
             $routes = (object) [
                 'index' => $this->route,
                 'add' => $this->route . 'create',
             ];
-        
             return view($this->view . 'data', compact('routes', 'absensi'));
         } else {
-            $absensi = $absensi->get();
+            return redirect()->route('login');
         }
+        
     }
     
 

@@ -18,6 +18,7 @@
                 <i class="fas fa-file-excel"> Export Excel</i><br>
             </a>
         @endif
+        {{ Auth::user()->nip }}
     </div>
     <div class="card shadow mb-3">
         <div class="card-header" style="background-color:#4e73df;color:#fff">

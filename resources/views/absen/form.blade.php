@@ -35,7 +35,7 @@
                             <h2 class="card-title mb-0" style="font-size: 20px">FORM DATA ABSEN</h2>
                         </div>
                         <div class="card-body">
-                            @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
+                            {{-- @if (Auth::user()->jabatan->nm_jabatan == 'SPV' || Auth::user()->jabatan->nm_jabatan == 'HR')
                                 <div class="form-group">
                                     <label for="id_manager">Nama Manager</label>
                                     <select name="id_manager" id="id_manager"
@@ -53,8 +53,8 @@
                                         </div>
                                     @endif
                                 </div>
-                            @endif
-                            @if (Auth::user()->jabatan->nm_jabatan != 'SPV' && Auth::user()->jabatan->nm_jabatan != 'HR')
+                            @endif --}}
+                            {{-- @if (Auth::user()->jabatan->nm_jabatan != 'SPV' && Auth::user()->jabatan->nm_jabatan != 'HR')
                                 <div class="form-group">
                                     <label for="id_spv">Nama SPV</label>
                                     <select name="id_spv" id="id_spv"
@@ -72,7 +72,7 @@
                                         </div>
                                     @endif
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="form-group">
                                 <label for="nip">NIP</label>
                                 <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip"
@@ -219,8 +219,7 @@
                                 <label for="tgl_absen_akhir">Tanggal Absen Akhir</label>
                                 <input type="date"
                                     class="form-control form-control @error('tgl_absen_akhir') is-invalid @enderror"
-                                    id="tgl_absen_akhir_input" name="tgl_absen_akhir"
-                                    placeholder="Masukkan Tanggal Absen"
+                                    id="tgl_absen_akhir_input" name="tgl_absen_akhir" placeholder="Masukkan Tanggal Absen"
                                     value="{{ old('tgl_absen_akhir') ? old('tgl_absen_akhir') : @$absensi->tgl_absen_akhir }}">
                                 @if ($errors->has('tgl_absen_akhir'))
                                     <div class="invalid-feedback">

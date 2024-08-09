@@ -37,7 +37,7 @@ class AbsensiController extends Controller
                 ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
                 ->where('absensis.nip', Auth::user()->nip)
                 ->get();
-            } elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager' || Auth::user()->role == 'Admin') {
+            } elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager') {
                 $absensi = DB::table('absensis')
                 ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
@@ -46,7 +46,7 @@ class AbsensiController extends Controller
                 ->select('absensis.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
                 ->where('absensis.id_section', Auth::user()->id_section)
                 ->get();
-            } elseif  (Auth::user()->role == 'SuperAdmin'){
+            } elseif  (Auth::user()->role == 'SuperAdmin' || Auth::user()->role == 'Admin'){
                 $absensi = DB::table('absensis')
                 ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')

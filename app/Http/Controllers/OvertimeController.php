@@ -32,7 +32,7 @@ class OvertimeController extends Controller
                 ->select('overtimes.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
                 ->where('overtimes.nip',Auth::user()->nip)
                 ->get();
-            }elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager' || Auth::user()->role == 'Admin'){
+            }elseif (Auth::user()->role == 'SPV' || Auth::user()->role == 'Manager'){
                 $overtime = DB::table('overtimes')
                 ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
@@ -40,7 +40,7 @@ class OvertimeController extends Controller
                 ->select('overtimes.*', 'karyawans.*', 'departemens.nm_dept', 'jabatans.nm_jabatan')
                 ->where('overtimes.id_section',Auth::user()->id_section)
                 ->get();
-            }elseif  (Auth::user()->role == 'SuperAdmin'){
+            }elseif  (Auth::user()->role == 'SuperAdmin' || Auth::user()->role == 'Admin'){
                 $overtime = DB::table('overtimes')
                 ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
                 ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')

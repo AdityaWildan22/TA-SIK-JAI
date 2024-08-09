@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
                 $sisa_cuti = env('BATAS_CUTI') - $total_cuti;
             
-            } else if ($user->role == 'SPV' || $user->role == 'Manager' || $user->role == 'Admin') {
+            } else if ($user->role == 'SPV' || $user->role == 'Manager') {
             
                 $absensi = DB::table('absensis')
                     ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')

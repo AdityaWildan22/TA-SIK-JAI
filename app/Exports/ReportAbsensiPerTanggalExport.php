@@ -52,7 +52,7 @@ class ReportAbsensiPerTanggalExport implements FromCollection, WithHeadings, Wit
             'absensis.jam_akhir',
             DB::raw('TIMEDIFF(absensis.jam_akhir, absensis.jam_awal) AS total_jam'),
         )
-        ->where('status_pengajuan', 'Diterima')
+        ->where('status_pengajuan', 'Diverifikasi')
         ->whereBetween('absensis.tgl_absen', [$tgl_awal, $tgl_akhir])
         ->get();
     }

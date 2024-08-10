@@ -43,7 +43,7 @@ class ReportOvertimePerTanggalExport implements FromCollection, WithHeadings, Wi
         ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','sections.nm_section','jabatans.nm_jabatan','overtimes.tgl_ovt','overtimes.jam_awal','overtimes.jam_akhir')
         ->selectRaw('TIMEDIFF(overtimes.jam_akhir, overtimes.jam_awal) AS total_jam')
         ->whereBetween('overtimes.tgl_ovt', [$tgl_awal, $tgl_akhir])
-        ->where('status_pengajuan','Diterima')
+        ->where('status_pengajuan','Diverifikasi')
         // ->groupBy('overtimes.nip')
         ->get());
     }

@@ -62,28 +62,35 @@
                                 </td>
                                 <td>
                                     @if (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
-                                            $item->status_pengajuan != 'Diterima' &&
+                                            $item->status_pengajuan != 'Diverifikasi' &&
                                             $item->status_pengajuan != 'Disetujui' &&
                                             $item->nm_jabatan == 'Staff')
                                         <a href="{{ url('/absensi/persetujuan_spv/' . $item->id_absen) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'SPV' && $item->nm_jabatan == 'Staff') ||
-                                            ($item->nm_jabatan == 'Admin' &&
-                                                Auth::user()->jabatan->nm_jabatan != 'Manager' &&
-                                                Auth::user()->jabatan->nm_jabatan != 'Admin'))
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
+                                            $item->nm_jabatan == 'Staff' &&
+                                            Auth::user()->jabatan->nm_jabatan != 'Manager' &&
+                                            Auth::user()->jabatan->nm_jabatan != 'Admin')
                                         <a href="{{ url('/absensi/penolakan_spv/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan == 'Diproses')
+                                    @if (
+                                        (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
+                                            $item->status_pengajuan == 'Diproses' &&
+                                            $item->nm_jabatan == 'SPV') ||
+                                            $item->nm_jabatan == 'Manager')
                                         <a href="{{ url('/absensi/persetujuan_manager/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' && $item->status_pengajuan == 'Disetujui')
+                                    @if (
+                                        (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
+                                            $item->status_pengajuan == 'Disetujui' &&
+                                            $item->nm_jabatan == 'SPV') ||
+                                            $item->nm_jabatan == 'Manager')
                                         <a href="{{ url('/absensi/penolakan_manager/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>

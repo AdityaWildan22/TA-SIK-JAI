@@ -224,7 +224,7 @@ class OvertimeController extends Controller
         $overtime = Overtime::find($id_ovt);
         $overtime->id_spv = Auth::user()->nip;
         $overtime->tgl_persetujuan_spv = $now;
-        $overtime->status_pengajuan = 'Pending';
+        $overtime->status_pengajuan = 'Disetujui';
         $overtime->save();
         $mess = ["type" => "success", "text" => "Data Overtime Berhasil Disetujui"];
         return redirect()->back()->with($mess);
@@ -244,7 +244,7 @@ class OvertimeController extends Controller
 
     public function verify_hr($id_ovt){
         $overtime = Overtime::find($id_ovt);
-        $overtime->status_pengajuan = 'Diterima';
+        $overtime->status_pengajuan = 'Diverifikasi';
         $overtime->id_hr = Auth::user()->nip;
         $overtime->save();
         $mess = ["type" => "success", "text" => "Data Overtime Berhasil Diverifikasi"];

@@ -66,7 +66,7 @@
                                 </td>
                                 <td>
                                     @if (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
-                                            $item->status_pengajuan != 'Diterima' &&
+                                            $item->status_pengajuan != 'Diverifikasi' &&
                                             $item->status_pengajuan != 'Disetujui')
                                         <a href="{{ url('/overtime/persetujuan_spv/' . $item->id_ovt) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"

@@ -123,12 +123,12 @@
                                     @if ($item->status_pengajuan == 'Diproses')
                                         <span class="badge bg-warning"
                                             style="text-align: left;font-size:12px;color:#fff !important">DIPROSES</span>
-                                    @elseif($item->status_pengajuan == 'Pending')
+                                    @elseif($item->status_pengajuan == 'Disetujui')
                                         <span class="badge bg-warning"
-                                            style="text-align: left;font-size:12px;color:#fff !important">PENDING</span>
-                                    @elseif($item->status_pengajuan == 'Diterima')
+                                            style="text-align: left;font-size:12px;color:#fff !important">DISETUJUI</span>
+                                    @elseif($item->status_pengajuan == 'Diverifikasi')
                                         <span class="badge bg-success"
-                                            style="text-align: left;font-size:12px;color:#fff !important">DITERIMA</span>
+                                            style="text-align: left;font-size:12px;color:#fff !important">DIVERIFIKASI</span>
                                     @elseif($item->status_pengajuan == 'Ditolak')
                                         <span class="badge bg-danger"
                                             style="text-align: left;font-size:12px;color:#fff !important">DITOLAK</span>
@@ -172,12 +172,12 @@
                                     @if ($item->status_pengajuan == 'Diproses')
                                         <span class="badge bg-warning"
                                             style="text-align: left;font-size:12px;color:#fff !important">DIPROSES</span>
-                                    @elseif($item->status_pengajuan == 'Pending')
+                                    @elseif($item->status_pengajuan == 'Disetujui')
                                         <span class="badge bg-warning"
-                                            style="text-align: left;font-size:12px;color:#fff !important">PENDING</span>
-                                    @elseif($item->status_pengajuan == 'Diterima')
+                                            style="text-align: left;font-size:12px;color:#fff !important">DISETUJUI</span>
+                                    @elseif($item->status_pengajuan == 'Diverifikasi')
                                         <span class="badge bg-success"
-                                            style="text-align: left;font-size:12px;color:#fff !important">DITERIMA</span>
+                                            style="text-align: left;font-size:12px;color:#fff !important">DIVERIFIKASI</span>
                                     @elseif($item->status_pengajuan == 'Ditolak')
                                         <span class="badge bg-danger"
                                             style="text-align: left;font-size:12px;color:#fff !important">DITOLAK</span>

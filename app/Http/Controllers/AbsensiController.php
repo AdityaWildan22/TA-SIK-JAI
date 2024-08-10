@@ -269,7 +269,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::find($id_absen);
         $absensi->id_spv = Auth::user()->nip;
         $absensi->tgl_persetujuan_spv = $now;
-        $absensi->status_pengajuan = "Pending";
+        $absensi->status_pengajuan = "Disetujui";
         $absensi->save();
         $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Disetujui"];
         return redirect()->back()->with($mess);
@@ -294,7 +294,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::find($id_absen);
         $absensi->id_manager = Auth::user()->nip;
         $absensi->tgl_persetujuan_manager = $now;
-        $absensi->status_pengajuan = 'Pending';
+        $absensi->status_pengajuan = 'Disetujui';
         $absensi->save();
     
         return redirect()->back()->with('success', 'Permohonan Absen Berhasil Disetujui');
@@ -315,7 +315,7 @@ class AbsensiController extends Controller
     public function verify_hr($id_absen){
         $absensi = Absensi::find($id_absen);
         $absensi->id_hr = Auth::user()->nip;
-        $absensi->status_pengajuan = 'Diterima';
+        $absensi->status_pengajuan = 'Diverifikasi';
         $absensi->save();
         $mess = ["type" => "success", "text" => "Permohonan Absen Berhasil Diverifikasi"];
         return redirect()->back()->with($mess);

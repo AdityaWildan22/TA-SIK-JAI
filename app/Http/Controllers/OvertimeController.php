@@ -124,7 +124,8 @@ class OvertimeController extends Controller
         ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
         ->join('karyawans', 'overtimes.nip', '=', 'karyawans.nip')
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-        ->select('overtimes.*', 'departemens.nm_dept','jabatans.nm_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('overtimes.*', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
         ->where('overtimes.id_ovt',$id_ovt)
         ->first();
 

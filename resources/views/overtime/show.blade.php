@@ -58,6 +58,11 @@
                     <td>{{ $overtime->nm_dept }}</td>
                 </tr>
                 <tr>
+                    <td>Section</td>
+                    <td>:</td>
+                    <td>{{ $overtime->nm_section }}</td>
+                </tr>
+                <tr>
                     <td>Tanggal Overtime</td>
                     <td>:</td>
                     <td>{{ Carbon\Carbon::parse($overtime->tgl_ovt)->format('d-m-Y') }}</td>

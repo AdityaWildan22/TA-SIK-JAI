@@ -157,7 +157,8 @@ class AbsensiController extends Controller
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
         ->join('karyawans', 'absensis.nip', '=', 'karyawans.nip')
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-        ->select('absensis.*', 'departemens.nm_dept','jabatans.nm_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('absensis.*', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
         ->where('absensis.id_absen',$id_absen)
         ->first();
 

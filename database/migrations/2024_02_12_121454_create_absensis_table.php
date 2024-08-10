@@ -28,7 +28,7 @@ return new class extends Migration
             $table->mediumText('ket')->nullable();
             $table->dateTime('tgl_persetujuan_spv')->nullable();
             $table->dateTime('tgl_persetujuan_manager')->nullable();
-            $table->enum('status_pengajuan', ['Diproses','Pending','Diterima','Ditolak']);
+            $table->enum('status_pengajuan', ['Diproses','Disetujui','Diverifikasi','Ditolak']);
             $table->string('foto')->nullable();
             $table->timestamps();
         });

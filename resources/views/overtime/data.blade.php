@@ -53,12 +53,12 @@
                                     @if ($item->status_pengajuan == 'Diproses')
                                         <span class="badge bg-warning"
                                             style="text-align: left;font-size:12px;color:#fff !important">DIPROSES</span>
-                                    @elseif($item->status_pengajuan == 'Pending')
+                                    @elseif($item->status_pengajuan == 'Disetujui')
                                         <span class="badge bg-warning"
-                                            style="text-align: left;font-size:12px;color:#fff !important">PENDING</span>
-                                    @elseif($item->status_pengajuan == 'Diterima')
+                                            style="text-align: left;font-size:12px;color:#fff !important">DISETUJUI</span>
+                                    @elseif($item->status_pengajuan == 'Diverifikasi')
                                         <span class="badge bg-success"
-                                            style="text-align: left;font-size:12px;color:#fff !important">DITERIMA</span>
+                                            style="text-align: left;font-size:12px;color:#fff !important">DIVERIFIKASI</span>
                                     @elseif($item->status_pengajuan == 'Ditolak')
                                         <span class="badge bg-danger"
                                             style="text-align: left;font-size:12px;color:#fff !important">DITOLAK</span>
@@ -67,7 +67,7 @@
                                 <td>
                                     @if (Auth::user()->jabatan->nm_jabatan == 'SPV' &&
                                             $item->status_pengajuan != 'Diterima' &&
-                                            $item->status_pengajuan != 'Pending')
+                                            $item->status_pengajuan != 'Disetujui')
                                         <a href="{{ url('/overtime/persetujuan_spv/' . $item->id_ovt) }}"
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
@@ -77,7 +77,7 @@
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' && $item->status_pengajuan == 'Pending')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' && $item->status_pengajuan == 'Disetujui')
                                         <a href="{{ url('/overtime/verify_hr/' . $item->id_ovt) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Verifikasi"><i class="fas fa-check"></i></a>
@@ -100,7 +100,7 @@
                                             class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Edit"><i class="fas fa-pen"></i></a>
                                     @endif
-                                    @if ($item->status_pengajuan == 'Diterima')
+                                    @if ($item->status_pengajuan == 'Diverifikasi')
                                         <a href="{{ url($routes->index . 'surat_overtime/' . $item->id_ovt) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Print" target="_blank"><i class="fas fa-print"></i></a>

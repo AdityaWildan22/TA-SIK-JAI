@@ -24,6 +24,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-footer p-0 text-center">
+                        <a href="{{ url('karyawan') }}" style="text-decoration: none">
+                            <span class="text-dark">Lihat Data</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         @endif
@@ -42,6 +47,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer p-0 text-center">
+                    <a href="{{ url('absensi') }}" style="text-decoration: none">
+                        <span class="text-dark">Lihat Data</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -58,6 +68,11 @@
                             <i class="fas fa-clock fa-2x text-gray-300"></i>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer p-0 text-center">
+                    <a href="{{ url('overtime') }}" style="text-decoration: none">
+                        <span class="text-dark">Lihat Data</span>
+                    </a>
                 </div>
             </div>
         </div>

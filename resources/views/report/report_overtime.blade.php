@@ -61,14 +61,14 @@
         }
 
         .logo h3 {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -107,19 +107,27 @@
                 <th>NIP</th>
                 <th>NAMA</th>
                 <th>DEPARTEMEN</th>
+                <th>SECTION</th>
                 <th>JABATAN</th>
-                <th>TOTAL OVERTIME</th>
+                <th>TANGGAL OVERTIME</th>
+                <th>JAM AWAL</th>
+                <th>JAM AKHIR</th>
+                <th>TOTAL JAM</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($overtime as $item)
                 <tr>
-                    <td>{{ $no++ }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->nip }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->nm_dept }}</td>
+                    <td>{{ $item->nm_section }}</td>
                     <td>{{ $item->nm_jabatan }}</td>
-                    <td>{{ $item->total_overtime }}</td>
+                    <td>{{ Carbon\Carbon::parse($item->tgl_ovt)->format('d-m-Y') }}</td>
+                    <td>{{ Carbon\Carbon::parse($item->jam_awal)->format('H:i') }}</td>
+                    <td>{{ Carbon\Carbon::parse($item->jam_akhir)->format('H:i') }}</td>
+                    <td>{{ Carbon\Carbon::parse($item->total_jam)->format('H:i') }}</td>
                 </tr>
             @endforeach
         </tbody>

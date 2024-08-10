@@ -23,64 +23,17 @@ class ReportController extends Controller
 
     public function rpt_absensi(){
         
-        $no = 1;
-        
-        if(Auth::user()->role == "SuperAdmin"){
-            $absensi = DB::table('absensis')
-            ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'absensis.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Opname" THEN 1 END) AS jumlah_SO,
-            COUNT(CASE WHEN jns_absen = "Sakit" THEN 1 END) AS jumlah_S,
-            COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
-            COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
-            COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-            COUNT(CASE WHEN jns_absen = "Tanpa Keterangan" THEN 1 END) AS jumlah_TK,
-            COUNT(CASE WHEN jns_absen = "Cuti Kelahiran/Keguguran" THEN 1 END) AS jumlah_CK,
-            COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
-            COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
-            COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
-            COUNT(CASE WHEN jns_absen = "Izin Keluar Sementara" THEN 1 END) AS jumlah_IKS,
-            COUNT(CASE WHEN jns_absen = "Dinas Luar" THEN 1 END) AS jumlah_DL,
-            COUNT(CASE WHEN jns_absen = "Cuti Luar Tanggungan" THEN 1 END) AS jumlah_CLT,
-            COUNT(*) AS total_absensi')
-            ->where('status_pengajuan','Diterima')
-            ->groupBy('absensis.nip')
-            ->get();
-        }else{
-            $absensi = DB::table('absensis')
-            ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'absensis.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Opname" THEN 1 END) AS jumlah_SO,
-            COUNT(CASE WHEN jns_absen = "Sakit" THEN 1 END) AS jumlah_S,
-            COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
-            COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
-            COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-            COUNT(CASE WHEN jns_absen = "Tanpa Keterangan" THEN 1 END) AS jumlah_TK,
-            COUNT(CASE WHEN jns_absen = "Cuti Kelahiran/Keguguran" THEN 1 END) AS jumlah_CK,
-            COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
-            COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
-            COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
-            COUNT(CASE WHEN jns_absen = "Izin Keluar Sementara" THEN 1 END) AS jumlah_IKS,
-            COUNT(CASE WHEN jns_absen = "Dinas Luar" THEN 1 END) AS jumlah_DL,
-            COUNT(CASE WHEN jns_absen = "Cuti Luar Tanggungan" THEN 1 END) AS jumlah_CLT,
-            COUNT(*) AS total_absensi')
-            ->where('status_pengajuan','Diterima')
-            ->where('sections.id_section',Auth::user()->id_section)
-            ->groupBy('absensis.nip')
-            ->get();
-        }
-        
-        return view('report.report_absensi',compact('absensi','no'));
+        $absensi = DB::table('absensis')
+        ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+        ->join('karyawans', 'absensis.nip','=','karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
+        ->selectRaw('TIMEDIFF(absensis.jam_akhir, absensis.jam_awal) AS total_jam')
+        ->where('status_pengajuan','Diterima')
+        // ->groupBy('absensis.nip')
+        ->get();
+        return view('report.report_absensi',compact('absensi'));
     }
 
     public function export_absensi_all()
@@ -93,73 +46,25 @@ class ReportController extends Controller
         $tgl_awal = date("Y-m-d",strtotime($req->input("tgl_awal")));
         $tgl_akhir = date("Y-m-d",strtotime($req->input("tgl_akhir")));
 
-        $no = 1;
-        
-        if(Auth::user()->role == "SuperAdmin"){
-            $absensi = DB::table('absensis')
-            ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'absensis.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Opname" THEN 1 END) AS jumlah_SO,
-            COUNT(CASE WHEN jns_absen = "Sakit" THEN 1 END) AS jumlah_S,
-            COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
-            COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
-            COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-            COUNT(CASE WHEN jns_absen = "Tanpa Keterangan" THEN 1 END) AS jumlah_TK,
-            COUNT(CASE WHEN jns_absen = "Cuti Kelahiran/Keguguran" THEN 1 END) AS jumlah_CK,
-            COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
-            COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
-            COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
-            COUNT(CASE WHEN jns_absen = "Izin Keluar Sementara" THEN 1 END) AS jumlah_IKS,
-            COUNT(CASE WHEN jns_absen = "Dinas Luar" THEN 1 END) AS jumlah_DL,
-            COUNT(CASE WHEN jns_absen = "Cuti Luar Tanggungan" THEN 1 END) AS jumlah_CLT,
-            COUNT(*) AS total_absensi')
-            ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
-            ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
-            ->where('status_pengajuan','Diterima')
-            ->groupBy('absensis.nip')
-            ->get();
-        }else{
-            $absensi = DB::table('absensis')
-            ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'absensis.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Surat Dokter" THEN 1 END) AS jumlah_SD,
-            COUNT(CASE WHEN jns_absen = "Sakit Dengan Opname" THEN 1 END) AS jumlah_SO,
-            COUNT(CASE WHEN jns_absen = "Sakit" THEN 1 END) AS jumlah_S,
-            COUNT(CASE WHEN jns_absen = "Izin" THEN 1 END) AS jumlah_I,
-            COUNT(CASE WHEN jns_absen = "Izin Khusus" THEN 1 END) AS jumlah_IK,
-            COUNT(CASE WHEN jns_absen = "Cuti" THEN 1 END) AS jumlah_C,
-            COUNT(CASE WHEN jns_absen = "Tanpa Keterangan" THEN 1 END) AS jumlah_TK,
-            COUNT(CASE WHEN jns_absen = "Cuti Kelahiran/Keguguran" THEN 1 END) AS jumlah_CK,
-            COUNT(CASE WHEN jns_absen = "Cuti Haid" THEN 1 END) AS jumlah_CH,
-            COUNT(CASE WHEN jns_absen = "Izin Terlambat Datang" THEN 1 END) AS jumlah_ITD,
-            COUNT(CASE WHEN jns_absen = "Izin Cepat Pulang" THEN 1 END) AS jumlah_ICP,
-            COUNT(CASE WHEN jns_absen = "Izin Keluar Sementara" THEN 1 END) AS jumlah_IKS,
-            COUNT(CASE WHEN jns_absen = "Dinas Luar" THEN 1 END) AS jumlah_DL,
-            COUNT(CASE WHEN jns_absen = "Cuti Luar Tanggungan" THEN 1 END) AS jumlah_CLT,
-            COUNT(*) AS total_absensi')
-            ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
-            ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
-            ->where('status_pengajuan','Diterima')
-            ->where('sections.id_section',Auth::user()->id_section)
-            ->groupBy('absensis.nip')
-            ->get();
-        }
+        $absensi = DB::table('absensis')
+        ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
+        ->join('karyawans', 'absensis.nip','=','karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
+        ->selectRaw('TIMEDIFF(absensis.jam_akhir, absensis.jam_awal) AS total_jam')
+        ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
+        ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
+        ->where('status_pengajuan','Diterima')
+        // ->groupBy('absensis.nip')
+        ->get();
 
         if (!$req->filled('tgl_awal') || !$req->filled('tgl_akhir')) {
             $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
             return redirect()->back()->with($mess);
         }
         
-        return view('report.report_absensi',compact('absensi','no','tgl_awal','tgl_akhir'));
+        return view('report.report_absensi',compact('absensi','tgl_awal','tgl_akhir'));
     }
 
     public function export_absensi_pertanggal(Request $request){
@@ -190,34 +95,16 @@ class ReportController extends Controller
 
     public function rpt_overtime(){
         
-        $no = 1;
-        
-        if(Auth::user()->role == "SuperAdmin"){
-            $overtime = DB::table('overtimes')
-            ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('COUNT(*) AS total_overtime')
-            ->where('status_pengajuan','Diterima')
-            ->groupBy('overtimes.nip')
-            ->get();
-        }else{
-            $overtime = DB::table('overtimes')
-            ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('COUNT(*) AS total_overtime')
-            ->where('status_pengajuan','Diterima')
-            ->where('sections.id_section',Auth::user()->id_section)
-            ->groupBy('overtimes.nip')
-            ->get();
-        }
-        
-        return view('report.report_overtime',compact('overtime','no'));
+        $overtime = DB::table('overtimes')
+        ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+        ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section','overtimes.tgl_ovt','overtimes.jam_awal','overtimes.jam_akhir')
+        ->selectRaw('TIMEDIFF(overtimes.jam_akhir, overtimes.jam_awal) AS total_jam')
+        ->where('status_pengajuan','Diterima')
+        ->get();
+        return view('report.report_overtime',compact('overtime'));
     }
 
     public function export_overtime_all()
@@ -229,44 +116,25 @@ class ReportController extends Controller
 
         $tgl_awal = date("Y-m-d",strtotime($req->input("tgl_awal")));
         $tgl_akhir = date("Y-m-d",strtotime($req->input("tgl_akhir")));
-        
-        $no = 1;
-        
-        if(Auth::user()->role == "SuperAdmin"){
-            $overtime = DB::table('overtimes')
-            ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('COUNT(*) AS total_overtime')
-            ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
-            ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
-            ->where('status_pengajuan','Diterima')
-            ->groupBy('overtimes.nip')
-            ->get();
-        }else{
-            $overtime = DB::table('overtimes')
-            ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
-            ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
-            ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-            ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
-            ->select('overtimes.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan')
-            ->selectRaw('COUNT(*) AS total_overtime')
-            ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
-            ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
-            ->where('status_pengajuan','Diterima')
-            ->where('sections.id_section',Auth::user()->id_section)
-            ->groupBy('overtimes.nip')
-            ->get();
-        }
 
+        $overtime = DB::table('overtimes')
+        ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
+        ->join('karyawans', 'overtimes.nip','=','karyawans.nip')
+        ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section','overtimes.tgl_ovt','overtimes.jam_awal','overtimes.jam_akhir')
+        ->selectRaw('TIMEDIFF(overtimes.jam_akhir, overtimes.jam_awal) AS total_jam')
+        ->where('status_pengajuan','Diterima')
+        ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
+        ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
+        ->get();
+         
         if (!$req->filled('tgl_awal') || !$req->filled('tgl_akhir')) {
             $mess = ["type" => "error", "text" => "Masukkan Tanggal Awal dan Tanggal Akhir"];
             return redirect()->back()->with($mess);
         }
 
-        return view('report.report_overtime',compact('overtime','no','tgl_awal','tgl_akhir'));
+        return view('report.report_overtime',compact('overtime','tgl_awal','tgl_akhir'));
     }
 
     public function export_overtime_pertanggal(Request $request){

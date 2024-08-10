@@ -58,6 +58,11 @@
                     <td>{{ $absensi->nm_dept }}</td>
                 </tr>
                 <tr>
+                    <td>Section</td>
+                    <td>:</td>
+                    <td>{{ $absensi->nm_section }}</td>
+                </tr>
+                <tr>
                     <td>Jenis Absen</td>
                     <td>:</td>
                     <td>{{ $absensi->jns_absen }}</td>
@@ -95,12 +100,12 @@
                         @if ($absensi->status_pengajuan == 'Diproses')
                             <span class="badge bg-warning"
                                 style="text-align: left;font-size:12px;color:#fff !important">DIPROSES</span>
-                        @elseif($absensi->status_pengajuan == 'Pending')
+                        @elseif($absensi->status_pengajuan == 'Disetujui')
                             <span class="badge bg-warning"
-                                style="text-align: left;font-size:12px;color:#fff !important">PENDING</span>
-                        @elseif($absensi->status_pengajuan == 'Diterima')
+                                style="text-align: left;font-size:12px;color:#fff !important">DISETUJUI</span>
+                        @elseif($absensi->status_pengajuan == 'Diverifikasi')
                             <span class="badge bg-success"
-                                style="text-align: left;font-size:12px;color:#fff !important">DITERIMA</span>
+                                style="text-align: left;font-size:12px;color:#fff !important">DIVERIFIKASI</span>
                         @elseif($absensi->status_pengajuan == 'Ditolak')
                             <span class="badge bg-danger"
                                 style="text-align: left;font-size:12px;color:#fff !important">DITOLAK</span>

@@ -61,14 +61,14 @@
         }
 
         .logo h3 {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 25px;
         }
 
         .logo p {
-            /* max-width: 700px; */
+            max-width: 1050px;
             padding: 0;
             margin: 0;
             font-size: 18px;
@@ -103,54 +103,44 @@
     <table id="data" width="100%">
         <thead>
             <tr>
-                <th rowspan="2" width="5px">NO.</th>
-                <th rowspan="2">NIP</th>
-                <th rowspan="2">NAMA</th>
-                <th rowspan="2">DEPARTEMEN</th>
-                <th rowspan="2">JABATAN</th>
-                <th colspan="14">JENIS MENINGGALKAN PEKERJAAN</th>
-                <th rowspan="2">TOTAL ABSENSI</th>
-            </tr>
-            <tr>
-                <th>SD</th>
-                <th>SO</th>
-                <th>S</th>
-                <th>I</th>
-                <th>IK</th>
-                <th>TK</th>
-                <th>C</th>
-                <th>CK</th>
-                <th>CH</th>
-                <th>ITD</th>
-                <th>ICP</th>
-                <th>IKS</th>
-                <th>DL</th>
-                <th>CLT</th>
+                <th width="5px">NO.</th>
+                <th>NIP</th>
+                <th>NAMA</th>
+                <th>DEPARTEMEN</th>
+                <th>SECTION</th>
+                <th>JABATAN</th>
+                <th>JENIS ABSEN</th>
+                <th>TANGGAL AWAL</th>
+                <th>TANGGAL AKHIR</th>
+                <th>TOTAL JAM</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($absensi as $item)
                 <tr>
-                    <td>{{ $no++ }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->nip }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->nm_dept }}</td>
+                    <td>{{ $item->nm_section }}</td>
                     <td>{{ $item->nm_jabatan }}</td>
-                    <td>{{ $item->jumlah_SD }}</td>
-                    <td>{{ $item->jumlah_SO }}</td>
-                    <td>{{ $item->jumlah_S }}</td>
-                    <td>{{ $item->jumlah_I }}</td>
-                    <td>{{ $item->jumlah_IK }}</td>
-                    <td>{{ $item->jumlah_TK }}</td>
-                    <td>{{ $item->jumlah_C }}</td>
-                    <td>{{ $item->jumlah_CK }}</td>
-                    <td>{{ $item->jumlah_CH }}</td>
-                    <td>{{ $item->jumlah_ITD }}</td>
-                    <td>{{ $item->jumlah_ICP }}</td>
-                    <td>{{ $item->jumlah_IKS }}</td>
-                    <td>{{ $item->jumlah_DL }}</td>
-                    <td>{{ $item->jumlah_CLT }}</td>
-                    <td>{{ $item->total_absensi }}</td>
+                    <td>{{ $item->jns_absen }}</td>
+                    <td>{{ Carbon\Carbon::parse($item->tgl_absen)->format('d-m-Y') }}</td>
+                    <td>
+                        @if (!empty($item->tgl_absen_akhir))
+                            {{ Carbon\Carbon::parse($item->tgl_absen_akhir)->format('d-m-Y') }}
+                        @else
+                            &nbsp;
+                        @endif
+                    </td>
+                    <td>
+                        @if (!empty($item->total_jam))
+                            {{ Carbon\Carbon::parse($item->total_jam)->format('h:i') }}
+                        @else
+                            &nbsp;
+                        @endif
+                    </td>
+
                 </tr>
             @endforeach
         </tbody>

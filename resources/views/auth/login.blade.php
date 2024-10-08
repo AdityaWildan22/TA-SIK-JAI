@@ -1,6 +1,10 @@
 @extends('layouts.template_login')
 @section('content')
     <style>
+        body {
+            overflow: hidden;
+        }
+
         .col-lg-6 img {
             max-width: 100%;
             max-height: 100%;
@@ -10,12 +14,12 @@
 
         .login-page {
             overflow: hidden;
-            background-image: url('{{ asset('img/bg-login.jpg') }}');
+            background-image: url('{{ asset('img/login.jpg') }}');
             width: 100%;
             height: 100%;
             background-repeat: no-repeat;
             background-size: cover;
-            /* padding: 10px; */
+            padding: 10px;
         }
     </style>
     <div class="login-page">

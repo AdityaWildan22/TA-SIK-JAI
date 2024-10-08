@@ -152,7 +152,13 @@
                             <tr>
                                 <td><strong>NIP</strong></td>
                                 <td>:</td>
-                                <td>{{ $absensi->first()->nip }}</td>
+                                <td>
+                                    @if ($absensi->isNotEmpty())
+                                        {{ $absensi->first()->nip }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -161,7 +167,13 @@
                             <tr>
                                 <td><strong>NAMA</strong></td>
                                 <td>:</td>
-                                <td>{{ strtoupper($absensi->first()->nama) }}</td>
+                                <td>
+                                    @if ($absensi->isNotEmpty())
+                                        {{ strtoupper($absensi->first()->nama) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -170,12 +182,19 @@
                             <tr>
                                 <td><strong>DEPARTEMEN</strong></td>
                                 <td>:</td>
-                                <td>{{ strtoupper($absensi->first()->nm_dept) }}</td>
+                                <td>
+                                    @if ($absensi->isNotEmpty())
+                                        {{ strtoupper($absensi->first()->nm_dept) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
+
 
         </div>
         <div class="details">

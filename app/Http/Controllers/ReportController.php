@@ -31,6 +31,7 @@ class ReportController extends Controller
         ->select('absensis.*','karyawans.*', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
         ->selectRaw('TIMEDIFF(absensis.jam_akhir, absensis.jam_awal) AS total_jam')
         ->where('status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_absen', 'asc')
         // ->groupBy('absensis.nip')
         ->get();
         return view('report.report_absensi',compact('absensi'));
@@ -56,6 +57,7 @@ class ReportController extends Controller
         ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),">=",$tgl_awal)
         ->where(DB::raw("DATE_FORMAT(absensis.tgl_absen,'%Y-%m-%d')"),"<=",$tgl_akhir)
         ->where('status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_absen', 'asc')
         // ->groupBy('absensis.nip')
         ->get();
 
@@ -103,6 +105,7 @@ class ReportController extends Controller
         ->select('overtimes.nip','karyawans.nama', 'departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section','overtimes.tgl_ovt','overtimes.jam_awal','overtimes.jam_akhir')
         ->selectRaw('TIMEDIFF(overtimes.jam_akhir, overtimes.jam_awal) AS total_jam')
         ->where('status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_ovt', 'asc')
         ->get();
         return view('report.report_overtime',compact('overtime'));
     }
@@ -127,6 +130,7 @@ class ReportController extends Controller
         ->where('status_pengajuan','Diverifikasi')
         ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),">=",$tgl_awal)
         ->where(DB::raw("DATE_FORMAT(overtimes.tgl_ovt,'%Y-%m-%d')"),"<=",$tgl_akhir)
+        ->orderBy('tgl_ovt', 'asc')
         ->get();
          
         if (!$req->filled('tgl_awal') || !$req->filled('tgl_akhir')) {

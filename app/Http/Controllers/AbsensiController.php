@@ -327,20 +327,23 @@ class AbsensiController extends Controller
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
         ->select('absensis.*', 'departemens.nm_dept')
         ->where('absensis.nip',$nip)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->where('absensis.status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_absen', 'asc')
         ->get();
 
         $tahunIni = Carbon::now()->year;
         $absensiCuti = Absensi::where('nip', $nip)
         ->where('jns_absen', 'Cuti')
         ->whereYear('tgl_absen', $tahunIni)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->where('absensis.status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_absen', 'asc')
         ->get();
 
         $absensiCutiWanita = Absensi::where('nip', $nip)
         ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Kelahiran/Keguguran'])
         ->whereYear('tgl_absen', $tahunIni)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->where('absensis.status_pengajuan','Diverifikasi')
+        ->orderBy('tgl_absen', 'asc')
         ->get();
         
         $jumlahCuti = $absensiCuti->count();

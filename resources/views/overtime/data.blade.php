@@ -40,7 +40,7 @@
                             <th>Jam Awal</th>
                             <th>Jam Akhir</th>
                             <th>Status</th>
-                            <th width="21%">Action</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -34,7 +34,7 @@
                             <th>Jenis Absensi</th>
                             <th>Tanggal Absensi</th>
                             <th>Status</th>
-                            <th width="22%">Action</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,20 +77,16 @@
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>
                                     @endif
-                                    @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan == 'Diproses' &&
-                                            $item->nm_jabatan == 'SPV') ||
-                                            $item->nm_jabatan == 'Manager')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
+                                            ($item->status_pengajuan == 'Diproses' || $item->status_pengajuan == 'Ditolak') &&
+                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'Manager'))
                                         <a href="{{ url('/absensi/persetujuan_manager/' . $item->id_absen) }}"
                                             class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Setujui Permohonan"><i class="fas fa-check"></i></a>
                                     @endif
-                                    @if (
-                                        (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
-                                            $item->status_pengajuan == 'Disetujui' &&
-                                            $item->nm_jabatan == 'SPV') ||
-                                            $item->nm_jabatan == 'Manager')
+                                    @if (Auth::user()->jabatan->nm_jabatan == 'Manager' &&
+                                            ($item->status_pengajuan == 'Diproses' || $item->status_pengajuan == 'Disetujui') &&
+                                            ($item->nm_jabatan == 'SPV' || $item->nm_jabatan == 'Manager'))
                                         <a href="{{ url('/absensi/penolakan_manager/' . $item->id_absen) }}"
                                             class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                             title="Tolak Permohonan"><i class="fas fa-times"></i></a>

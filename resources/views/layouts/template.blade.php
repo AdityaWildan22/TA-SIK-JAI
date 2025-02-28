@@ -51,7 +51,7 @@
             <footer class="sticky-footer bg-primary">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto" style="color: #fff">
-                        <span>Copyright &copy; <strong>Sistem Informasi Kepegawaian PT. JAI
+                        <span>Copyright &copy; <strong>Sistem Manajemen Karyawan PT. JAI
                                 <?php echo date('Y'); ?></strong></span>
                     </div>
                 </div>

@@ -36,7 +36,7 @@
                             <th>Jabatan</th>
                             <th>Tempat Lahir</th>
                             <th>Tanggal Lahir</th>
-                            <th width="20%">Action</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>

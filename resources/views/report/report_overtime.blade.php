@@ -104,7 +104,7 @@
         <thead>
             <tr>
                 <th width="5px">NO.</th>
-                <th>NIP</th>
+                <th>NIK</th>
                 <th>NAMA</th>
                 <th>DEPARTEMEN</th>
                 <th>SECTION</th>

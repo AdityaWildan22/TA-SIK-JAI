@@ -59,9 +59,9 @@
                                 </div>
                             @endif --}}
                             <div class="form-group">
-                                <label for="nip">NIP</label>
+                                <label for="nip">NIK</label>
                                 <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                    name="nip" placeholder="Masukkan NIP"
+                                    name="nip" placeholder="Masukkan NIK"
                                     value="{{ old('nip') ? old('nip') : @$overtime->nip }}">
                                 @if ($errors->has('nip'))
                                     <div class="invalid-feedback">

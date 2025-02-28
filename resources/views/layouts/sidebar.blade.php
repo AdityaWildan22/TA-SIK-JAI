@@ -2,12 +2,12 @@
    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
        <!-- Sidebar - Brand -->
-       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+       <a class="sidebar-brand d-flex align-items-center" href="#">
            <div class="sidebar-brand-icon rotate-n-15">
 
                {{-- <img src="{{ asset('img/undraw_profile.svg') }}" alt=""> --}}
            </div>
-           <div class="sidebar-brand-text mx-3" style="font-size: 15px">Sistem Informasi Kepegawaian <sup>V.1.0</sup>
+           <div class="sidebar-brand-text mx-3" style="font-size: 15px">Sistem Manajemen Karyawan <sup>V.1.0</sup>
            </div>
        </a>
 
@@ -112,6 +112,7 @@
                    <a class="collapse-item" href="{{ url('/overtime') }}">Data Overtime</a>
                    @if (Auth::user()->jabatan->nm_jabatan == 'Admin HR' ||
                            Auth::user()->jabatan->nm_jabatan == 'Staff' ||
+                           Auth::user()->jabatan->nm_jabatan == 'SPV' ||
                            Auth::user()->role == 'SuperAdmin')
                        <a class="collapse-item" href="{{ url('/overtime/create') }}">Form Overtime</a>
                    @endif

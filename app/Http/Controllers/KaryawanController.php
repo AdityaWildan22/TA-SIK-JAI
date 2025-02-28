@@ -32,7 +32,8 @@ class KaryawanController extends Controller
         $karyawan = DB::table('karyawans')
         ->join('departemens','karyawans.id_departemen','=','departemens.id_departemen')
         ->join('jabatans','karyawans.id_jabatan','=','jabatans.id_jabatan')
-        ->select('karyawans.*','departemens.nm_dept','jabatans.nm_jabatan')
+        ->join('sections', 'karyawans.id_section', '=', 'sections.id_section')
+        ->select('karyawans.*','departemens.nm_dept','jabatans.nm_jabatan','sections.nm_section')
         ->get();
         // dd($karyawan);
         return view($this->view.'data',compact('routes','karyawan'));

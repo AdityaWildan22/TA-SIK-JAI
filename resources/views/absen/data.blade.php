@@ -28,8 +28,8 @@
                 <table id="datatable" class="table table-bordered show-data">
                     <thead>
                         <tr>
-                            <th>NIP</th>
-                            <th>Nama Staff</th>
+                            <th>NIK</th>
+                            <th>Nama Karyawan</th>
                             <th>Departemen</th>
                             <th>Jenis Absensi</th>
                             <th>Tanggal Absensi</th>

@@ -323,24 +323,27 @@ class AbsensiController extends Controller
 
     public function print_surat_absensi($nip){
         // $absensi = Absensi::where('nip', $nip)->get();
+        $tahunIni = Carbon::now()->year;
         $absensi = DB::table('absensis')
         ->join('departemens', 'absensis.id_departemen', '=', 'departemens.id_departemen')
         ->select('absensis.*', 'departemens.nm_dept')
         ->where('absensis.nip',$nip)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->whereYear('tgl_absen', $tahunIni)
+        ->where('absensis.status_pengajuan','Diverifikasi')
         ->get();
 
         $tahunIni = Carbon::now()->year;
+        // dd($tahunIni);
         $absensiCuti = Absensi::where('nip', $nip)
         ->where('jns_absen', 'Cuti')
         ->whereYear('tgl_absen', $tahunIni)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->where('absensis.status_pengajuan','Diverifikasi')
         ->get();
 
         $absensiCutiWanita = Absensi::where('nip', $nip)
         ->whereIn('jns_absen', ['Cuti Haid', 'Cuti Kelahiran/Keguguran'])
         ->whereYear('tgl_absen', $tahunIni)
-        ->where('absensis.status_pengajuan','Diterima')
+        ->where('absensis.status_pengajuan','Diverifikasi')
         ->get();
         
         $jumlahCuti = $absensiCuti->count();

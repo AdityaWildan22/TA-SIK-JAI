@@ -29,7 +29,7 @@
         <div class="card-body">
             <table>
                 <tr>
-                    <td>NIP</td>
+                    <td>NIK</td>
                     <td>:</td>
                     <td>{{ $karyawan->nip }}</td>
                 </tr>

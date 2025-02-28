@@ -133,7 +133,7 @@
                 <table class="dtlembur" style="width: 100%; border:1px solid #000">
                     <thead>
                         <tr>
-                            <th>NIP</th>
+                            <th>NIK</th>
                             <th>Nama</th>
                             <th>Departemen</th>
                             <th>Jam Mulai</th>

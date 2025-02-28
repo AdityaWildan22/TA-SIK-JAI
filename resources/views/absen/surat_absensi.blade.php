@@ -145,7 +145,7 @@
             <h4 style="text-align: center;margin:0 0 10px 0">TAHUN : <?php echo date('Y'); ?></h4>
         </div>
         <div class="details">
-            <table style="width:100%;">
+            {{-- <table style="width:100%;">
                 <tr>
                     <td style="width:33.33%; text-align:right;"> <!-- Kolom kanan -->
                         <table>
@@ -175,7 +175,7 @@
                         </table>
                     </td>
                 </tr>
-            </table>
+            </table> --}}
 
         </div>
         <div class="details">

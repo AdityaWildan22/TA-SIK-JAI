@@ -13,11 +13,11 @@
                         @if ($routes->is_update)
                             @method('PUT')
                         @endif
-                        
+
                         <div class="form-group">
-                            <label for="nip">NIP</label>
+                            <label for="nip">NIK</label>
                             <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                name="nip" placeholder="Masukkan NIP"
+                                name="nip" placeholder="Masukkan NIK"
                                 value="{{ old('nip') ? old('nip') : @$karyawan->nip }}">
                             @if ($errors->has('nip'))
                                 <div class="invalid-feedback">
@@ -198,14 +198,15 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const departemenSelect = document.getElementById('id_departemen');
             const sectionSelect = document.getElementById('id_section');
 
             // Function to update sections based on selected departemen
             const updateSections = () => {
                 const departemenId = departemenSelect.value;
-                sectionSelect.innerHTML = '<option value="" selected="true" disabled>- Pilih Section -</option>'; // Reset section options
+                sectionSelect.innerHTML =
+                '<option value="" selected="true" disabled>- Pilih Section -</option>'; // Reset section options
 
                 if (departemenId) {
                     fetch(`/get-sections?departemen_id=${departemenId}`)

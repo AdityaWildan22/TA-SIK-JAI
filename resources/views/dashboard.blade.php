@@ -104,7 +104,7 @@
                     <thead>
                         <tr>
                             <th>NIP</th>
-                            <th>Nama Staff</th>
+                            <th>Nama Karyawan</th>
                             <th>Departemen</th>
                             <th>Jenis Absensi</th>
                             <th>Tanggal Absensi</th>
@@ -151,7 +151,7 @@
                     <thead>
                         <tr>
                             <th>NIP</th>
-                            <th>Nama Staff</th>
+                            <th>Nama Karyawan</th>
                             <th>Departemen</th>
                             <th>Tanggal Overtime</th>
                             <th>Jam Awal</th>

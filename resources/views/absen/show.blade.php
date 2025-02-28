@@ -43,7 +43,7 @@
                     </tr>
                 @endif
                 <tr>
-                    <td>NIP</td>
+                    <td>NIK</td>
                     <td>:</td>
                     <td>{{ $absensi->nip }}</td>
                 </tr>

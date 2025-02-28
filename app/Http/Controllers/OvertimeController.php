@@ -275,12 +275,12 @@ class OvertimeController extends Controller
     // }
 
     public function print_surat_overtime($id_ovt){
-        $overtime = Overtime::find($id_ovt)
+        $overtime = Overtime::where('id_ovt', $id_ovt)
         ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')
         ->join('sections', 'overtimes.id_section', '=', 'sections.id_section')
         ->select('overtimes.*', 'departemens.nm_dept','sections.nm_section')
         ->first();
-        // dd($overtime->nip);
+        // dd($overtime);
         $karyawan = DB::table("overtimes")
         ->join("karyawans","overtimes.nip","=","karyawans.nip")
         ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
@@ -288,13 +288,6 @@ class OvertimeController extends Controller
         ->where("karyawans.nip",$overtime->nip)
         ->first();
        
-        // $manager = DB::table("overtimes")
-        // ->join("karyawans","overtimes.id_manager","=","karyawans.nip")
-        // ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")
-        // ->select("karyawans.*","jabatans.nm_jabatan")
-        // ->where("karyawans.nip",$overtime->id_manager)
-        // ->first();
-
         $spv = DB::table("overtimes")
         ->join("karyawans","overtimes.id_spv","=","karyawans.nip")
         ->join("jabatans","karyawans.id_jabatan","=","jabatans.id_jabatan")

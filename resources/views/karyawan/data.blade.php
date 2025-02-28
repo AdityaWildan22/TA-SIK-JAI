@@ -29,9 +29,10 @@
                 <table id="datatable" class="table table-bordered show-data">
                     <thead>
                         <tr>
-                            <th>NIP</th>
-                            <th>Nama Staff</th>
+                            <th>NIK</th>
+                            <th>Nama Karyawan</th>
                             <th>Departemen</th>
+                            <th>Section</th>
                             <th>Jabatan</th>
                             <th>Tempat Lahir</th>
                             <th>Tanggal Lahir</th>
@@ -44,6 +45,7 @@
                                 <td>{{ $item->nip }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nm_dept }}</td>
+                                <td>{{ $item->nm_section }}</td>
                                 <td>{{ $item->nm_jabatan }}</td>
                                 <td>{{ $item->tempat_lahir }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->tanggal_lahir)->format('d-m-Y') }}</td>

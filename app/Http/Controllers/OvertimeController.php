@@ -251,29 +251,6 @@ class OvertimeController extends Controller
         return redirect()->back()->with($mess);
     }
 
-    // public function persetujuan_atasan($id_ovt)
-    // {
-    //     // dd($id_ovt);
-    //     $now = Carbon::now();
-    //     $overtime = Overtime::find($id_ovt);
-    //     $overtime->tgl_persetujuan_manager = $now;
-    //     $overtime->status_pengajuan = 'Diterima';
-    //     $overtime->save();
-    
-    //     return redirect()->back()->with('success', 'Permohonan Berhasil Disetujui');
-    // }
-
-    // public function penolakan_atasan($id_ovt)
-    // {
-    //     // dd($id_ovt);
-    //     $overtime = Overtime::find($id_ovt);
-    //     $overtime->tgl_persetujuan_manager = "";
-    //     $overtime->status_pengajuan = 'Ditolak';
-    //     $overtime->save();
-    
-    //     return redirect()->back()->with('success', 'Permohonan Berhasil Ditolak');
-    // }
-
     public function print_surat_overtime($id_ovt){
         $overtime = Overtime::where('id_ovt', $id_ovt)
         ->join('departemens', 'overtimes.id_departemen', '=', 'departemens.id_departemen')

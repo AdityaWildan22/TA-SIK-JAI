@@ -38,7 +38,7 @@
                         <div class="teks">
                             <h5
                                 style="text-align: center; margin-top:10px; font-family: Verdana, Geneva, Tahoma, sans-serif">
-                                Sistem Informasi Kepegawaian <br> PT. JAI</h5>
+                                Sistem Manajemen Karyawan <br> PT. JAI</h5>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 d-flex justify-content-center align-items-center">
